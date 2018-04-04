@@ -30,8 +30,8 @@ class MainMenuScreen implements Screen {
     private Skin buttonSkin; //** images are used as skins of the button **//
     private TextureAtlas atlas;
 
-    MainMenuScreen(final SpreadEagles gam) {
-        this.game = gam;
+    MainMenuScreen(final SpreadEagles game) {
+        this.game = game;
 
         atlas = new TextureAtlas(Gdx.files.internal("ui-blue.atlas"));
 
