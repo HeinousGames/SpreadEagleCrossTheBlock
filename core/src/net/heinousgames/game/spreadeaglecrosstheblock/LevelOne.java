@@ -16,12 +16,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
@@ -60,8 +56,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
-
 /**
  * Created by Steve on 1/17/2016
  */
@@ -84,7 +78,7 @@ class LevelOne implements Screen, InputProcessor {
 
     private SpreadEagles game;
 
-    private float CAMERA_SPEED = 0f;
+    private float CAMERA_SPEED = 3f;
     private final float EAGLE_BURN = 3f;
     private final float COLOR_FREQUENCY = .21f;
     // higher frequency flashes more colors
@@ -251,7 +245,7 @@ class LevelOne implements Screen, InputProcessor {
         // create the levelCamera to show 20x11 world units
         levelCamera = new OrthographicCamera(20, 11);
         // todo: position the levelCamera to the world units
-        levelCamera.position.x = 707;
+        levelCamera.position.x = 250;
         levelCamera.position.y = 5.5f;
 
         tileStage = new Stage(new ScreenViewport());
@@ -300,7 +294,7 @@ class LevelOne implements Screen, InputProcessor {
                 new CastleWallActor(226, 7), new CastleWallActor(227, 7),
                 new CastleWallActor(230, 4), new CastleWallActor(231, 3),
                 new CastleWallActor(232, 4));
-                // new CastleBalconyActor(217, 7, true), new CastleBalconyActor(236, 7, false)
+        // new CastleBalconyActor(217, 7, true), new CastleBalconyActor(236, 7, false)
 
         // boss aliens that cover the front of the castle
         frontCastleLeftWalkActors.addAll(
@@ -884,6 +878,7 @@ class LevelOne implements Screen, InputProcessor {
 
                     elapsedBossTime = System.currentTimeMillis() - startTime;
 
+                    // TODO: 2/19/2018
                     if (!gameOver) {
                         bossDate.setTime(bossStageTime - elapsedBossTime);
                         if (bossStageTime-elapsedBossTime <= 0) {
@@ -980,8 +975,8 @@ class LevelOne implements Screen, InputProcessor {
                     }
                     pausingFromPowerUp = false;
                 } else {
-//                    if (powerUpState == PowerUpState.OFF && !feverTrigger)
-//                        game.song_full.play();
+                    if (powerUpState == PowerUpState.OFF && !feverTrigger)
+                        game.song_full.play();
                 }
 
                 //TODO POWER UPS
@@ -1094,10 +1089,11 @@ class LevelOne implements Screen, InputProcessor {
                                         (eagleRect.x >= 661.5 && eagleRect.x <= 662.5) ||
                                         (eagleRect.x >= 663.5 && eagleRect.x <= 664.5)))) {
                             if (nldwActor.rectangle.overlaps(eagleRect)) {
-                                game.score += nldwActor.points;
-                                variousTargetStage.getActors().removeValue(nldwActor, false);
-                                NLDWPowerUp();
-                                hit = true;
+                                if (variousTargetStage.getActors().removeValue(nldwActor, false)) {
+                                    hit = true;
+                                    game.score += nldwActor.points;
+                                    NLDWPowerUp();
+                                }
                             }
                         }
 
@@ -1109,19 +1105,20 @@ class LevelOne implements Screen, InputProcessor {
                                     game.score += deadAA.points;
                                     TextureRegion textureRegion = new TextureRegion(frontCastleLeftWalkActors.get(index).deadTextureRegion);
                                     deadTargetStage.addActor(new FallingActor(alienRect.x, alienRect.y, textureRegion, true));
-                                    variousTargetStage.getActors().removeValue(deadAA, false);
-                                    frontCastleLeftWalkActors.removeValue(deadAA, false);
-                                    castleLeftWalkRects.removeValue(alienRect, false);
-                                    if (frontCastleLeftWalkActors.size <= 3) {
-                                        GenericActor aa = new HorizontalMovingActor(226, 3, 219, 6, 5, true, true,
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png")));
-                                        frontCastleLeftWalkActors.add(aa);
-                                        variousTargetStage.addActor(aa);
-                                        castleLeftWalkRects.add(aa.rectangle);
+                                    if (castleLeftWalkRects.removeValue(alienRect, false)) {
+                                        variousTargetStage.getActors().removeValue(deadAA, false);
+                                        frontCastleLeftWalkActors.removeValue(deadAA, false);
+                                        if (frontCastleLeftWalkActors.size <= 3) {
+                                            GenericActor aa = new HorizontalMovingActor(226, 3, 219, 6, 5, true, true,
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png")));
+                                            frontCastleLeftWalkActors.add(aa);
+                                            variousTargetStage.addActor(aa);
+                                            castleLeftWalkRects.add(aa.rectangle);
+                                        }
+                                        hit = true;
                                     }
-                                    hit = true;
                                 }
                             }
                         }
@@ -1134,19 +1131,20 @@ class LevelOne implements Screen, InputProcessor {
                                     game.score += deadAA.points;
                                     TextureRegion textureRegion = new TextureRegion(frontCastleRightWalkActors.get(index).deadTextureRegion);
                                     deadTargetStage.addActor(new FallingActor(alienRect.x, alienRect.y, textureRegion, true));
-                                    variousTargetStage.getActors().removeValue(deadAA, false);
-                                    frontCastleRightWalkActors.removeValue(deadAA, false);
-                                    castleRightWalkRects.removeValue(alienRect, false);
-                                    if (frontCastleRightWalkActors.size <= 3) {
-                                        GenericActor aa = new HorizontalMovingActor(227, 3, 233, 6, 5, true, true,
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png")));
-                                        frontCastleRightWalkActors.add(aa);
-                                        variousTargetStage.addActor(aa);
-                                        castleRightWalkRects.add(aa.rectangle);
+                                    if (castleRightWalkRects.removeValue(alienRect, false)) {
+                                        variousTargetStage.getActors().removeValue(deadAA, false);
+                                        frontCastleRightWalkActors.removeValue(deadAA, false);
+                                        if (frontCastleRightWalkActors.size <= 3) {
+                                            GenericActor aa = new HorizontalMovingActor(227, 3, 233, 6, 5, true, true,
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png")));
+                                            frontCastleRightWalkActors.add(aa);
+                                            variousTargetStage.addActor(aa);
+                                            castleRightWalkRects.add(aa.rectangle);
+                                        }
+                                        hit = true;
                                     }
-                                    hit = true;
                                 }
                             }
                         }
@@ -1159,20 +1157,21 @@ class LevelOne implements Screen, InputProcessor {
                                     game.score += deadAA.points;
                                     TextureRegion textureRegion = new TextureRegion(frontCastleLeftClimbActors.get(index).deadTextureRegion);
                                     deadTargetStage.addActor(new FallingActor(alienRect.x, alienRect.y, textureRegion, true));
-                                    variousTargetStage.getActors().removeValue(deadAA, false);
-                                    frontCastleLeftClimbActors.removeValue(deadAA, false);
-                                    castleLeftClimbRects.removeValue(alienRect, false);
-                                    if (frontCastleLeftClimbActors.size <= 1) {
-                                        GenericActor aa = new VerticalMovingActor(deadAA.startX, 3, 8,
-                                                        deadAA.speed, 5, true, false,
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")),
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb2.png")),
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")));
-                                        frontCastleLeftClimbActors.add(aa);
-                                        variousTargetStage.addActor(aa);
-                                        castleLeftClimbRects.add(aa.rectangle);
+                                    if (castleLeftClimbRects.removeValue(alienRect, false)) {
+                                        variousTargetStage.getActors().removeValue(deadAA, false);
+                                        frontCastleLeftClimbActors.removeValue(deadAA, false);
+                                        if (frontCastleLeftClimbActors.size <= 1) {
+                                            GenericActor aa = new VerticalMovingActor(deadAA.startX, 3, 8,
+                                                    deadAA.speed, 5, true, false,
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")),
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb2.png")),
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")));
+                                            frontCastleLeftClimbActors.add(aa);
+                                            variousTargetStage.addActor(aa);
+                                            castleLeftClimbRects.add(aa.rectangle);
+                                        }
+                                        hit = true;
                                     }
-                                    hit = true;
                                 }
                             }
                         }
@@ -1185,20 +1184,21 @@ class LevelOne implements Screen, InputProcessor {
                                     game.score += deadAA.points;
                                     TextureRegion textureRegion = new TextureRegion(frontCastleRightClimbActors.get(index).deadTextureRegion);
                                     deadTargetStage.addActor(new FallingActor(alienRect.x, alienRect.y, textureRegion, true));
-                                    variousTargetStage.getActors().removeValue(deadAA, false);
-                                    frontCastleRightClimbActors.removeValue(deadAA, false);
-                                    castleRightClimbRects.removeValue(alienRect, false);
-                                    if (frontCastleRightClimbActors.size <= 1) {
-                                        GenericActor aa = new VerticalMovingActor(deadAA.startX, 3, 8,
-                                                        deadAA.speed, 5, true, false,
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")),
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb2.png")),
-                                                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")));
-                                        frontCastleRightClimbActors.add(aa);
-                                        variousTargetStage.addActor(aa);
-                                        castleRightClimbRects.add(aa.rectangle);
+                                    if (castleRightClimbRects.removeValue(alienRect, false)) {
+                                        variousTargetStage.getActors().removeValue(deadAA, false);
+                                        frontCastleRightClimbActors.removeValue(deadAA, false);
+                                        if (frontCastleRightClimbActors.size <= 1) {
+                                            GenericActor aa = new VerticalMovingActor(deadAA.startX, 3, 8,
+                                                    deadAA.speed, 5, true, false,
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")),
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb2.png")),
+                                                    new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")));
+                                            frontCastleRightClimbActors.add(aa);
+                                            variousTargetStage.addActor(aa);
+                                            castleRightClimbRects.add(aa.rectangle);
+                                        }
+                                        hit = true;
                                     }
-                                    hit = true;
                                 }
                             }
                         }
@@ -1211,18 +1211,19 @@ class LevelOne implements Screen, InputProcessor {
                                     game.score += deadAA.points;
                                     TextureRegion textureRegion = new TextureRegion(behindCastleActors.get(index).deadTextureRegion);
                                     deadTargetStage.addActor(new FallingActor(alienRect.x, alienRect.y, textureRegion, true));
-                                    behindCastleStage.getActors().removeValue(deadAA, false);
-                                    behindCastleActors.removeValue(deadAA, false);
-                                    behindCastleRects.removeValue(alienRect, false);
-                                    HorizontalMovingActor aa = new HorizontalMovingActor(deadAA.startX,
-                                            deadAA.startY, deadAA.endX, deadAA.speed, 5, true, true,/*bossTargetActors.size,*/
-                                            new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
-                                            new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
-                                            new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png")));
-                                    behindCastleActors.add(aa);
-                                    behindCastleStage.addActor(aa);
-                                    behindCastleRects.add(aa.rectangle);
-                                    hit = true;
+                                    if (behindCastleRects.removeValue(alienRect, false)) {
+                                        behindCastleStage.getActors().removeValue(deadAA, false);
+                                        behindCastleActors.removeValue(deadAA, false);
+                                        HorizontalMovingActor aa = new HorizontalMovingActor(deadAA.startX,
+                                                deadAA.startY, deadAA.endX, deadAA.speed, 5, true, true,/*bossTargetActors.size,*/
+                                                new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
+                                                new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
+                                                new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png")));
+                                        behindCastleActors.add(aa);
+                                        behindCastleStage.addActor(aa);
+                                        behindCastleRects.add(aa.rectangle);
+                                        hit = true;
+                                    }
                                 }
                             }
                         }
@@ -1230,9 +1231,9 @@ class LevelOne implements Screen, InputProcessor {
                         if (!hit) {
                             for (Rectangle castleTarget : castleTargetRects) {
                                 if (castleTarget.overlaps(eagleRect)) {
+                                    hit = true;
                                     int index = castleTargetRects.indexOf(castleTarget, false);
                                     castleTargetActors.get(index).isHit();
-                                    hit = true;
                                 }
                             }
                         }
@@ -1240,29 +1241,32 @@ class LevelOne implements Screen, InputProcessor {
                         if (!hit) {
                             for (Rectangle genericRect : genericRects) {
                                 if (genericRect.overlaps(eagleRect)) {
+                                    hit = true;
                                     int index = genericRects.indexOf(genericRect, false);
                                     GenericActor deadAA = genericActors.get(index);
                                     game.score += deadAA.points;
                                     if (deadAA instanceof NOTMActor) {
-                                        tileStage.getActors().removeValue(deadAA, false);
-                                        genericActors.removeValue(deadAA, false);
-                                        genericRects.removeValue(genericRect, false);
-                                        notmHit = true;
-                                        PowersThatBPowerUp();
+                                        if (genericRects.removeValue(genericRect, false)) {
+                                            tileStage.getActors().removeValue(deadAA, false);
+                                            genericActors.removeValue(deadAA, false);
+                                            notmHit = true;
+                                            PowersThatBPowerUp();
+                                        }
                                     } else if (deadAA instanceof JennyDeathActor) {
-                                        tileStage.getActors().removeValue(deadAA, false);
-                                        genericActors.removeValue(deadAA, false);
-                                        genericRects.removeValue(genericRect, false);
-                                        jdHit = true;
-                                        PowersThatBPowerUp();
+                                        if (genericRects.removeValue(genericRect, false)) {
+                                            tileStage.getActors().removeValue(deadAA, false);
+                                            genericActors.removeValue(deadAA, false);
+                                            jdHit = true;
+                                            PowersThatBPowerUp();
+                                        }
                                     } else {
-                                        TextureRegion textureRegion = new TextureRegion(genericActors.get(index).deadTextureRegion);
-                                        deadTargetStage.addActor(new FallingActor(genericRect.x, genericRect.y, textureRegion, true));
-                                        tileStage.getActors().removeValue(deadAA, false);
-                                        genericActors.removeValue(deadAA, false);
-                                        genericRects.removeValue(genericRect, false);
+                                        if (genericRects.removeValue(genericRect, false)) {
+                                            TextureRegion textureRegion = new TextureRegion(genericActors.get(index).deadTextureRegion);
+                                            deadTargetStage.addActor(new FallingActor(genericRect.x, genericRect.y, textureRegion, true));
+                                            tileStage.getActors().removeValue(deadAA, false);
+                                            genericActors.removeValue(deadAA, false);
+                                        }
                                     }
-                                    hit = true;
                                 }
                             }
                         }
@@ -1270,15 +1274,16 @@ class LevelOne implements Screen, InputProcessor {
                         if (!hit) {
                             for (Rectangle levelRect : fallTargetTiles) {
                                 if (levelRect.overlaps(eagleRect)) {
-                                    TiledMapTileLayer.Cell targetCell = fallTargetLayer.getCell((int) levelRect.x, (int) levelRect.y);
-                                    String strPoints = String.valueOf(targetCell.getTile().getProperties().get("points"));
-                                    int points = Integer.parseInt(strPoints);
-                                    game.score += points;
-                                    TextureRegion textureRegion = new TextureRegion(targetCell.getTile().getTextureRegion());
-                                    targetCell.setTile(null);
-                                    tileStage.addActor(new FallingActor(levelRect.x, levelRect.y, textureRegion, true));//setFallingObject(levelRect.x, levelRect.y, deadTextureRegion);
-                                    fallTargetTiles.removeValue(levelRect, false);
-                                    hit = true;
+                                    if (fallTargetTiles.removeValue(levelRect, false)) {
+                                        hit = true;
+                                        TiledMapTileLayer.Cell targetCell = fallTargetLayer.getCell((int) levelRect.x, (int) levelRect.y);
+                                        String strPoints = String.valueOf(targetCell.getTile().getProperties().get("points"));
+                                        int points = Integer.parseInt(strPoints);
+                                        game.score += points;
+                                        TextureRegion textureRegion = new TextureRegion(targetCell.getTile().getTextureRegion());
+                                        targetCell.setTile(null);
+                                        tileStage.addActor(new FallingActor(levelRect.x, levelRect.y, textureRegion, true));//setFallingObject(levelRect.x, levelRect.y, deadTextureRegion);
+                                    }
                                 }
                             }
                         }
