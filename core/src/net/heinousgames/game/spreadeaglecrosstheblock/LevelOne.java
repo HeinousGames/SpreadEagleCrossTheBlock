@@ -736,6 +736,7 @@ class LevelOne implements Screen, InputProcessor {
                     if (!pausingFromPowerUp) {
                         pausingFromPowerUp = true;
                         pausedBossTime = System.currentTimeMillis();
+                        game.fever.pause();
                     }
 
                     if (timeSet) {
@@ -870,6 +871,7 @@ class LevelOne implements Screen, InputProcessor {
                     if (pausingFromPowerUp) {
                         pausingFromPowerUp = false;
                         timeToAdd = System.currentTimeMillis() - pausedBossTime;
+                        game.fever.play();
                     }
 
                     if (startBossTime) {
