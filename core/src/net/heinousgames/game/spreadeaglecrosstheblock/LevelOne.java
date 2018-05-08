@@ -101,7 +101,7 @@ class LevelOne implements Screen, InputProcessor {
 
     private boolean soundIsExmilitary, powerUpInAffect, feelingIt, cameraUp,
             notmHit, jdHit, pausingFromPowerUp, needSub, cameraRotated, cameraZoomed, timeSet,
-            gameOver, feverTrigger, incrementPowerUp;
+            gameOver, feverTrigger, startBossTime, gameWon, incrementPowerUp;
     //streakAffect
 
     private long actionBeginTime, elapsedBossTime, startTime, bossStageTime, timeToAdd, pausedBossTime;
@@ -885,11 +885,7 @@ class LevelOne implements Screen, InputProcessor {
                             if (bossStageTime - elapsedBossTime <= 0) {
                                 gameOver = true;
                             } else {
-                                if (castleTargetActors.size == 1 || castleTargetActors.size == 2) {
-                                    for (CastleTargetActor cta : castleTargetActors) {
-                                    if (!(cta instanceof CastleTorchActor)) {
-                                        break;
-                                    }
+                                if (castleTargetActors.size == 0) {
                                     gameOver = true;
                                 } else if (castleTargetActors.size == 1) {
                                     if (castleTargetActors.get(0) instanceof CastleTorchActor) {
