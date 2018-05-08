@@ -101,7 +101,7 @@ class LevelOne implements Screen, InputProcessor {
 
     private boolean soundIsExmilitary, powerUpInAffect, feelingIt, cameraUp,
             notmHit, jdHit, pausingFromPowerUp, needSub, cameraRotated, cameraZoomed, timeSet,
-            gameOver, feverTrigger, incrementPowerUp;
+            gameOver, feverTrigger, startBossTime, gameWon, incrementPowerUp;
     //streakAffect
 
     private long actionBeginTime, elapsedBossTime, startTime, bossStageTime, timeToAdd, pausedBossTime;
@@ -245,7 +245,7 @@ class LevelOne implements Screen, InputProcessor {
         // create the levelCamera to show 20x11 world units
         levelCamera = new OrthographicCamera(20, 11);
         // todo: position the levelCamera to the world units
-        levelCamera.position.x = 250;
+        levelCamera.position.x = 707;
         levelCamera.position.y = 5.5f;
 
         tileStage = new Stage(new ScreenViewport());
@@ -711,7 +711,7 @@ class LevelOne implements Screen, InputProcessor {
         backgroundStageColor = backgroundStage.getBatch().getColor();
 
         game.song_full.setLooping(true);
-//        game.song_full.play();
+        game.song_full.play();
 
         backgroundStage.addActor(new CloudActor(new Texture(Gdx.files.internal("gfx/cloud5.png")),
                 1.9f, -20f, 7.6f, 7f));
@@ -859,11 +859,6 @@ class LevelOne implements Screen, InputProcessor {
                 eagleBurn += (EAGLE_BURN * delta);
 
                 if (feverTrigger) {
-                    if (!timeSet) {
-                        timeSet = true;
-                        startTime = System.currentTimeMillis();
-                    }
-
                     for (CastleTargetActor cta : castleTargetActors) {
                         if (cta.isDestroyed) {
                             castleTargetRects.removeValue(cta.rectangle, false);
@@ -871,35 +866,57 @@ class LevelOne implements Screen, InputProcessor {
                         }
                     }
 
+                    //todo: pausing during boss fight?
                     if (pausingFromPowerUp) {
                         pausingFromPowerUp = false;
                         timeToAdd = System.currentTimeMillis() - pausedBossTime;
                     }
 
-                    elapsedBossTime = System.currentTimeMillis() - startTime;
-
-                    // TODO: 2/19/2018
-                    if (!gameOver) {
-                        bossDate.setTime(bossStageTime - elapsedBossTime);
-                        if (bossStageTime-elapsedBossTime <= 0) {
-                            gameOver = true;
-                        } else {
-                            if (castleTargetActors.size == 1 || castleTargetActors.size == 2) {
-                                for (CastleTargetActor cta : castleTargetActors) {
-                                    if (!(cta instanceof CastleTorchActor)) {
-                                        break;
-                                    }
-                                    gameOver = true;
-                                }
-                            } else if (castleTargetActors.size == 0) {
-                                gameOver = true;
-                            }
+                    if (startBossTime) {
+                        if (!timeSet) {
+                            timeSet = true;
+                            startTime = System.currentTimeMillis();
                         }
-                    } else {
-                        if (castleTargetActors.size <= 2) {
-                            System.out.println("YOU WIN!");
+
+                        elapsedBossTime = System.currentTimeMillis() - startTime;
+
+                        if (!gameOver) {
+                            bossDate.setTime(bossStageTime - elapsedBossTime);
+                            if (bossStageTime - elapsedBossTime <= 0) {
+                                gameOver = true;
+                            } else {
+                                if (castleTargetActors.size == 0) {
+                                    gameOver = true;
+                                } else if (castleTargetActors.size == 1) {
+                                    if (castleTargetActors.get(0) instanceof CastleTorchActor) {
+                                        gameOver = true;
+                                    }
+                                } else if (castleTargetActors.size == 2) {
+                                    if (castleTargetActors.get(0) instanceof CastleTorchActor &&
+                                            castleTargetActors.get(1) instanceof CastleTorchActor) {
+                                        gameOver = true;
+                                    }
+                                }
+                            }
                         } else {
-                            System.out.println("YOU LOSE!");
+                            if (castleTargetActors.size == 0) {
+                                gameWon = true;
+                            } else if (castleTargetActors.size == 1) {
+                                if (castleTargetActors.get(0) instanceof CastleTorchActor) {
+                                    gameWon = true;
+                                }
+                            } else if (castleTargetActors.size == 2) {
+                                if (castleTargetActors.get(0) instanceof CastleTorchActor &&
+                                        castleTargetActors.get(1) instanceof CastleTorchActor) {
+                                    gameWon = true;
+                                }
+                            }
+
+                            if (gameWon) {
+                                System.out.println("YOU WIN!");
+                            } else {
+                                System.out.println("YOU LOSE!");
+                            }
                         }
                     }
                 }
@@ -981,7 +998,6 @@ class LevelOne implements Screen, InputProcessor {
 
                 //TODO POWER UPS
                 if (powerUpState == PowerUpState.TRIGGERED) {
-                    System.out.println("Power Up Int: " + powerUpInt);
 
                     if (powerUpInt == 1) {
                         psychedelicColors();
@@ -1376,23 +1392,19 @@ class LevelOne implements Screen, InputProcessor {
                 game.batch.end();
                 scoreStage.draw();
 
-
-                //todo boss stage entrance
-                if (levelCamera.position.x <= 245 && !feverTrigger) {
+                if (!feverTrigger && levelCamera.position.x <= 245) {
                     feverTrigger = true;
-//                    game.song_full.stop();
-//                    game.fever.play();
+                    game.song_full.stop();
+                    game.fever.setLooping(true);
+                    game.fever.play();
                 }
 
-                if (levelCamera.position.x <= 227) {
+                if (!startBossTime && levelCamera.position.x <= 227) {
                     CAMERA_SPEED = 0f;
+                    game.fever.stop();
+                    game.song_full.play();
+                    startBossTime = true;
                 }
-
-//                if (levelCamera.position.x <= 235) {
-//                    game.song_full.stop();
-//                    game.setScreen(new RecapScreen(game));
-//                    dispose();
-//                }
 
                 break;
         }
