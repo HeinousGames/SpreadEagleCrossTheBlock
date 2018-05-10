@@ -10,10 +10,10 @@ I've been trying to expand my knowledge on the LibGDX video game development fra
 Detroit, but I just quit my job and moved to LA.
 
 # What I'm Bringin'
-This is an open source Death Grips themed video game. It's a 2D rail shooter where you play MC Ride. You drive through the city (in the car from the Guillotine music video) while throwing eagles at townsfolk, literally spreading eagles cross the block. Your band's albums are lost in the town, and if you find them some weird stuff starts to happen lol.
+This is an open source Death Grips themed video game. It's a 2D rail shooter where you play MC Ride. You drive through the city (in the car from the Guillotine music video) while throwing eagles at townsfolk, literally spreading eagles cross the block. Your band's albums are lost in the town, and if you find them some weird stuff starts to happen lol. The game will never be released for mobile devices, but I will keep builds available here as it is ever changing and may never be finished.
 
 # Improvements
-* I recently learned more about buffering assets and must rearchitect how I load and dispose of the audio files.
+* I recently learned more about asset loading and must rearchitect how I load and dispose of the audio files.
 * Remove unused tiles from the map.
 
 # Features I'd Like to Add
