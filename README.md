@@ -1,32 +1,28 @@
-# SpreadEagleCrossTheBlock
-It's Death Grips!
+# Spread Eagle Cross the Block - The Death Grips Video Game
 
-This is my Death Grips video game. I've been working on it on and off. It's about Spreading Eagles around a city block by whipping them at people.
+# How I'm Comin'
+My name is Steve and I really like Death Grips. I used to work as an Android developer (and still build personal apps in the Android framework), but I also love making video games and am trying to do that full time.
 
-Notes I keep to remind me of what to do next:
-power up animations (powers that b scale and glow/mc ride turning red for hot head)
+# Why I'm Slingin'
+I've been trying to expand my knowledge on the LibGDX video game development framework, and making fun projects like this helps me learn. Anytime I want to learn something new in LibGDX, if I can't already apply it to a real project, I might try messing around with it in here just to see how it feels.
 
-start screen should be a button instead of all screen to start
-recap/feedback screen. with high score record
-	**pause for a second for people still hitting the screen before demo ends**
-dispose as much stuff as possible -> more after adding other audio bytes
-	**im creating a bunch of textures for the animated actors. do i create them before hand so i can dispose of them properly? is that proper?**
+# Where I'm From
+Detroit, but I just quit my job and moved to LA.
 
-remove unused tiles 
+# What I'm Bringin'
+This is an open source Death Grips themed video game. It's a 2D rail shooter where you play MC Ride. You drive through the city (in the car from the Guillotine music video) while throwing eagles at townsfolk, literally spreading eagles cross the block. Your band's albums are lost in the town, and if you find them some weird stuff starts to happen lol.
 
-powers that b album cover actor animation?
-bottomless pit sound byte (hot head intro and power up song seamlessly?)
+# Improvements
+* I recently learned more about buffering assets and must rearchitect how I load and dispose of the audio files.
+* Remove unused tiles from the map.
 
-bugs:
-stay on lookout for:
-eagles not appearing on touch screen of surface
-everything moving in a stutter
-(happened when camera started at 0f during testing then moving to power up and continuing moving)
-can't hide album cover behind boxes because hitting the box will hit the album... player can't see it happening
-
-secret stage(s) available if gotten all albums in single run?
-during bounce effect, possibly hide secret album in the wall where you wouldnt see it.
-8 bit stage?
-break mirrors stage?
-
-when done, go through level slowly and test all animations that when they are hit they die correctly.
+# Features I'd Like to Add
+* Story where the boss stage is the Epic HQ and they stole your albums as payback for breaching contract.
+* Game over and recap screens showing your final score and how many albums you found.
+* Updates to start screen.
+* App icon.
+* Special effects when you find albums (eg. MC Ride turning red when you find the Bottomless Pit album and it plays Hot Head).
+* More music variations.
+* Bonus level where you throw your own face and break mirrors.
+* Bonus level that has an 8 bit design and sound.
+* Ability to run on iOS.
