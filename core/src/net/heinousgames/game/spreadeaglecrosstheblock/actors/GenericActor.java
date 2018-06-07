@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 public class GenericActor extends Actor {
 
     public Rectangle rectangle;
-    Animation animation;
+    Animation<TextureRegion> animation;
     TextureRegion textureRegion;
     public TextureRegion deadTextureRegion;
     TextureRegion[] textureRegions;
@@ -27,7 +27,7 @@ public class GenericActor extends Actor {
 //        System.out.println("TEST GenericActor Constructor 1");
 
         this.textureRegions = textureRegions;
-        animation = new Animation(0.075f, textureRegions);
+        animation = new Animation<TextureRegion>(0.075f, textureRegions);
         rectangle.width = textureRegions[0].getRegionWidth() / 70f;
         rectangle.height = textureRegions[0].getRegionHeight() / 70f;
         isAnimated = true;

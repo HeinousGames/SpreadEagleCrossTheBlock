@@ -83,7 +83,7 @@ public class HorizontalMovingActor extends GenericActor {
         textureRegions = new TextureRegion[] {frame1, frame2};
         rectangle.width = frame1.getRegionWidth() / 70f;
         rectangle.height = frame1.getRegionHeight() / 70f;
-        animation = new Animation(0.075f, textureRegions);
+        animation = new Animation<TextureRegion>(0.075f, textureRegions);
         isAnimated = true;
     }
 

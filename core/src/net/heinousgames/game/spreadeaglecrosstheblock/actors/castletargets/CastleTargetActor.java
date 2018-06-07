@@ -24,7 +24,7 @@ public class CastleTargetActor extends Actor {
     TextureRegion regularRegion, hitRegion, destroyedRegion;
     private TextureRegion crossHairRegion;
     float stateTime;
-    Animation hitAnimation;
+    Animation<TextureRegion> hitAnimation;
     public Rectangle rectangle;
 
     CastleTargetActor(float posX, float posY) {

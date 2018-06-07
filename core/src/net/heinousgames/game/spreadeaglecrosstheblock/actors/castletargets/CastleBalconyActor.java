@@ -24,7 +24,7 @@ public class CastleBalconyActor extends CastleTargetActor {
             hitRegion.flip(true, false);
         }
 
-        hitAnimation = new Animation(0.075f, regularRegion, hitRegion);
+        hitAnimation = new Animation<TextureRegion>(0.075f, regularRegion, hitRegion);
         rectangle.width = regularRegion.getRegionWidth() / 70f;
         rectangle.height = regularRegion.getRegionHeight() / 70f;
 
