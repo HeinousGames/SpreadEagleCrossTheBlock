@@ -1,6 +1,7 @@
 package net.heinousgames.game.spreadeaglecrosstheblock;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -59,7 +60,7 @@ import java.util.Locale;
 /**
  * Created by Steve on 1/17/2016
  */
-class LevelOne implements Screen, InputProcessor {
+class MainLevel implements Screen, InputProcessor {
 
     private enum State {
         RUNNING, PAUSED
@@ -121,7 +122,7 @@ class LevelOne implements Screen, InputProcessor {
 
     private int rotation, powerUpInt;
 
-    LevelOne(final SpreadEagles gam) {
+    MainLevel(final SpreadEagles gam) {
         this.game = gam;
 
         game.parameter.color = Color.BLACK;
@@ -245,7 +246,7 @@ class LevelOne implements Screen, InputProcessor {
         // create the levelCamera to show 20x11 world units
         levelCamera = new OrthographicCamera(20, 11);
         // todo: position the levelCamera to the world units
-        levelCamera.position.x = 707;
+        levelCamera.position.x = 300;
         levelCamera.position.y = 5.5f;
 
         tileStage = new Stage(new ScreenViewport());
@@ -711,6 +712,7 @@ class LevelOne implements Screen, InputProcessor {
         backgroundStageColor = backgroundStage.getBatch().getColor();
 
         game.song_full.setLooping(true);
+        game.song_full.setVolume(0.25f);
         game.song_full.play();
 
         backgroundStage.addActor(new CloudActor(new Texture(Gdx.files.internal("gfx/cloud5.png")),
@@ -736,7 +738,7 @@ class LevelOne implements Screen, InputProcessor {
                     if (!pausingFromPowerUp) {
                         pausingFromPowerUp = true;
                         pausedBossTime = System.currentTimeMillis();
-                        game.fever.pause();
+//                        game.fever.pause();
                     }
 
                     if (timeSet) {
@@ -871,7 +873,7 @@ class LevelOne implements Screen, InputProcessor {
                     if (pausingFromPowerUp) {
                         pausingFromPowerUp = false;
                         timeToAdd = System.currentTimeMillis() - pausedBossTime;
-                        game.fever.play();
+//                        game.fever.play();
                     }
 
                     if (startBossTime) {
@@ -1762,7 +1764,18 @@ class LevelOne implements Screen, InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        return false;
+        if (keycode == Input.Keys.SPACE) {
+            if (state == State.RUNNING) {
+                if (powerUpState == PowerUpState.SOUND_BYTE || powerUpState == PowerUpState.TRIGGERED) {
+                    pausingFromPowerUp = true;
+                    needSub = true;
+                }
+                state = State.PAUSED;
+            } else {
+                state = State.RUNNING;
+            }
+        }
+        return true;
     }
 
     @Override
