@@ -1,3 +1,16 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.1'
+    }
+}
+apply plugin: "robovm"
+
 sourceSets.main.java.srcDirs = [ "src/" ]
 
 sourceCompatibility = '1.7'
@@ -15,5 +28,5 @@ createIPA.dependsOn build
 
 eclipse.project {
     name = appName + "-ios"
-    natures 'org.robovm.eclipse.RoboVMNature'
+    natures 'com.mobidevelop.robovm.eclipse.RoboVMNature'
 }
