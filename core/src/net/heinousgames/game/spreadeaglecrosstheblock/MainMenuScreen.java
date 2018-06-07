@@ -72,7 +72,7 @@ class MainMenuScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 if (finishedLoading) {
                     dispose();
-                    game.setScreen(new LevelOne(game));
+                    game.setScreen(new MainLevel(game));
                 }
             }
         });

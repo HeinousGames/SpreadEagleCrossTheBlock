@@ -154,7 +154,7 @@ class RecapScreen implements Screen, InputProcessor {
             }
 //            else if (hitActor.getName().equals("startOver")) {
 //                dispose();
-//                game.setScreen(new LevelOne(game));
+//                game.setScreen(new MainLevel(game));
 //            }
             else if (hitActor.getName().equals("quit")) {
                 dispose();
