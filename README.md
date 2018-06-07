@@ -17,7 +17,7 @@ This is an open source Death Grips themed video game. It's a 2D rail shooter whe
 * Remove unused tiles from the map.
 
 ### Features I'd Like to Add
-* Keyboard key for pausing on desktop version.
+* ~~Keyboard key for pausing on desktop version.~~
 * Story where the boss stage is the Epic HQ and they stole your albums as payback for breaching contract.
 * Game over and recap screens showing your final score and how many albums you found.
 * Updates to start screen.
