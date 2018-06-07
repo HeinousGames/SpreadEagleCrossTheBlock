@@ -21,7 +21,7 @@ This is an open source Death Grips themed video game. It's a 2D rail shooter whe
 * Story where the boss stage is the Epic HQ and they stole your albums as payback for breaching contract.
 * Game over and recap screens showing your final score and how many albums you found.
 * Updates to start screen.
-* App icon.
+* ~~App icon.~~
 * Special effects when you find albums (eg. MC Ride turning red when you find the Bottomless Pit album and it plays Hot Head).
 * More music variations.
 * Bonus level where you throw your own face and break mirrors.
