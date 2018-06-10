@@ -28,7 +28,7 @@ public class SpreadEagles extends Game {
     Texture buttonTexture;
     AssetManager assetManager;
     Music imFeelingIt, bloodCreepin, getGot, sysBlowerRing, usedToGive, lockYourDoors,
-            fuckWhosWatching, casino, powersThatB, trash, hotHead, sadCum, song_full, fever;
+            fuckWhosWatching, casino, powersThatB, trash, hotHead, sadCum, song_full, fever, bitmilitary;
     // yeah, whatUp, guillotineWhine, spreadEagle;
 
     // Local variable to hold the callback implementation
@@ -60,6 +60,7 @@ public class SpreadEagles extends Game {
         assetManager.load("sfx/trash.ogg", Music.class);
         assetManager.load("sfx/song_instrumental.ogg", Music.class);
         assetManager.load("sfx/fever_fave_part.ogg", Music.class);
+        assetManager.load("sfx/theme_bitmilitary.ogg", Music.class);
         assetManager.finishLoading();
 
         // whatUp = Gdx.audio.newSound(Gdx.files.internal("sfx/what_up.ogg"));
@@ -124,6 +125,7 @@ public class SpreadEagles extends Game {
         sadCum.dispose();
         trash.dispose();
         hotHead.dispose();
+        bitmilitary.dispose();
 
         // music bytes
         song_full.dispose();

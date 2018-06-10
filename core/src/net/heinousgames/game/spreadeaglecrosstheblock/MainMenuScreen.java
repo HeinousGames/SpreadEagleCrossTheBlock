@@ -133,7 +133,8 @@ class MainMenuScreen implements Screen {
                     game.assetManager.isLoaded("sfx/powers_that_b.ogg") &&
                     game.assetManager.isLoaded("sfx/trash.ogg") &&
                     game.assetManager.isLoaded("sfx/song_instrumental.ogg") &&
-                    game.assetManager.isLoaded("sfx/fever_fave_part.ogg")) {
+                    game.assetManager.isLoaded("sfx/fever_fave_part.ogg") &&
+                    game.assetManager.isLoaded("sfx/theme_bitmilitary.ogg")) {
                 game.sadCum = game.assetManager.get("sfx/sad_cum.ogg", Music.class);
                 game.hotHead = game.assetManager.get("sfx/hot_head.ogg", Music.class);
                 game.imFeelingIt = game.assetManager.get("sfx/im_feeling_it.ogg", Music.class);
@@ -148,6 +149,7 @@ class MainMenuScreen implements Screen {
                 game.trash = game.assetManager.get("sfx/trash.ogg", Music.class);
                 game.song_full = game.assetManager.get("sfx/song_instrumental.ogg", Music.class);
                 game.fever = game.assetManager.get("sfx/fever_fave_part.ogg", Music.class);
+                game.bitmilitary = game.assetManager.get("sfx/theme_bitmilitary.ogg", Music.class);
 
                 finishedLoading = true;
             }
