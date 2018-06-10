@@ -100,12 +100,11 @@ class MainLevel implements Screen, InputProcessor {
 
     private NLDWActor nldwActor;
 
-    private boolean soundIsExmilitary, powerUpInAffect, feelingIt, cameraUp,
-            notmHit, jdHit, pausingFromPowerUp, needSub, cameraRotated, cameraZoomed, timeSet,
-            gameOver, feverTrigger, startBossTime, gameWon, incrementPowerUp;
+    private boolean cameraUp, notmHit, jdHit, pausingFromPowerUp, needSub, cameraRotated,
+            cameraZoomed, timeSet, gameOver, feverTrigger, startBossTime, gameWon, feelingIt;
     //streakAffect
 
-    private long actionBeginTime, elapsedBossTime, startTime, bossStageTime, timeToAdd, pausedBossTime;
+    private long actionBeginTime, startTime, bossStageTime;
 
     private OrthogonalTiledMapRenderer renderer;
 
@@ -120,7 +119,7 @@ class MainLevel implements Screen, InputProcessor {
     private DateFormat formatter;
     private Date bossDate;
 
-    private int rotation, powerUpInt;
+    private int powerUpInt;
 
     MainLevel(final SpreadEagles gam) {
         this.game = gam;
@@ -129,14 +128,12 @@ class MainLevel implements Screen, InputProcessor {
         game.fontExmilitary100 = game.generator.generateFont(game.parameter);
 
         game.score = 0;
-        rotation = 0;
         powerUpInt = 0;
 
         formatter = new SimpleDateFormat("mm:ss", Locale.US);
 
         eagleBurn = 0;
         feelingIt = false;
-        incrementPowerUp = true;
 
         exmilitaryByteRem = 1.305f;
         exmilitaryTrigRem = 12.38302f;
@@ -188,8 +185,6 @@ class MainLevel implements Screen, InputProcessor {
         Image pauseImg = new Image(pauseTexture);
         pauseImg.setName("pause");
         pauseImg.setPosition(70, 30);
-
-//        soundIsExmilitary = false;
 
         backgroundCamera = new OrthographicCamera(20, 11);
         backgroundCamera.position.x = 10;
@@ -245,8 +240,8 @@ class MainLevel implements Screen, InputProcessor {
 
         // create the levelCamera to show 20x11 world units
         levelCamera = new OrthographicCamera(20, 11);
-        // todo: position the levelCamera to the world units
-        levelCamera.position.x = 300;
+        // position the levelCamera to the world units
+        levelCamera.position.x = 266;
         levelCamera.position.y = 5.5f;
 
         tileStage = new Stage(new ScreenViewport());
@@ -735,10 +730,12 @@ class MainLevel implements Screen, InputProcessor {
             case PAUSED:
 
                 if (feverTrigger) {
-                    if (!pausingFromPowerUp) {
+                    if (!startBossTime && !pausingFromPowerUp) {
                         pausingFromPowerUp = true;
-                        pausedBossTime = System.currentTimeMillis();
-//                        game.fever.pause();
+                        game.fever.pause();
+                    } else if (startBossTime && !pausingFromPowerUp) {
+                        pausingFromPowerUp = true;
+                        game.bitmilitary.pause();
                     }
 
                     if (timeSet) {
@@ -869,11 +866,9 @@ class MainLevel implements Screen, InputProcessor {
                         }
                     }
 
-                    //todo: pausing during boss fight?
-                    if (pausingFromPowerUp) {
+                    if (!startBossTime && pausingFromPowerUp) {
                         pausingFromPowerUp = false;
-                        timeToAdd = System.currentTimeMillis() - pausedBossTime;
-//                        game.fever.play();
+                        game.fever.play();
                     }
 
                     if (startBossTime) {
@@ -882,7 +877,7 @@ class MainLevel implements Screen, InputProcessor {
                             startTime = System.currentTimeMillis();
                         }
 
-                        elapsedBossTime = System.currentTimeMillis() - startTime;
+                        long elapsedBossTime = System.currentTimeMillis() - startTime;
 
                         if (!gameOver) {
                             bossDate.setTime(bossStageTime - elapsedBossTime);
@@ -996,11 +991,13 @@ class MainLevel implements Screen, InputProcessor {
                     }
                     pausingFromPowerUp = false;
                 } else {
-                    if (powerUpState == PowerUpState.OFF && !feverTrigger)
+                    if (powerUpState == PowerUpState.OFF && !feverTrigger) {
                         game.song_full.play();
+                    } else if (startBossTime) {
+                        game.bitmilitary.play();
+                    }
                 }
 
-                //TODO POWER UPS
                 if (powerUpState == PowerUpState.TRIGGERED) {
 
                     if (powerUpInt == 1) {
@@ -1019,23 +1016,6 @@ class MainLevel implements Screen, InputProcessor {
                         bounceCamera(delta);
                         zoomCamera(delta);
                     }
-
-//                    if (powerUp == PowerUpState.PowerUp.MONEY_STORE) {
-//                        psychedelicColors();
-//                    } else if (powerUp == PowerUpState.PowerUp.NLDW) {
-//                        flipCamera();
-//                        psychedelicColors();
-//                    } else if (powerUp == PowerUpState.PowerUp.GOV_PLATES) {
-//                        bounceCamera(delta);
-//                        psychedelicColors();
-//                    } else if (powerUp == PowerUpState.PowerUp.POWERS_THAT_B) {
-//                        zoomCamera(delta);
-//                        psychedelicColors();
-//                    } else if (powerUp == PowerUpState.PowerUp.BOTTOMLESS_PIT) {
-//                        psychedelicColors();
-//                        bounceCamera(delta);
-//                        zoomCamera(delta);
-//                    }
                 }
 //                else {
 //                    if (!streakAffect) {
@@ -1399,14 +1379,13 @@ class MainLevel implements Screen, InputProcessor {
                 if (!feverTrigger && levelCamera.position.x <= 245) {
                     feverTrigger = true;
                     game.song_full.stop();
-                    game.fever.setLooping(true);
                     game.fever.play();
                 }
 
                 if (!startBossTime && levelCamera.position.x <= 227) {
                     CAMERA_SPEED = 0f;
                     game.fever.stop();
-                    game.song_full.play();
+                    game.bitmilitary.play();
                     startBossTime = true;
                 }
 
@@ -1482,7 +1461,7 @@ class MainLevel implements Screen, InputProcessor {
         actionBeginTime = System.nanoTime();
         CAMERA_SPEED = 0;
         powerUpState = PowerUpState.SOUND_BYTE;
-        game.song_full.pause();
+        game.song_full.stop();
     }
 
     private void startPowerUpConsts() {
@@ -1497,7 +1476,6 @@ class MainLevel implements Screen, InputProcessor {
         powerUp = null;
         game.song_full.play();
         CAMERA_SPEED = 3f;
-        incrementPowerUp = true;
 
         if (powerUpInt == 2) {
             backgroundStage.getBatch().setColor(backgroundStageColor);
@@ -1725,7 +1703,6 @@ class MainLevel implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-
         // textures
         crosshairTexture.dispose();
         pauseTexture.dispose();
@@ -1765,15 +1742,7 @@ class MainLevel implements Screen, InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         if (keycode == Input.Keys.SPACE) {
-            if (state == State.RUNNING) {
-                if (powerUpState == PowerUpState.SOUND_BYTE || powerUpState == PowerUpState.TRIGGERED) {
-                    pausingFromPowerUp = true;
-                    needSub = true;
-                }
-                state = State.PAUSED;
-            } else {
-                state = State.RUNNING;
-            }
+            pauseGame();
         }
         return true;
     }
@@ -1785,21 +1754,12 @@ class MainLevel implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        Vector2 coord = scoreStage.screenToStageCoordinates(new Vector2((float)screenX,(float)screenY));
-        Actor hitActor = scoreStage.hit(coord.x,coord.y,false);
+        Vector2 coord = scoreStage.screenToStageCoordinates(new Vector2((float)screenX, (float)screenY));
+        Actor hitActor = scoreStage.hit(coord.x, coord.y, false);
 
         if (hitActor != null) {
             if (hitActor.getName().equals("pause")) {
-
-                if (state == State.RUNNING) {
-                    if (powerUpState == PowerUpState.SOUND_BYTE || powerUpState == PowerUpState.TRIGGERED) {
-                        pausingFromPowerUp = true;
-                        needSub = true;
-                    }
-                    state = State.PAUSED;
-                } else {
-                    state = State.RUNNING;
-                }
+                pauseGame();
             }
         }
 
@@ -1824,5 +1784,17 @@ class MainLevel implements Screen, InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    private void pauseGame() {
+        if (state == State.RUNNING) {
+            if (powerUpState == PowerUpState.SOUND_BYTE || powerUpState == PowerUpState.TRIGGERED) {
+                pausingFromPowerUp = true;
+                needSub = true;
+            }
+            state = State.PAUSED;
+        } else {
+            state = State.RUNNING;
+        }
     }
 }
