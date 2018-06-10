@@ -706,8 +706,6 @@ class MainLevel implements Screen, InputProcessor {
 
         backgroundStageColor = backgroundStage.getBatch().getColor();
 
-        game.song_full.setLooping(true);
-        game.song_full.setVolume(0.25f);
         game.song_full.play();
 
         backgroundStage.addActor(new CloudActor(new Texture(Gdx.files.internal("gfx/cloud5.png")),

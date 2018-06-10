@@ -150,13 +150,15 @@ class MainMenuScreen implements Screen {
                 game.song_full = game.assetManager.get("sfx/song_instrumental.ogg", Music.class);
                 game.fever = game.assetManager.get("sfx/fever_fave_part.ogg", Music.class);
                 game.bitmilitary = game.assetManager.get("sfx/theme_bitmilitary.ogg", Music.class);
-
+                game.song_full.setLooping(true);
+                game.song_full.setVolume(0.25f);
+                game.fever.setVolume(0.25f);
+                game.bitmilitary.setVolume(0.25f);
                 finishedLoading = true;
             }
         }
 
         if (!finishedLoading) {
-//            System.out.println("Finished Loading");
             game.fontExmilitary100.draw(game.batch, "Loading...", 475, 350);
         }
 
