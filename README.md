@@ -25,5 +25,5 @@ This is an open source Death Grips themed video game. It's a 2D rail shooter whe
 * Special effects when you find albums (eg. MC Ride turning red when you find the Bottomless Pit album and it plays Hot Head).
 * More music variations.
 * Bonus level where you throw your own face and break mirrors.
-* Bonus level that has an 8 bit design and sound.
+* ~Bonus level that has an 8 bit design and sound.~ Didn't implement this, but I used an 8-bit theme song from the Bitmilitary for the boss stage.
 * Ability to run on iOS.
