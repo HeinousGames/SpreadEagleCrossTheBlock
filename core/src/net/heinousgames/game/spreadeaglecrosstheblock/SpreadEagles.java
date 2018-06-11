@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -17,24 +18,22 @@ public class SpreadEagles extends Game {
         void sendEmail();
     }
 
-    SpriteBatch batch;
-    FreeTypeFontGenerator generator;
-    FreeTypeFontGenerator.FreeTypeFontParameter parameter;
-    private BitmapFont font;
-    public BitmapFont fontExmilitary100, font100Gold, fontUI;
-    ShapeRenderer shapeRenderer;
-    Color VULTURE_BLUE;
-    int score;
-    Texture buttonTexture;
-    AssetManager assetManager;
-    Music imFeelingIt, bloodCreepin, getGot, sysBlowerRing, usedToGive, lockYourDoors,
-            fuckWhosWatching, casino, powersThatB, trash, hotHead, sadCum, song_full, fever, bitmilitary;
-    // yeah, whatUp, guillotineWhine, spreadEagle;
-
     // Local variable to hold the callback implementation
     private SendFeedback feedbackCallback;
+    private BitmapFont font;
+    int score;
+    AssetManager assetManager;
+    BitmapFont fontExmilitary100, font100Gold, fontUI;
+    Color VULTURE_BLUE;
+    FreeTypeFontGenerator generator;
+    FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    Music imFeelingIt, bloodCreepin, getGot, sysBlowerRing, usedToGive, lockYourDoors, casino,
+            fuckWhosWatching, powersThatB, trash, hotHead, sadCum, song_full, fever, bitmilitary;
+    ShapeRenderer shapeRenderer;
+    Sound yeah, guillotineWhine;
+    SpriteBatch batch;
+    Texture buttonTexture;
 
-    // ** Additional **
     // Setter for the callback
     void setFeedbackCallback(SendFeedback callback) {
         feedbackCallback = callback;
@@ -61,26 +60,9 @@ public class SpreadEagles extends Game {
         assetManager.load("sfx/song_instrumental.ogg", Music.class);
         assetManager.load("sfx/fever_fave_part.ogg", Music.class);
         assetManager.load("sfx/theme_bitmilitary.ogg", Music.class);
+        assetManager.load("sfx/yeah.ogg", Sound.class);
+        assetManager.load("sfx/guillotine_whine.ogg", Sound.class);
         assetManager.finishLoading();
-
-        // whatUp = Gdx.audio.newSound(Gdx.files.internal("sfx/what_up.ogg"));
-        // yeah = Gdx.audio.newSound(Gdx.files.internal("sfx/yeah.ogg"));
-        // guillotineWhine = Gdx.audio.newSound(Gdx.files.internal("sfx/guillotine_whine.ogg"));
-        // fever = Gdx.audio.newSound(Gdx.files.internal("sfx/fever_fave_part.ogg"));
-//        imFeelingIt = Gdx.audio.newMusic(Gdx.files.internal("sfx/im_feeling_it.ogg"));
-//        bloodCreepin = Gdx.audio.newMusic(Gdx.files.internal("sfx/blood_creepin.ogg"));
-//        sysBlowerRing = Gdx.audio.newMusic(Gdx.files.internal("sfx/sys_blower_ring.ogg"));
-//        getGot = Gdx.audio.newMusic(Gdx.files.internal("sfx/get_got.ogg"));
-//        usedToGive = Gdx.audio.newMusic(Gdx.files.internal("sfx/used_to_give.ogg"));
-//        lockYourDoors = Gdx.audio.newMusic(Gdx.files.internal("sfx/lock_your_doors.ogg"));
-//        fuckWhosWatching = Gdx.audio.newMusic(Gdx.files.internal("sfx/fuck_whos_watching.ogg"));
-//        casino = Gdx.audio.newMusic(Gdx.files.internal("sfx/whose_watching_casino.ogg"));
-//        powersThatB = Gdx.audio.newMusic(Gdx.files.internal("sfx/powers_that_b.ogg"));
-//        sadCum = Gdx.audio.newSound(Gdx.files.internal("sfx/sad_cum.ogg"));
-//        trash = Gdx.audio.newMusic(Gdx.files.internal("sfx/trash.ogg"));
-//        hotHead = Gdx.audio.newMusic(Gdx.files.internal("sfx/hot_head.ogg"));
-//        song_full = Gdx.audio.newMusic(Gdx.files.internal("sfx/song_instrumental.ogg"));
-//        spreadEagle = Gdx.audio.newMusic(Gdx.files.internal("sfx/spread_eagle.ogg"));
 
         buttonTexture = new Texture(Gdx.files.internal("gfx/ui_button4.png"));
         batch = new SpriteBatch();
@@ -126,6 +108,8 @@ public class SpreadEagles extends Game {
         trash.dispose();
         hotHead.dispose();
         bitmilitary.dispose();
+        yeah.dispose();
+        guillotineWhine.dispose();
 
         // music bytes
         song_full.dispose();

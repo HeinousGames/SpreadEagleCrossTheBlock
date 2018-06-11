@@ -3,6 +3,7 @@ package net.heinousgames.game.spreadeaglecrosstheblock;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,12 +23,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 class MainMenuScreen implements Screen {
 
     private final SpreadEagles game;
-    private OrthographicCamera camera;
     private boolean finishedLoading;
-
-    private Stage stageMenu;
-
+    private OrthographicCamera camera;
     private Skin buttonSkin; //** images are used as skins of the button **//
+    private Stage stageMenu;
     private TextureAtlas atlas;
 
     MainMenuScreen(final SpreadEagles game) {
@@ -134,7 +133,9 @@ class MainMenuScreen implements Screen {
                     game.assetManager.isLoaded("sfx/trash.ogg") &&
                     game.assetManager.isLoaded("sfx/song_instrumental.ogg") &&
                     game.assetManager.isLoaded("sfx/fever_fave_part.ogg") &&
-                    game.assetManager.isLoaded("sfx/theme_bitmilitary.ogg")) {
+                    game.assetManager.isLoaded("sfx/theme_bitmilitary.ogg") &&
+                    game.assetManager.isLoaded("sfx/yeah.ogg") &&
+                    game.assetManager.isLoaded("sfx/guillotine_whine.ogg")) {
                 game.sadCum = game.assetManager.get("sfx/sad_cum.ogg", Music.class);
                 game.hotHead = game.assetManager.get("sfx/hot_head.ogg", Music.class);
                 game.imFeelingIt = game.assetManager.get("sfx/im_feeling_it.ogg", Music.class);
@@ -150,6 +151,8 @@ class MainMenuScreen implements Screen {
                 game.song_full = game.assetManager.get("sfx/song_instrumental.ogg", Music.class);
                 game.fever = game.assetManager.get("sfx/fever_fave_part.ogg", Music.class);
                 game.bitmilitary = game.assetManager.get("sfx/theme_bitmilitary.ogg", Music.class);
+                game.yeah = game.assetManager.get("sfx/yeah.ogg", Sound.class);
+                game.guillotineWhine = game.assetManager.get("sfx/guillotine_whine.ogg", Sound.class);
                 game.song_full.setLooping(true);
                 game.song_full.setVolume(0.25f);
                 game.fever.setVolume(0.25f);
