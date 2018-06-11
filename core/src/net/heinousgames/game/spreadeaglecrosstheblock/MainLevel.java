@@ -79,47 +79,39 @@ class MainLevel implements Screen, InputProcessor {
 
     private SpreadEagles game;
 
-    private float CAMERA_SPEED = 3f;
     private final float EAGLE_BURN = 3f;
-    private final float COLOR_FREQUENCY = .21f;
-    // higher frequency flashes more colors
+    private final float COLOR_FREQUENCY = .21f; // higher frequency flashes more colors
+    private float CAMERA_SPEED = 3f;
 
     private float colorCounter, eagleBurn, elapsedTime, timeToSub, exmilitaryByteRem,
             exmilitaryTrigRem, moneyStoreByteRem, moneyStoreTrigRem, nldwByteRem, nldwTrigRem,
             govPlatesByteRem, govPlateTrigRem, powersByteRem, powersTrigRem, bottomlessPitByteRem,
             bottomlessPitTrigRem;
 
-    private Color backgroundStageColor;
-
-    private OrthographicCamera levelCamera, eagleCamera, scoreCamera, rideCamera, backgroundCamera;
-    private EagleStage eagleStage;
-    private Stage backgroundStage, tileStage, rideStage, nldwBoxStage, variousTargetStage,
-            deadTargetStage, scoreStage, behindCastleStage;
-
-    private Texture crosshairTexture, pauseTexture;
-
-    private NLDWActor nldwActor;
-
     private boolean cameraUp, notmHit, jdHit, pausingFromPowerUp, needSub, cameraRotated,
-            cameraZoomed, timeSet, gameOver, feverTrigger, startBossTime, gameWon, feelingIt;
+            cameraZoomed, timeSet, gameOver, feverTrigger, startBossTime, gameWon, gameOverDrawFlag;
     //streakAffect
 
     private long actionBeginTime, startTime, bossStageTime;
+    private int powerUpInt;
 
-    private OrthogonalTiledMapRenderer renderer;
-
-    private TiledMapTileLayer secondTargetLayer, targetLayer, fallTargetLayer;
     private Array<GenericActor> genericActors, frontCastleLeftWalkActors, frontCastleRightWalkActors,
             frontCastleLeftClimbActors, frontCastleRightClimbActors, behindCastleActors;
     private Array<Rectangle> secondTargetTiles, targetTiles, fallTargetTiles, genericRects,
             castleTargetRects, castleLeftWalkRects, castleRightWalkRects, castleLeftClimbRects,
             castleRightClimbRects, behindCastleRects;
     private Array<CastleTargetActor> castleTargetActors;
-
-    private DateFormat formatter;
+    private Color backgroundStageColor;
     private Date bossDate;
-
-    private int powerUpInt;
+    private DateFormat formatter;
+    private EagleStage eagleStage;
+    private NLDWActor nldwActor;
+    private OrthographicCamera levelCamera, eagleCamera, scoreCamera, rideCamera, backgroundCamera;
+    private OrthogonalTiledMapRenderer renderer;
+    private Stage backgroundStage, tileStage, rideStage, nldwBoxStage, variousTargetStage,
+            deadTargetStage, scoreStage, behindCastleStage;
+    private Texture crosshairTexture, pauseTexture;
+    private TiledMapTileLayer secondTargetLayer, targetLayer, fallTargetLayer;
 
     MainLevel(final SpreadEagles gam) {
         this.game = gam;
@@ -133,7 +125,6 @@ class MainLevel implements Screen, InputProcessor {
         formatter = new SimpleDateFormat("mm:ss", Locale.US);
 
         eagleBurn = 0;
-        feelingIt = false;
 
         exmilitaryByteRem = 1.305f;
         exmilitaryTrigRem = 12.38302f;
@@ -148,7 +139,7 @@ class MainLevel implements Screen, InputProcessor {
         bottomlessPitByteRem = 6.082f;
         bottomlessPitTrigRem = 13.03810f;
 
-        bossStageTime = 180000;
+        bossStageTime = 5000;//180000;
         bossDate = new Date(bossStageTime);
 
         nldwActor = new NLDWActor(659, 6, 665, 5f, 10, true, false,
@@ -192,40 +183,13 @@ class MainLevel implements Screen, InputProcessor {
         backgroundStage = new Stage(new ScreenViewport());
         backgroundStage.getViewport().setCamera(backgroundCamera);
 
-//        backgroundStage.addActor(new StarActor(1, 9.75f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(2, 10.5f, 0.25f, 0.25f, 0));
         backgroundStage.addActor(new StarActor(3, 9.5f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(4, 10f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(5, 9f, 0.25f, 0.25f, 0));
-//
-//        backgroundStage.addActor(new StarActor(6, 9.25f, 0.25f, 0.25f, 0));
         backgroundStage.addActor(new StarActor(7.1f, 9.45f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(8, 10.5f, 0.25f, 0.25f, 0));
         backgroundStage.addActor(new StarActor(9, 10f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(10, 10.5f, 0.25f, 0.25f, 0));
-//
-//        backgroundStage.addActor(new StarActor(11, 10f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(12, 9.75f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(13, 9f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(14, 9.25f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(15, 10.5f, 0.25f, 0.25f, 0));
-//
-//        backgroundStage.addActor(new StarActor(16, 9.1f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(17, 10.35f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(18, 9.75f, 0.25f, 0.25f, 0));
         backgroundStage.addActor(new StarActor(19, 10f, 0.25f, 0.25f, 0));
-//
-//        backgroundStage.addActor(new StarActor(0, 9.25f, 0.25f, 0.25f, 0));
-        backgroundStage.addActor(new StarActor(0.5f, 10f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(1.5f, 10.5f, 0.25f, 0.25f, 0));
-//
-//        backgroundStage.addActor(new StarActor(2.5f, 10f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(3.35f, 8.75f, 0.25f, 0.25f, 0));
         backgroundStage.addActor(new StarActor(4.25f, 9.25f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(9.37f, 10f, 0.25f, 0.25f, 0));
         backgroundStage.addActor(new StarActor(16.4f, 10.25f, 0.25f, 0.25f, 0));
         backgroundStage.addActor(new StarActor(14.7f, 9.5f, 0.25f, 0.25f, 0));
-//        backgroundStage.addActor(new StarActor(12.67f, 8.75f, 0.25f, 0.25f, 0));
         backgroundStage.addActor(new StarActor(11.3f, 9.25f, 0.25f, 0.25f, 0));
 
         scoreCamera = new OrthographicCamera(1334, 750);
@@ -241,7 +205,7 @@ class MainLevel implements Screen, InputProcessor {
         // create the levelCamera to show 20x11 world units
         levelCamera = new OrthographicCamera(20, 11);
         // position the levelCamera to the world units
-        levelCamera.position.x = 266;
+        levelCamera.position.x = 260;
         levelCamera.position.y = 5.5f;
 
         tileStage = new Stage(new ScreenViewport());
@@ -272,16 +236,11 @@ class MainLevel implements Screen, InputProcessor {
                 new CastleFlagMiddleActor(219, 8), new CastleFlagMiddleActor(234, 8),
                 new CastleFlagBottomActor(219, 7), new CastleFlagBottomActor(234, 7),
                 new CastleTorchActor(224, 5), new CastleTorchActor(229, 5),
-//                new CastleWallShortTopActor(224, 9, false), new CastleWallShortTopActor(225, 9, true),
-//                new CastleWallShortTopActor(226, 9, false), new CastleWallShortTopActor(227, 9, false),
-//                new CastleWallShortTopActor(228, 9, true), new CastleWallShortTopActor(229, 9, false),
                 new CastleWallLeftActor(218, 8, 1), new CastleWallLeftActor(218, 7, 2),
                 new CastleWallLeftActor(218, 6, 3), new CastleWallLeftActor(218, 5, 1),
                 new CastleWallLeftActor(218, 4, 2), new CastleWallLeftActor(218, 3, 3),
                 new CastleWallRightActor(235, 8, 1), new CastleWallRightActor(235, 7, 2),
                 new CastleWallRightActor(235, 6, 3),
-//                new CastleWallRightActor(235, 5, 1),
-//                new CastleWallRightActor(235, 4, 2), new CastleWallRightActor(235, 3, 3),
                 new CastleWallTopActor(221, 7), new CastleWallTopActor(222, 7),
                 new CastleWallTopActor(223, 7), new CastleWallTopActor(230, 7),
                 new CastleWallTopActor(231, 7), new CastleWallTopActor(232, 7),
@@ -290,7 +249,6 @@ class MainLevel implements Screen, InputProcessor {
                 new CastleWallActor(226, 7), new CastleWallActor(227, 7),
                 new CastleWallActor(230, 4), new CastleWallActor(231, 3),
                 new CastleWallActor(232, 4));
-        // new CastleBalconyActor(217, 7, true), new CastleBalconyActor(236, 7, false)
 
         // boss aliens that cover the front of the castle
         frontCastleLeftWalkActors.addAll(
@@ -364,14 +322,6 @@ class MainLevel implements Screen, InputProcessor {
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-//                new HorizontalMovingActor(229, 3, 224, 3f, 5, true, true,
-//                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
-//                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
-//                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-//                new HorizontalMovingActor(224, 3, 229, 3f, 5, true, true,
-//                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
-//                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
-//                        new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
                 new HorizontalMovingActor(225, 3, 230, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
@@ -706,18 +656,11 @@ class MainLevel implements Screen, InputProcessor {
 
         backgroundStageColor = backgroundStage.getBatch().getColor();
 
-        game.song_full.play();
-
         backgroundStage.addActor(new CloudActor(new Texture(Gdx.files.internal("gfx/cloud5.png")),
                 1.9f, -20f, 7.6f, 7f));
-//        backgroundStage.addActor(new CloudActor("gfx/cloud4.png", 1.93f, -11.5f, 7.35f, 7f));
         backgroundStage.addActor(new MoonActor());
-//        backgroundStage.addActor(new CloudActor("gfx/cloud8.png", 1.96f, -6f, 7.65f, 6f));
 
-//        final Image image1 = new Image(new Texture(Gdx.files.internal("gfx/cloud5.png")));
-//        image1.setPosition(-20, 7.6f);
-//        image1.setSize(7, 3.5f);
-//        backgroundStage.addActor(image1);
+        game.song_full.play();
     }
 
     @Override
@@ -908,14 +851,29 @@ class MainLevel implements Screen, InputProcessor {
                                     gameWon = true;
                                 }
                             }
-
-                            if (gameWon) {
-                                System.out.println("YOU WIN!");
-                            } else {
-                                System.out.println("YOU LOSE!");
-                            }
                         }
                     }
+                }
+
+                if (gameOver && !gameOverDrawFlag) {
+                    gameOverDrawFlag = true;
+                    game.bitmilitary.stop();
+
+                    if (gameWon) {
+                        System.out.println("YOU WIN!");
+                        game.yeah.play();
+                    } else {
+                        System.out.println("YOU LOSE!");
+                        game.guillotineWhine.play();
+                    }
+
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            game.setScreen(new RecapScreen(game));
+                        }
+                    }, 1.7f);
+
                 }
 
 //                if (!streakAffect)
@@ -991,7 +949,7 @@ class MainLevel implements Screen, InputProcessor {
                 } else {
                     if (powerUpState == PowerUpState.OFF && !feverTrigger) {
                         game.song_full.play();
-                    } else if (startBossTime) {
+                    } else if (startBossTime && !gameOver) {
                         game.bitmilitary.play();
                     }
                 }
@@ -1100,7 +1058,6 @@ class MainLevel implements Screen, InputProcessor {
                                 if (alienRect.overlaps(eagleRect)) {
                                     int index = castleLeftWalkRects.indexOf(alienRect, false);
                                     GenericActor deadAA = frontCastleLeftWalkActors.get(index);
-                                    game.score += deadAA.points;
                                     TextureRegion textureRegion = new TextureRegion(frontCastleLeftWalkActors.get(index).deadTextureRegion);
                                     deadTargetStage.addActor(new FallingActor(alienRect.x, alienRect.y, textureRegion, true));
                                     if (castleLeftWalkRects.removeValue(alienRect, false)) {
@@ -1126,7 +1083,6 @@ class MainLevel implements Screen, InputProcessor {
                                 if (alienRect.overlaps(eagleRect)) {
                                     int index = castleRightWalkRects.indexOf(alienRect, false);
                                     GenericActor deadAA = frontCastleRightWalkActors.get(index);
-                                    game.score += deadAA.points;
                                     TextureRegion textureRegion = new TextureRegion(frontCastleRightWalkActors.get(index).deadTextureRegion);
                                     deadTargetStage.addActor(new FallingActor(alienRect.x, alienRect.y, textureRegion, true));
                                     if (castleRightWalkRects.removeValue(alienRect, false)) {
@@ -1152,7 +1108,6 @@ class MainLevel implements Screen, InputProcessor {
                                 if (alienRect.overlaps(eagleRect)) {
                                     int index = castleLeftClimbRects.indexOf(alienRect, false);
                                     GenericActor deadAA = frontCastleLeftClimbActors.get(index);
-                                    game.score += deadAA.points;
                                     TextureRegion textureRegion = new TextureRegion(frontCastleLeftClimbActors.get(index).deadTextureRegion);
                                     deadTargetStage.addActor(new FallingActor(alienRect.x, alienRect.y, textureRegion, true));
                                     if (castleLeftClimbRects.removeValue(alienRect, false)) {
@@ -1179,7 +1134,6 @@ class MainLevel implements Screen, InputProcessor {
                                 if (alienRect.overlaps(eagleRect)) {
                                     int index = castleRightClimbRects.indexOf(alienRect, false);
                                     GenericActor deadAA = frontCastleRightClimbActors.get(index);
-                                    game.score += deadAA.points;
                                     TextureRegion textureRegion = new TextureRegion(frontCastleRightClimbActors.get(index).deadTextureRegion);
                                     deadTargetStage.addActor(new FallingActor(alienRect.x, alienRect.y, textureRegion, true));
                                     if (castleRightClimbRects.removeValue(alienRect, false)) {
@@ -1206,7 +1160,6 @@ class MainLevel implements Screen, InputProcessor {
                                 if (alienRect.overlaps(eagleRect)) {
                                     int index = behindCastleRects.indexOf(alienRect, false);
                                     GenericActor deadAA = behindCastleActors.get(index);
-                                    game.score += deadAA.points;
                                     TextureRegion textureRegion = new TextureRegion(behindCastleActors.get(index).deadTextureRegion);
                                     deadTargetStage.addActor(new FallingActor(alienRect.x, alienRect.y, textureRegion, true));
                                     if (behindCastleRects.removeValue(alienRect, false)) {
@@ -1341,23 +1294,26 @@ class MainLevel implements Screen, InputProcessor {
                 game.batch.setProjectionMatrix(levelCamera.combined);
                 game.batch.begin();
 
-                // process user input
-                if (Gdx.input.justTouched() && eagleBurn >= 0.5f && !gameOver) {
-                    eagleBurn = 0;
-                    Vector3 crosshairVector = new Vector3();
-                    crosshairVector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-                    levelCamera.unproject(crosshairVector);
+                // if we haven't reached the boss or if we are in the boss stage
+                // do not fire eagles during the boss warning (already fired eagles stay in effect)
+                if ((!feverTrigger && !startBossTime) || (feverTrigger && startBossTime)) {
+                    if (Gdx.input.justTouched() && eagleBurn >= 0.5f && !gameOver) {
+                        eagleBurn = 0;
+                        Vector3 crosshairVector = new Vector3();
+                        crosshairVector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+                        levelCamera.unproject(crosshairVector);
 
-                    Vector3 eagleVector = new Vector3();
-                    eagleVector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-                    eagleCamera.unproject(eagleVector);
+                        Vector3 eagleVector = new Vector3();
+                        eagleVector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+                        eagleCamera.unproject(eagleVector);
 
-                    game.batch.draw(crosshairTexture, crosshairVector.x - 0.5f, crosshairVector.y - 0.5f, 1, 1);
+                        game.batch.draw(crosshairTexture, crosshairVector.x - 0.5f, crosshairVector.y - 0.5f, 1, 1);
 
-                    if (powerUpState == PowerUpState.TRIGGERED) {
-                        eagleStage.setNewPoweredEagle(eagleCamera.position.x - 0.5f, 0, eagleVector.x - 0.5f, eagleVector.y - 0.5f);
-                    } else {
-                        eagleStage.setNewEagle(eagleCamera.position.x - 0.5f, 0, eagleVector.x - 0.5f, eagleVector.y - 0.5f);
+                        if (powerUpState == PowerUpState.TRIGGERED) {
+                            eagleStage.setNewPoweredEagle(eagleCamera.position.x - 0.5f, 0, eagleVector.x - 0.5f, eagleVector.y - 0.5f);
+                        } else {
+                            eagleStage.setNewEagle(eagleCamera.position.x - 0.5f, 0, eagleVector.x - 0.5f, eagleVector.y - 0.5f);
+                        }
                     }
                 }
 
@@ -1437,7 +1393,6 @@ class MainLevel implements Screen, InputProcessor {
     }
 
     private void bounceCamera(float delta) {
-
 //        renderer.getBatch().setColor(0, 1, 0, 1);
 //        backgroundStage.getBatch().setColor(0, 1, 0, 1);
 //        renderer.getMap().getLayers().get(3).setOpacity(0.25f);
@@ -1504,14 +1459,6 @@ class MainLevel implements Screen, InputProcessor {
         startSoundByteWarning();
         powerUp = PowerUpState.PowerUp.EXMILITARY;
         game.imFeelingIt.play();
-//        if (feelingIt) {
-//            imFeelingIt.play();
-//            waitTime = 1.305f;
-//        } else {
-//            yeah.play();
-//            waitTime = 1.605f;
-//        }
-//        feelingIt = !feelingIt;
         ExmilitaryTaskStart(exmilitaryByteRem, exmilitaryTrigRem);
     }
 
