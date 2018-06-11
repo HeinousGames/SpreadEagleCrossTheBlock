@@ -14,11 +14,8 @@ import java.util.Random;
 public class StarActor extends Actor {
 
     private float xPos, yPos, width, height, rotation, count, max;
-
     private int frmCount;
-    private Random rand;
-
-    private TextureRegion texture = new TextureRegion(new Texture(Gdx.files.internal("gfx/star2.png")));
+    private TextureRegion texture;
 
     public StarActor(float x, float y, float width, float height, float rotation) {
         xPos = x;
@@ -27,7 +24,8 @@ public class StarActor extends Actor {
         this.height = height;
         this.rotation = rotation;
 
-        rand = new Random();
+        texture = new TextureRegion(new Texture(Gdx.files.internal("gfx/star2.png")));
+        Random rand = new Random();
         max = (rand.nextInt(15) + 10) * rand.nextFloat();
         count = 0;
         frmCount = 0;
