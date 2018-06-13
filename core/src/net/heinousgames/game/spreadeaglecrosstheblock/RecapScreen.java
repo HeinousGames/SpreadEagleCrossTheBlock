@@ -1,6 +1,5 @@
 package net.heinousgames.game.spreadeaglecrosstheblock;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
@@ -33,12 +32,6 @@ class RecapScreen implements Screen, InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1334, 750);
 
-//        Image feedbackButton = new Image(game.buttonTexture);
-//        feedbackButton.setName("feedback");
-//        feedbackButton.setPosition(80, 100);
-//        feedbackButton.setHeight(120);
-//        feedbackButton.setWidth(585);
-
         Image startOverButton = new Image(game.buttonTexture);
         startOverButton.setName("startOver");
         startOverButton.setPosition(780, 350.5f);
@@ -60,9 +53,6 @@ class RecapScreen implements Screen, InputProcessor {
 
         recapStage = new Stage(new ScreenViewport());
         recapStage.getViewport().setCamera(camera);
-
-//        if (Gdx.app.getType() == Application.ApplicationType.Android)
-//            recapStage.addActor(feedbackButton);
 
         recapStage.addActor(startOverButton);
         recapStage.addActor(quitButton);
@@ -93,7 +83,6 @@ class RecapScreen implements Screen, InputProcessor {
 
         game.batch.begin();
         game.fontExmilitary100.draw(game.batch, "Quit", 1030, 210);
-//        game.fontExmilitary100.draw(game.batch, "Leave Feedback", 90, 210);
         game.fontExmilitary100.draw(game.batch, "Play Again", 790, 465);
         game.fontExmilitary100.draw(game.batch, "Score: " + game.score, 100, 700);
         game.fontExmilitary100.draw(game.batch, "High Score: " + record, 100, 600);
@@ -148,10 +137,6 @@ class RecapScreen implements Screen, InputProcessor {
         Actor hitActor = recapStage.hit(coord.x, coord.y, false);
 
         if (hitActor != null) {
-//            if (hitActor.getName().equals("feedback")) {
-//                 must implement method in other project folders to work
-//                game.getFeedbackCallback().sendEmail();
-//            } else
             if (hitActor.getName().equals("startOver")) {
                 dispose();
                 game.setScreen(new MainLevel(game));
