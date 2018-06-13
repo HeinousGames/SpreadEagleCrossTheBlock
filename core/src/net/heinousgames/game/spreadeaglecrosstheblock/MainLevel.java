@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -139,7 +140,7 @@ class MainLevel implements Screen, InputProcessor {
         bottomlessPitByteRem = 6.082f;
         bottomlessPitTrigRem = 13.03810f;
 
-        bossStageTime = 5000;//180000;
+        bossStageTime = 2000;//180000;
         bossDate = new Date(bossStageTime);
 
         nldwActor = new NLDWActor(659, 6, 665, 5f, 10, true, false,
@@ -824,6 +825,7 @@ class MainLevel implements Screen, InputProcessor {
                             bossDate.setTime(bossStageTime - elapsedBossTime);
                             if (bossStageTime - elapsedBossTime <= 0) {
                                 gameOver = true;
+                                bossDate.setTime(0);
                             } else {
                                 if (castleTargetActors.size == 0) {
                                     gameOver = true;
@@ -870,6 +872,7 @@ class MainLevel implements Screen, InputProcessor {
                     Timer.schedule(new Timer.Task() {
                         @Override
                         public void run() {
+                            dispose();
                             game.setScreen(new RecapScreen(game));
                         }
                     }, 1.7f);
@@ -1334,12 +1337,19 @@ class MainLevel implements Screen, InputProcessor {
                     feverTrigger = true;
                     game.song_full.stop();
                     game.fever.play();
+                    game.fever.setOnCompletionListener(new Music.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(Music music) {
+                            music.setPosition(0);
+                            music.stop();
+                            game.bitmilitary.play();
+                        }
+                    });
                 }
 
                 if (!startBossTime && levelCamera.position.x <= 227) {
+                    levelCamera.position.x = 227;
                     CAMERA_SPEED = 0f;
-                    game.fever.stop();
-                    game.bitmilitary.play();
                     startBossTime = true;
                 }
 
