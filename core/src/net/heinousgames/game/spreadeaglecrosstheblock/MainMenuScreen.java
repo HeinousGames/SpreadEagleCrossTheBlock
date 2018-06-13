@@ -156,6 +156,7 @@ class MainMenuScreen implements Screen {
                 game.song_full.setLooping(true);
                 game.song_full.setVolume(0.25f);
                 game.fever.setVolume(0.25f);
+                game.bitmilitary.setLooping(true);
                 game.bitmilitary.setVolume(0.25f);
                 finishedLoading = true;
             }
