@@ -110,6 +110,7 @@ public class SpreadEagles extends Game {
         bitmilitary.dispose();
         yeah.dispose();
         guillotineWhine.dispose();
+        fever.dispose();
 
         // music bytes
         song_full.dispose();
