@@ -6,12 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import net.heinousgames.game.spreadeaglecrosstheblock.SpreadEagles;
-
 /**
  * Created by Steve on 12/6/2016
  */
-
 public class CastleTorchActor extends CastleTargetActor {
 
     public CastleTorchActor(float posX, float posY) {

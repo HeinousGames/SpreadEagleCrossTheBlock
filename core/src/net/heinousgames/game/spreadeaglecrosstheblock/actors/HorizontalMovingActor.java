@@ -11,13 +11,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class HorizontalMovingActor extends GenericActor {
 
-    private boolean movingLeft;
-    private boolean goingLeftAtStart;
+    private boolean goingLeftAtStart, movingLeft;
 
     public HorizontalMovingActor(TextureRegion[] textureRegions, float startX, float startY,
                                  float endX, boolean isLooping) {
         super(textureRegions, startX, startY);
-//        System.out.println("TEST HorizontalActor Constructor 1");
         this.endX = endX;
         this.isLooping = isLooping;
         if (startX < endX) {
@@ -32,7 +30,6 @@ public class HorizontalMovingActor extends GenericActor {
     public HorizontalMovingActor(TextureRegion textureRegion, float startX, float startY,
                                  float endX, boolean isLooping) {
         super(textureRegion, startX, startY);
-//        System.out.println("TEST HorizontalActor Constructor 2");
         this.endX = endX;
         this.isLooping = isLooping;
         if (startX < endX) {
@@ -44,17 +41,6 @@ public class HorizontalMovingActor extends GenericActor {
         }
     }
 
-//    public HorizontalMovingActor(float startX, float startY, float speed, boolean isLooping, boolean shouldFlip) {
-//        super(startX, startY, speed, isLooping, shouldFlip);
-//        if (startX < endX) {
-//            movingLeft = false;
-//            goingLeftAtStart = false;
-//        } else {
-//            movingLeft = true;
-//            goingLeftAtStart = true;
-//        }
-//    }
-
     HorizontalMovingActor(float startX, float startY, float speed, int points, boolean isLooping, boolean shouldFlip) {
         super(startX, startY, speed, points, isLooping, shouldFlip);
     }
@@ -63,7 +49,6 @@ public class HorizontalMovingActor extends GenericActor {
                                  boolean isLooping, boolean shouldFlip, Texture animFrame1,
                                  Texture animFrame2, Texture deadFrame) {
         super(startX, startY, speed, points, isLooping, shouldFlip);
-//        System.out.println("TEST HorizontalActor Constructor 3");
         this.endX = endX;
         if (startX < endX) {
             movingLeft = false;

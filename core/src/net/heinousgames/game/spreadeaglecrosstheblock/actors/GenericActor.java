@@ -12,15 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 public class GenericActor extends Actor {
 
+    private float stateTime;
+    public float startX, startY, endX, speed;
+    public int points;
     public Rectangle rectangle;
+    public TextureRegion deadTextureRegion;
+    boolean isAnimated, isLooping, shouldFlip;
     Animation<TextureRegion> animation;
     TextureRegion textureRegion;
-    public TextureRegion deadTextureRegion;
     TextureRegion[] textureRegions;
-    public float startX, startY, endX, speed;
-    private float stateTime;
-    boolean isAnimated, isLooping, shouldFlip;
-    public int points;
 
     GenericActor(TextureRegion[] textureRegions, float startX, float startY) {
         this(startX, startY);

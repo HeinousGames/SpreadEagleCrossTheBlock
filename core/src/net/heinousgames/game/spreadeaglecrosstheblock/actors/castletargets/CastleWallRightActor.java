@@ -27,7 +27,7 @@ public class CastleWallRightActor extends CastleTargetActor {
             destroyedRegion = new TextureRegion(new Texture(Gdx.files.internal("gfx/tiles/medieval/medievalTile_022_right2.png")));
         }
 
-        hitAnimation = new Animation(0.075f, regularRegion, hitRegion);
+        hitAnimation = new Animation<TextureRegion>(0.075f, regularRegion, hitRegion);
         rectangle.width = regularRegion.getRegionWidth() / 70f;
         rectangle.height = regularRegion.getRegionHeight() / 70f;
 
