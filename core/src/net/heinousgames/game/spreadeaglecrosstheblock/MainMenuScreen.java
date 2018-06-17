@@ -39,9 +39,9 @@ class MainMenuScreen implements Screen {
         camera.position.x = 667;
         camera.position.y = 375;
 
-        game.parameter.color = Color.WHITE;
-        game.parameter.size = 100;
-        game.fontExmilitary100 = game.generator.generateFont(game.parameter);
+//        game.parameter.color = Color.WHITE;
+//        game.parameter.size = 100;
+//        game.fontExmilitary100 = game.generator.generateFont(game.parameter);
 
         stageMenu = new Stage(new ScreenViewport());
         stageMenu.getViewport().setCamera(camera);
@@ -51,7 +51,8 @@ class MainMenuScreen implements Screen {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(); //** Button properties **//
         style.up = buttonSkin.getDrawable("button_04");
         style.down = buttonSkin.getDrawable("button_02");
-        style.font = game.fontUI;
+        style.font = game.font;
+//        style.font = game.fontUI;
 
 //        t.font = mySkin.getFont("default");
 //        t.fontColor = new Color(0, 0, 0, 1f);
@@ -61,7 +62,6 @@ class MainMenuScreen implements Screen {
 //        mySkin.add("default", t);
 
         Button btnStart = new TextButton("START", style); //** Button text and style **//
-        Button btnHighScore = new TextButton("High Scores", style);
         Button btnQuit = new TextButton("Fuck You!!!", style);
         btnStart.setPosition(550, 350); //** Button location **//
         btnStart.setSize(200, 100);
@@ -69,20 +69,8 @@ class MainMenuScreen implements Screen {
         btnStart.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if (finishedLoading) {
-                    dispose();
-                    game.setScreen(new MainLevel(game));
-                }
-            }
-        });
-
-        btnHighScore.setPosition(550, 200);
-        btnHighScore.setSize(200, 100);
-        btnHighScore.setSkin(buttonSkin);
-        btnHighScore.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-
+//                dispose();
+                game.setScreen(new MainLevel(game));
             }
         });
 
@@ -92,18 +80,34 @@ class MainMenuScreen implements Screen {
         btnQuit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
+                //todo
             }
         });
 
         stageMenu.addActor(btnStart);
-        stageMenu.addActor(btnHighScore);
-        stageMenu.addActor(btnQuit);
 
         game.shapeRenderer.setProjectionMatrix(camera.combined);
         game.batch.setProjectionMatrix(camera.combined);
 
         Gdx.input.setInputProcessor(stageMenu);
+
+        game.assetManager.load("sfx/sad_cum.ogg", Music.class);
+        game.assetManager.load("sfx/hot_head.ogg", Music.class);
+        game.assetManager.load("sfx/im_feeling_it.ogg", Music.class);
+        game.assetManager.load("sfx/blood_creepin.ogg", Music.class);
+        game.assetManager.load("sfx/sys_blower_ring.ogg", Music.class);
+        game.assetManager.load("sfx/get_got.ogg", Music.class);
+        game.assetManager.load("sfx/used_to_give.ogg", Music.class);
+        game.assetManager.load("sfx/lock_your_doors.ogg", Music.class);
+        game.assetManager.load("sfx/fuck_whos_watching.ogg", Music.class);
+        game.assetManager.load("sfx/whose_watching_casino.ogg", Music.class);
+        game.assetManager.load("sfx/powers_that_b.ogg", Music.class);
+        game.assetManager.load("sfx/trash.ogg", Music.class);
+        game.assetManager.load("sfx/song_instrumental.ogg", Music.class);
+        game.assetManager.load("sfx/fever_fave_part.ogg", Music.class);
+        game.assetManager.load("sfx/theme_bitmilitary.ogg", Music.class);
+        game.assetManager.load("sfx/yeah.ogg", Sound.class);
+        game.assetManager.load("sfx/guillotine_whine.ogg", Sound.class);
     }
 
     @Override
@@ -115,60 +119,42 @@ class MainMenuScreen implements Screen {
         game.shapeRenderer.rect(0, 0, 1334, 750, game.VULTURE_BLUE, game.VULTURE_BLUE, Color.BLACK, Color.BLACK);
         game.shapeRenderer.end();
 
-        game.batch.begin();
-        game.fontExmilitary100.draw(game.batch, "Spread Eagle Cross the Block!", 100, 650);
+//        game.batch.begin();
+//        game.fontExmilitary100.draw(game.batch, "Spread Eagle Cross the Block!", 100, 650);
 
-        if (!finishedLoading) {
-            if (game.assetManager.isLoaded("sfx/sad_cum.ogg") &&
-                    game.assetManager.isLoaded("sfx/hot_head.ogg") &&
-                    game.assetManager.isLoaded("sfx/im_feeling_it.ogg") &&
-                    game.assetManager.isLoaded("sfx/blood_creepin.ogg") &&
-                    game.assetManager.isLoaded("sfx/sys_blower_ring.ogg") &&
-                    game.assetManager.isLoaded("sfx/get_got.ogg") &&
-                    game.assetManager.isLoaded("sfx/used_to_give.ogg") &&
-                    game.assetManager.isLoaded("sfx/lock_your_doors.ogg") &&
-                    game.assetManager.isLoaded("sfx/fuck_whos_watching.ogg") &&
-                    game.assetManager.isLoaded("sfx/whose_watching_casino.ogg") &&
-                    game.assetManager.isLoaded("sfx/powers_that_b.ogg") &&
-                    game.assetManager.isLoaded("sfx/trash.ogg") &&
-                    game.assetManager.isLoaded("sfx/song_instrumental.ogg") &&
-                    game.assetManager.isLoaded("sfx/fever_fave_part.ogg") &&
-                    game.assetManager.isLoaded("sfx/theme_bitmilitary.ogg") &&
-                    game.assetManager.isLoaded("sfx/yeah.ogg") &&
-                    game.assetManager.isLoaded("sfx/guillotine_whine.ogg")) {
-                game.sadCum = game.assetManager.get("sfx/sad_cum.ogg", Music.class);
-                game.hotHead = game.assetManager.get("sfx/hot_head.ogg", Music.class);
-                game.imFeelingIt = game.assetManager.get("sfx/im_feeling_it.ogg", Music.class);
-                game.bloodCreepin = game.assetManager.get("sfx/blood_creepin.ogg", Music.class);
-                game.sysBlowerRing = game.assetManager.get("sfx/sys_blower_ring.ogg", Music.class);
-                game.getGot = game.assetManager.get("sfx/get_got.ogg", Music.class);
-                game.usedToGive = game.assetManager.get("sfx/used_to_give.ogg", Music.class);
-                game.lockYourDoors = game.assetManager.get("sfx/lock_your_doors.ogg", Music.class);
-                game.fuckWhosWatching = game.assetManager.get("sfx/fuck_whos_watching.ogg", Music.class);
-                game.casino = game.assetManager.get("sfx/whose_watching_casino.ogg", Music.class);
-                game.powersThatB = game.assetManager.get("sfx/powers_that_b.ogg", Music.class);
-                game.trash = game.assetManager.get("sfx/trash.ogg", Music.class);
-                game.song_full = game.assetManager.get("sfx/song_instrumental.ogg", Music.class);
-                game.fever = game.assetManager.get("sfx/fever_fave_part.ogg", Music.class);
-                game.bitmilitary = game.assetManager.get("sfx/theme_bitmilitary.ogg", Music.class);
-                game.yeah = game.assetManager.get("sfx/yeah.ogg", Sound.class);
-                game.guillotineWhine = game.assetManager.get("sfx/guillotine_whine.ogg", Sound.class);
-                game.song_full.setLooping(true);
-                game.song_full.setVolume(0.25f);
-                game.fever.setVolume(0.25f);
-                game.bitmilitary.setLooping(true);
-                game.bitmilitary.setVolume(0.25f);
-                finishedLoading = true;
-            }
-        }
+//        if (!finishedLoading) {
+//            game.fontExmilitary100.draw(game.batch, "Loading...", 475, 350);
+//        }
 
-        if (!finishedLoading) {
-            game.fontExmilitary100.draw(game.batch, "Loading...", 475, 350);
-        }
-
-        game.batch.end();
+//        game.batch.end();
 
 //        Gdx.gl.glViewport(Gdx.graphics.getWidth()/2, 0, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
+
+        if (game.assetManager.update()) {
+            game.sadCum = game.assetManager.get("sfx/sad_cum.ogg", Music.class);
+            game.hotHead = game.assetManager.get("sfx/hot_head.ogg", Music.class);
+            game.imFeelingIt = game.assetManager.get("sfx/im_feeling_it.ogg", Music.class);
+            game.bloodCreepin = game.assetManager.get("sfx/blood_creepin.ogg", Music.class);
+            game.sysBlowerRing = game.assetManager.get("sfx/sys_blower_ring.ogg", Music.class);
+            game.getGot = game.assetManager.get("sfx/get_got.ogg", Music.class);
+            game.usedToGive = game.assetManager.get("sfx/used_to_give.ogg", Music.class);
+            game.lockYourDoors = game.assetManager.get("sfx/lock_your_doors.ogg", Music.class);
+            game.fuckWhosWatching = game.assetManager.get("sfx/fuck_whos_watching.ogg", Music.class);
+            game.casino = game.assetManager.get("sfx/whose_watching_casino.ogg", Music.class);
+            game.powersThatB = game.assetManager.get("sfx/powers_that_b.ogg", Music.class);
+            game.trash = game.assetManager.get("sfx/trash.ogg", Music.class);
+            game.song_full = game.assetManager.get("sfx/song_instrumental.ogg", Music.class);
+            game.fever = game.assetManager.get("sfx/fever_fave_part.ogg", Music.class);
+            game.bitmilitary = game.assetManager.get("sfx/theme_bitmilitary.ogg", Music.class);
+            game.yeah = game.assetManager.get("sfx/yeah.ogg", Sound.class);
+            game.guillotineWhine = game.assetManager.get("sfx/guillotine_whine.ogg", Sound.class);
+            game.song_full.setLooping(true);
+            game.song_full.setVolume(0.25f);
+            game.fever.setVolume(0.25f);
+            game.bitmilitary.setLooping(true);
+            game.bitmilitary.setVolume(0.25f);
+            finishedLoading = true;
+        }
 
         if (finishedLoading) {
             stageMenu.draw();
