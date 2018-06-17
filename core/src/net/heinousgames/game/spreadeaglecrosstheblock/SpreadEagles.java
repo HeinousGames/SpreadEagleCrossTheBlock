@@ -9,24 +9,31 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+//import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import java.util.Date;
 
 public class SpreadEagles extends Game {
 
-    interface SendFeedback {
-        void sendEmail();
+    public interface HTMLDateFormat {
+        String convertDate(Date date);
     }
 
     // Local variable to hold the callback implementation
-    private SendFeedback feedbackCallback;
-    private BitmapFont font;
+    private HTMLDateFormat dateFormatCallback;
+
+    HTMLDateFormat getFeedbackCallback() {
+        return dateFormatCallback;
+    }
+
+    BitmapFont font;
     int score;
     AssetManager assetManager;
-    BitmapFont fontExmilitary100, font100Gold, fontUI;
+//    BitmapFont fontExmilitary100, font100Gold, fontUI;
     Color VULTURE_BLUE;
-    FreeTypeFontGenerator generator;
-    FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+//    FreeTypeFontGenerator generator;
+//    FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     Music imFeelingIt, bloodCreepin, getGot, sysBlowerRing, usedToGive, lockYourDoors, casino,
             fuckWhosWatching, powersThatB, trash, hotHead, sadCum, song_full, fever, bitmilitary;
     ShapeRenderer shapeRenderer;
@@ -34,47 +41,25 @@ public class SpreadEagles extends Game {
     SpriteBatch batch;
     Texture buttonTexture;
 
-    // Setter for the callback
-    void setFeedbackCallback(SendFeedback callback) {
-        feedbackCallback = callback;
-    }
-
-    SendFeedback getFeedbackCallback() {
-        return feedbackCallback;
+    public SpreadEagles(HTMLDateFormat dateFormatCallback) {
+        this.dateFormatCallback = dateFormatCallback;
     }
 
     public void create() {
         assetManager = new AssetManager();
-        assetManager.load("sfx/sad_cum.ogg", Music.class);
-        assetManager.load("sfx/hot_head.ogg", Music.class);
-        assetManager.load("sfx/im_feeling_it.ogg", Music.class);
-        assetManager.load("sfx/blood_creepin.ogg", Music.class);
-        assetManager.load("sfx/sys_blower_ring.ogg", Music.class);
-        assetManager.load("sfx/get_got.ogg", Music.class);
-        assetManager.load("sfx/used_to_give.ogg", Music.class);
-        assetManager.load("sfx/lock_your_doors.ogg", Music.class);
-        assetManager.load("sfx/fuck_whos_watching.ogg", Music.class);
-        assetManager.load("sfx/whose_watching_casino.ogg", Music.class);
-        assetManager.load("sfx/powers_that_b.ogg", Music.class);
-        assetManager.load("sfx/trash.ogg", Music.class);
-        assetManager.load("sfx/song_instrumental.ogg", Music.class);
-        assetManager.load("sfx/fever_fave_part.ogg", Music.class);
-        assetManager.load("sfx/theme_bitmilitary.ogg", Music.class);
-        assetManager.load("sfx/yeah.ogg", Sound.class);
-        assetManager.load("sfx/guillotine_whine.ogg", Sound.class);
-        assetManager.finishLoading();
+//        assetManager.finishLoading();
 
         buttonTexture = new Texture(Gdx.files.internal("gfx/ui_button4.png"));
         batch = new SpriteBatch();
-        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OldLondon.ttf"));
-        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.color = Color.BLACK;
-        parameter.size = 40;
-        fontUI = generator.generateFont(parameter);
-        parameter.size = 100;
-        fontExmilitary100 = generator.generateFont(parameter);
-        parameter.color = Color.GOLD;
-        font100Gold = generator.generateFont(parameter);
+//        generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/OldLondon.ttf"));
+//        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+//        parameter.color = Color.BLACK;
+//        parameter.size = 40;
+//        fontUI = generator.generateFont(parameter);
+//        parameter.size = 100;
+//        fontExmilitary100 = generator.generateFont(parameter);
+//        parameter.color = Color.GOLD;
+//        font100Gold = generator.generateFont(parameter);
         font = new BitmapFont();
         VULTURE_BLUE = new Color(0 / 255.0f, 8 / 255.0f, 64 / 255.0f, 1);
         shapeRenderer = new ShapeRenderer();
@@ -88,10 +73,10 @@ public class SpreadEagles extends Game {
 
     public void dispose() {
         batch.dispose();
-        fontExmilitary100.dispose();
+//        fontExmilitary100.dispose();
         font.dispose();
         shapeRenderer.dispose();
-        generator.dispose();
+//        generator.dispose();
         buttonTexture.dispose();
 
         // audio bytes

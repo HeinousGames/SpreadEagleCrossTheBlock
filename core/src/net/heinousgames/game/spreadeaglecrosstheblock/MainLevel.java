@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -53,10 +54,7 @@ import net.heinousgames.game.spreadeaglecrosstheblock.actors.UsedToActor;
 import net.heinousgames.game.spreadeaglecrosstheblock.actors.VerticalMovingActor;
 import net.heinousgames.game.spreadeaglecrosstheblock.stages.EagleStage;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Steve on 1/17/2016
@@ -104,7 +102,6 @@ class MainLevel implements Screen, InputProcessor {
     private Array<CastleTargetActor> castleTargetActors;
     private Color backgroundStageColor;
     private Date bossDate;
-    private DateFormat formatter;
     private EagleStage eagleStage;
     private NLDWActor nldwActor;
     private OrthographicCamera levelCamera, eagleCamera, scoreCamera, rideCamera, backgroundCamera;
@@ -117,13 +114,11 @@ class MainLevel implements Screen, InputProcessor {
     MainLevel(final SpreadEagles gam) {
         this.game = gam;
 
-        game.parameter.color = Color.BLACK;
-        game.fontExmilitary100 = game.generator.generateFont(game.parameter);
+//        game.parameter.color = Color.BLACK;
+//        game.fontExmilitary100 = game.generator.generateFont(game.parameter);
 
         game.score = 0;
         powerUpInt = 0;
-
-        formatter = new SimpleDateFormat("mm:ss", Locale.US);
 
         eagleBurn = 0;
 
@@ -140,7 +135,7 @@ class MainLevel implements Screen, InputProcessor {
         bottomlessPitByteRem = 6.082f;
         bottomlessPitTrigRem = 13.03810f;
 
-        bossStageTime = 2000;//180000;
+        bossStageTime = 180000;
         bossDate = new Date(bossStageTime);
 
         nldwActor = new NLDWActor(659, 6, 665, 5f, 10, true, false,
@@ -657,8 +652,8 @@ class MainLevel implements Screen, InputProcessor {
 
         backgroundStageColor = backgroundStage.getBatch().getColor();
 
-        backgroundStage.addActor(new CloudActor(new Texture(Gdx.files.internal("gfx/cloud5.png")),
-                1.9f, -20f, 7.6f, 7f));
+        backgroundStage.addActor(new CloudActor(
+                new Texture(Gdx.files.internal("gfx/cloud5.png")), -20f, 7.6f, 7f));
         backgroundStage.addActor(new MoonActor());
 
         game.song_full.play();
@@ -797,7 +792,7 @@ class MainLevel implements Screen, InputProcessor {
 
             case RUNNING:
 
-                elapsedTime = (System.nanoTime() - actionBeginTime) / 1000000000.0f;
+                elapsedTime = (TimeUtils.nanoTime() - actionBeginTime) / 1000000000.0f;
                 eagleBurn += (EAGLE_BURN * delta);
 
                 if (feverTrigger) {
@@ -816,10 +811,10 @@ class MainLevel implements Screen, InputProcessor {
                     if (startBossTime) {
                         if (!timeSet) {
                             timeSet = true;
-                            startTime = System.currentTimeMillis();
+                            startTime = TimeUtils.millis();
                         }
 
-                        long elapsedBossTime = System.currentTimeMillis() - startTime;
+                        long elapsedBossTime = TimeUtils.millis() - startTime;
 
                         if (!gameOver) {
                             bossDate.setTime(bossStageTime - elapsedBossTime);
@@ -889,61 +884,61 @@ class MainLevel implements Screen, InputProcessor {
                 if (pausingFromPowerUp) {
                     if (powerUp == PowerUpState.PowerUp.EXMILITARY) {
                         if (powerUpState == PowerUpState.SOUND_BYTE) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.imFeelingIt.play();
                             ExmilitaryTaskStart(timeToSub, exmilitaryTrigRem);
                         } else if (powerUpState == PowerUpState.TRIGGERED) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.bloodCreepin.play();
                             ExmilitaryTaskEnd(timeToSub);
                         }
                     } else if (powerUp == PowerUpState.PowerUp.MONEY_STORE) {
                         if (powerUpState == PowerUpState.SOUND_BYTE) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.sysBlowerRing.play();
                             MoneyStoreTaskStart(timeToSub, moneyStoreTrigRem);
                         } else if (powerUpState == PowerUpState.TRIGGERED) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.getGot.play();
                             MoneyStoreTaskEnd(timeToSub);
                         }
                     } else if (powerUp == PowerUpState.PowerUp.NLDW) {
                         if (powerUpState == PowerUpState.SOUND_BYTE) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.usedToGive.play();
                             NLDWTaskStart(timeToSub, nldwTrigRem);
                         } else if (powerUpState == PowerUpState.TRIGGERED) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.lockYourDoors.play();
                             NLDWTaskEnd(timeToSub);
                         }
                     } else if (powerUp == PowerUpState.PowerUp.GOV_PLATES) {
                         if (powerUpState == PowerUpState.SOUND_BYTE) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.fuckWhosWatching.play();
                             GovernmentPlatesTaskStart(timeToSub, govPlateTrigRem);
                         } else if (powerUpState == PowerUpState.TRIGGERED) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.casino.play();
                             GovernmentPlatesTaskEnd(timeToSub);
                         }
                     } else if (powerUp == PowerUpState.PowerUp.POWERS_THAT_B) {
                         if (powerUpState == PowerUpState.SOUND_BYTE) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.powersThatB.play();
                             PowersTaskStart(timeToSub, powersTrigRem);
                         } else if (powerUpState == PowerUpState.TRIGGERED) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.sadCum.play();
                             PowersTaskEnd(timeToSub);
                         }
                     } else if (powerUp == PowerUpState.PowerUp.BOTTOMLESS_PIT) {
                         if (powerUpState == PowerUpState.SOUND_BYTE) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.trash.play();
                             BottomlessPitTaskStart(timeToSub, bottomlessPitTrigRem);
                         } else if (powerUpState == PowerUpState.TRIGGERED) {
-                            actionBeginTime = System.nanoTime();
+                            actionBeginTime = TimeUtils.nanoTime();
                             game.hotHead.play();
                             BottomlessPitTaskEnd(timeToSub);
                         }
@@ -1325,10 +1320,10 @@ class MainLevel implements Screen, InputProcessor {
                 // score stage stuff
                 game.batch.setProjectionMatrix(scoreCamera.combined);
                 game.batch.begin();
-                game.fontExmilitary100.draw(game.batch, String.valueOf(game.score), 625, 125);
+//                game.fontExmilitary100.draw(game.batch, String.valueOf(game.score), 625, 125);
 
                 if (feverTrigger) {
-                    game.font100Gold.draw(game.batch, formatter.format(bossDate), 584, 750);
+                    game.font.draw(game.batch, game.getFeedbackCallback().convertDate(bossDate), 584, 750);
                 }
                 game.batch.end();
                 scoreStage.draw();
@@ -1421,14 +1416,14 @@ class MainLevel implements Screen, InputProcessor {
     }
 
     private void startSoundByteWarning() {
-        actionBeginTime = System.nanoTime();
+        actionBeginTime = TimeUtils.nanoTime();
         CAMERA_SPEED = 0;
         powerUpState = PowerUpState.SOUND_BYTE;
         game.song_full.stop();
     }
 
     private void startPowerUpConsts() {
-        actionBeginTime = System.nanoTime();
+        actionBeginTime = TimeUtils.nanoTime();
         powerUpState = PowerUpState.TRIGGERED;
         CAMERA_SPEED = 6f;
     }
