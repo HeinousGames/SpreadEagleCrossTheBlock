@@ -39,9 +39,9 @@ class MainMenuScreen implements Screen {
         camera.position.x = 667;
         camera.position.y = 375;
 
-//        game.parameter.color = Color.WHITE;
-//        game.parameter.size = 100;
-//        game.fontExmilitary100 = game.generator.generateFont(game.parameter);
+        game.parameter.color = Color.WHITE;
+        game.parameter.size = 100;
+        game.fontExmilitary100 = game.generator.generateFont(game.parameter);
 
         stageMenu = new Stage(new ScreenViewport());
         stageMenu.getViewport().setCamera(camera);
@@ -51,8 +51,8 @@ class MainMenuScreen implements Screen {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(); //** Button properties **//
         style.up = buttonSkin.getDrawable("button_04");
         style.down = buttonSkin.getDrawable("button_02");
-        style.font = game.font;
-//        style.font = game.fontUI;
+//        style.font = game.font;
+        style.font = game.fontUI;
 
 //        t.font = mySkin.getFont("default");
 //        t.fontColor = new Color(0, 0, 0, 1f);
@@ -119,14 +119,14 @@ class MainMenuScreen implements Screen {
         game.shapeRenderer.rect(0, 0, 1334, 750, game.VULTURE_BLUE, game.VULTURE_BLUE, Color.BLACK, Color.BLACK);
         game.shapeRenderer.end();
 
-//        game.batch.begin();
-//        game.fontExmilitary100.draw(game.batch, "Spread Eagle Cross the Block!", 100, 650);
+        game.batch.begin();
+        game.fontExmilitary100.draw(game.batch, "Spread Eagle Cross the Block!", 100, 650);
 
 //        if (!finishedLoading) {
 //            game.fontExmilitary100.draw(game.batch, "Loading...", 475, 350);
 //        }
 
-//        game.batch.end();
+        game.batch.end();
 
 //        Gdx.gl.glViewport(Gdx.graphics.getWidth()/2, 0, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
 

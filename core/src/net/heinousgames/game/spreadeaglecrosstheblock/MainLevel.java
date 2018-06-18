@@ -114,8 +114,8 @@ class MainLevel implements Screen, InputProcessor {
     MainLevel(final SpreadEagles gam) {
         this.game = gam;
 
-//        game.parameter.color = Color.BLACK;
-//        game.fontExmilitary100 = game.generator.generateFont(game.parameter);
+        game.parameter.color = Color.BLACK;
+        game.fontExmilitary100 = game.generator.generateFont(game.parameter);
 
         game.score = 0;
         powerUpInt = 0;
@@ -835,25 +835,26 @@ class MainLevel implements Screen, InputProcessor {
                                     }
                                 }
                             }
-                        } else {
-                            if (castleTargetActors.size == 0) {
-                                gameWon = true;
-                            } else if (castleTargetActors.size == 1) {
-                                if (castleTargetActors.get(0) instanceof CastleTorchActor) {
-                                    gameWon = true;
-                                }
-                            } else if (castleTargetActors.size == 2) {
-                                if (castleTargetActors.get(0) instanceof CastleTorchActor &&
-                                        castleTargetActors.get(1) instanceof CastleTorchActor) {
-                                    gameWon = true;
-                                }
-                            }
                         }
                     }
                 }
 
                 if (gameOver && !gameOverDrawFlag) {
                     gameOverDrawFlag = true;
+
+                    if (castleTargetActors.size == 0) {
+                        gameWon = true;
+                    } else if (castleTargetActors.size == 1) {
+                        if (castleTargetActors.get(0) instanceof CastleTorchActor) {
+                            gameWon = true;
+                        }
+                    } else if (castleTargetActors.size == 2) {
+                        if (castleTargetActors.get(0) instanceof CastleTorchActor &&
+                                castleTargetActors.get(1) instanceof CastleTorchActor) {
+                            gameWon = true;
+                        }
+                    }
+
                     game.bitmilitary.stop();
 
                     if (gameWon) {
@@ -871,7 +872,6 @@ class MainLevel implements Screen, InputProcessor {
                             game.setScreen(new RecapScreen(game));
                         }
                     }, 1.7f);
-
                 }
 
 //                if (!streakAffect)
@@ -1276,7 +1276,7 @@ class MainLevel implements Screen, InputProcessor {
                                     targetCell.setTile(null);
                                     if ((int) levelRect.x == 806 && (int) levelRect.y == 9) {
                                         MoneyStorePowerUp();
-                                    } else if (((int) levelRect.x == 329 && (int) levelRect.y == 7)) {
+                                    } else if ((int) levelRect.x == 329 && (int) levelRect.y == 7) {
                                         BottomlessPitPowerUp();
                                     }
                                     secondTargetTiles.removeValue(levelRect, false);
@@ -1305,12 +1305,15 @@ class MainLevel implements Screen, InputProcessor {
                         eagleVector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
                         eagleCamera.unproject(eagleVector);
 
-                        game.batch.draw(crosshairTexture, crosshairVector.x - 0.5f, crosshairVector.y - 0.5f, 1, 1);
+                        game.batch.draw(crosshairTexture, crosshairVector.x - 0.5f,
+                                crosshairVector.y - 0.5f, 1, 1);
 
                         if (powerUpState == PowerUpState.TRIGGERED) {
-                            eagleStage.setNewPoweredEagle(eagleCamera.position.x - 0.5f, 0, eagleVector.x - 0.5f, eagleVector.y - 0.5f);
+                            eagleStage.setNewPoweredEagle(eagleCamera.position.x - 0.5f, 0,
+                                    eagleVector.x - 0.5f, eagleVector.y - 0.5f);
                         } else {
-                            eagleStage.setNewEagle(eagleCamera.position.x - 0.5f, 0, eagleVector.x - 0.5f, eagleVector.y - 0.5f);
+                            eagleStage.setNewEagle(eagleCamera.position.x - 0.5f, 0,
+                                    eagleVector.x - 0.5f, eagleVector.y - 0.5f);
                         }
                     }
                 }
@@ -1320,10 +1323,10 @@ class MainLevel implements Screen, InputProcessor {
                 // score stage stuff
                 game.batch.setProjectionMatrix(scoreCamera.combined);
                 game.batch.begin();
-//                game.fontExmilitary100.draw(game.batch, String.valueOf(game.score), 625, 125);
+                game.fontExmilitary100.draw(game.batch, String.valueOf(game.score), 625, 125);
 
                 if (feverTrigger) {
-                    game.font.draw(game.batch, game.getFeedbackCallback().convertDate(bossDate), 584, 750);
+                    game.font100Gold.draw(game.batch, game.getFeedbackCallback().convertDate(bossDate), 584, 750);
                 }
                 game.batch.end();
                 scoreStage.draw();
