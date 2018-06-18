@@ -44,9 +44,9 @@ class RecapScreen implements Screen, InputProcessor {
         quitButton.setHeight(120);
         quitButton.setWidth(180);
 
-//        game.parameter.color = Color.WHITE;
-//        game.parameter.size = 100;
-//        game.fontExmilitary100 = game.generator.generateFont(game.parameter);
+        game.parameter.color = Color.WHITE;
+        game.parameter.size = 100;
+        game.fontExmilitary100 = game.generator.generateFont(game.parameter);
 
         game.shapeRenderer.setProjectionMatrix(camera.combined);
         game.batch.setProjectionMatrix(camera.combined);
@@ -82,10 +82,10 @@ class RecapScreen implements Screen, InputProcessor {
         recapStage.draw();
 
         game.batch.begin();
-//        game.fontExmilitary100.draw(game.batch, "Quit", 1030, 210);
-//        game.fontExmilitary100.draw(game.batch, "Play Again", 790, 465);
-//        game.fontExmilitary100.draw(game.batch, "Score: " + game.score, 100, 700);
-//        game.fontExmilitary100.draw(game.batch, "High Score: " + record, 100, 600);
+        game.fontExmilitary100.draw(game.batch, "Quit", 1030, 210);
+        game.fontExmilitary100.draw(game.batch, "Play Again", 790, 465);
+        game.fontExmilitary100.draw(game.batch, "Score: " + game.score, 100, 700);
+        game.fontExmilitary100.draw(game.batch, "High Score: " + record, 100, 600);
         game.batch.end();
 
         camera.update();

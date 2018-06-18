@@ -14,17 +14,16 @@ import com.badlogic.gdx.utils.Timer;
  */
 public class CastleTargetActor extends Actor {
 
-    int hits;
     private int rotation;
-    boolean isHit;
-    public boolean isDestroyed;
-    private boolean showCrosshair;
+    private boolean isHit, showCrosshair;
     private Texture one, two, three, four;
-    TextureRegion regularRegion, hitRegion, destroyedRegion;
     private TextureRegion crossHairRegion;
-    float stateTime;
-    Animation<TextureRegion> hitAnimation;
+    public boolean isDestroyed;
     public Rectangle rectangle;
+    float stateTime;
+    int hits;
+    Animation<TextureRegion> hitAnimation;
+    TextureRegion regularRegion, hitRegion, destroyedRegion;
 
     CastleTargetActor(float posX, float posY) {
         rectangle = new Rectangle();
@@ -70,13 +69,13 @@ public class CastleTargetActor extends Actor {
                     rotation--;
                 } else {
                     if (hits == 4) {
-                        batch.draw(four, rectangle.x + 0.5f, rectangle.y + 0.5f, 0.4f, 0.4f);
+                        batch.draw(four, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
                     } else if (hits == 3) {
-                        batch.draw(three, rectangle.x + 0.5f, rectangle.y + 0.5f, 0.4f, 0.4f);
+                        batch.draw(three, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
                     } else if (hits == 2) {
-                        batch.draw(two, rectangle.x + 0.5f, rectangle.y + 0.5f, 0.4f, 0.4f);
+                        batch.draw(two, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
                     } else if (hits == 1) {
-                        batch.draw(one, rectangle.x + 0.5f, rectangle.y + 0.5f, 0.4f, 0.4f);
+                        batch.draw(one, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
                     }
                 }
             } else {
