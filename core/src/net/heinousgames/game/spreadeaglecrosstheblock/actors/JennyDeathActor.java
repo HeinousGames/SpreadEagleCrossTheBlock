@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /**
  * Created by Steve on 10/2/2016
  */
-
 public class JennyDeathActor extends HorizontalMovingActor {
 
     public JennyDeathActor(float startX, float startY, float endX, float speed, int points,

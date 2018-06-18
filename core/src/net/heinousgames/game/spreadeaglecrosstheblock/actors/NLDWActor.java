@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 /**
  * Created by Steve on 11/19/2016
  */
-
 public class NLDWActor extends HorizontalMovingActor {
 
     public NLDWActor(float startX, float startY, float endX, float speed, int points, boolean isLooping,

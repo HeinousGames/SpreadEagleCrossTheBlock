@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Timer;
 /**
  * Created by Steve on 12/5/2016
  */
-
 public class CastleTargetActor extends Actor {
 
     int hits;

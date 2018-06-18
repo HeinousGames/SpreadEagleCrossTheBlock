@@ -11,6 +11,6 @@ public class DesktopLauncher {
         config.title = "Spread Eagle Cross the Block";
 		config.width = 1334;
 		config.height = 750;
-		new LwjglApplication(new SpreadEagles(), config);
+		new LwjglApplication(new SpreadEagles(new DesktopDateFormatter()), config);
 	}
 }

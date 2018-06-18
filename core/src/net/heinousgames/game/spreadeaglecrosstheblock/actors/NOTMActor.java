@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /**
  * Created by Steve on 9/29/2016
  */
-
 public class NOTMActor extends VerticalMovingActor {
 
     public NOTMActor(float startX, float startY, float endY, float speed, int points,

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 
 /**
  * Created by Steve on 2/3/2016
@@ -80,10 +79,8 @@ public class EagleActor extends Actor {
     private boolean needsToMoveX() {
         if (wasGoingLeft()) {
             return !(getX() <= destinationX);
-        } else if (wasGoingRight()) {
-            return !(getX() >= destinationX);
         } else {
-            return false;
+            return wasGoingRight() && !(getX() >= destinationX);
         }
     }
 
