@@ -1,37 +1,34 @@
 package net.heinousgames.game.spreadeaglecrosstheblock.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 /**
  * Created by Steve on 3/3/2016
  */
-public class CloudActor extends Image {
+public class CloudActor extends Actor {
 
-    public CloudActor(Texture texture, float xPos, float yPos, float width) {
-        super(texture);
+    private Texture texture;
+    public float speed;
+
+    public CloudActor(Texture texture, float speed, float xPos, float yPos, float width) {
+        this.speed = speed;
+        this.texture = texture;
         setPosition(xPos, yPos);
         setSize(width, 3.5f);
+    }
 
-        MoveToAction action = new MoveToAction();
-        action.setDuration(5);
-        action.setPosition(20, yPos);
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        batch.draw(texture, getX(), getY(), getWidth(), 3.5f);
 
-        RepeatAction infiniteLoop = new RepeatAction();
-        infiniteLoop.setCount(RepeatAction.FOREVER);
-        infiniteLoop.setAction(action);
+        // 0.05 places behind building
+        setX(getX() + (speed * Gdx.graphics.getDeltaTime()));
 
-        addAction(Actions.sequence(action, new Action() {
-            public boolean act (float delta) {
-                // This runs when someAction is done.
-                setX(-20);
-                return true;
-            }
-        }, infiniteLoop));
+        if (getX() >= 20) {
+            setX(-6);
+        }
     }
 }
