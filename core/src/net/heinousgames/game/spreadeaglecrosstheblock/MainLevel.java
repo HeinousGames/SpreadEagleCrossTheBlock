@@ -78,8 +78,6 @@ class MainLevel implements Screen, InputProcessor {
 
     private SpreadEagles game;
 
-    private final float EAGLE_BURN = 3f;
-    private final float COLOR_FREQUENCY = .21f; // higher frequency flashes more colors
     private float CAMERA_SPEED = 3f;
 
     private float colorCounter, eagleBurn, elapsedTime, timeToSub, exmilitaryByteRem,
@@ -89,7 +87,6 @@ class MainLevel implements Screen, InputProcessor {
 
     private boolean cameraUp, notmHit, jdHit, pausingFromPowerUp, needSub, cameraRotated,
             cameraZoomed, timeSet, gameOver, feverTrigger, startBossTime, gameWon, gameOverDrawFlag;
-    //streakAffect
 
     private long actionBeginTime, startTime, bossStageTime;
     private int powerUpInt;
@@ -103,6 +100,7 @@ class MainLevel implements Screen, InputProcessor {
     private Color backgroundStageColor;
     private Date bossDate;
     private EagleStage eagleStage;
+    private CloudActor cloudActor;
     private NLDWActor nldwActor;
     private OrthographicCamera levelCamera, eagleCamera, scoreCamera, rideCamera, backgroundCamera;
     private OrthogonalTiledMapRenderer renderer;
@@ -138,7 +136,7 @@ class MainLevel implements Screen, InputProcessor {
         bossStageTime = 180000;
         bossDate = new Date(bossStageTime);
 
-        nldwActor = new NLDWActor(659, 6, 665, 5f, 10, true, false,
+        nldwActor = new NLDWActor(442, 6, 448, 5f, 10, true, false,
                 new Texture(Gdx.files.internal("gfx/nldw.png")),
                 new Texture(Gdx.files.internal("gfx/nldw.png")),
                 new Texture(Gdx.files.internal("gfx/nldw.png")));
@@ -163,7 +161,6 @@ class MainLevel implements Screen, InputProcessor {
         Array<GenericActor> nldwBoxActors = new Array<GenericActor>();
 
         colorCounter = 0;
-//        streakAffect = false;
         cameraUp = true;
 
         crosshairTexture = new Texture(Gdx.files.internal("gfx/crosshair.png"));
@@ -201,7 +198,7 @@ class MainLevel implements Screen, InputProcessor {
         // create the levelCamera to show 20x11 world units
         levelCamera = new OrthographicCamera(20, 11);
         // position the levelCamera to the world units
-        levelCamera.position.x = 260;
+        levelCamera.position.x = 802;
         levelCamera.position.y = 5.5f;
 
         tileStage = new Stage(new ScreenViewport());
@@ -219,132 +216,132 @@ class MainLevel implements Screen, InputProcessor {
 
         // boss aliens behind the castle wall (top of the towers)
         behindCastleActors.addAll(
-                new HorizontalMovingActor(221, 7.7f, 223, 4f, 5, true, true,
+                new HorizontalMovingActor(4, 7.7f, 6, 4f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(232, 7.7f, 230, 4f, 5, true, true,
+                new HorizontalMovingActor(15, 7.7f, 13, 4f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))));
 
-        castleTargetActors.addAll(new CastleFlagTopActor(219, 9), new CastleFlagTopActor(234, 9),
-                new CastleFlagMiddleActor(219, 8), new CastleFlagMiddleActor(234, 8),
-                new CastleFlagBottomActor(219, 7), new CastleFlagBottomActor(234, 7),
-                new CastleTorchActor(224, 5), new CastleTorchActor(229, 5),
-                new CastleWallLeftActor(218, 8, 1), new CastleWallLeftActor(218, 7, 2),
-                new CastleWallLeftActor(218, 6, 3), new CastleWallLeftActor(218, 5, 1),
-                new CastleWallLeftActor(218, 4, 2), new CastleWallLeftActor(218, 3, 3),
-                new CastleWallRightActor(235, 8, 1), new CastleWallRightActor(235, 7, 2),
-                new CastleWallRightActor(235, 6, 3),
-                new CastleWallTopActor(221, 7), new CastleWallTopActor(222, 7),
-                new CastleWallTopActor(223, 7), new CastleWallTopActor(230, 7),
-                new CastleWallTopActor(231, 7), new CastleWallTopActor(232, 7),
-                new CastleWallActor(219, 3), new CastleWallActor(221, 4),
-                new CastleWallActor(222, 3), new CastleWallActor(223, 4),
-                new CastleWallActor(226, 7), new CastleWallActor(227, 7),
-                new CastleWallActor(230, 4), new CastleWallActor(231, 3),
-                new CastleWallActor(232, 4));
+        castleTargetActors.addAll(new CastleFlagTopActor(2, 9), new CastleFlagTopActor(17, 9),
+                new CastleFlagMiddleActor(2, 8), new CastleFlagMiddleActor(17, 8),
+                new CastleFlagBottomActor(2, 7), new CastleFlagBottomActor(17, 7),
+                new CastleTorchActor(7, 5), new CastleTorchActor(12, 5),
+                new CastleWallLeftActor(1, 8, 1), new CastleWallLeftActor(1, 7, 2),
+                new CastleWallLeftActor(1, 6, 3), new CastleWallLeftActor(1, 5, 1),
+                new CastleWallLeftActor(1, 4, 2), new CastleWallLeftActor(1, 3, 3),
+                new CastleWallRightActor(18, 8, 1), new CastleWallRightActor(18, 7, 2),
+                new CastleWallRightActor(18, 6, 3),
+                new CastleWallTopActor(4, 7), new CastleWallTopActor(5, 7),
+                new CastleWallTopActor(6, 7), new CastleWallTopActor(13, 7),
+                new CastleWallTopActor(14, 7), new CastleWallTopActor(15, 7),
+                new CastleWallActor(2, 3), new CastleWallActor(4, 4),
+                new CastleWallActor(5, 3), new CastleWallActor(6, 4),
+                new CastleWallActor(9, 7), new CastleWallActor(10, 7),
+                new CastleWallActor(13, 4), new CastleWallActor(14, 3),
+                new CastleWallActor(15, 4));
 
         // boss aliens that cover the front of the castle
         frontCastleLeftWalkActors.addAll(
-                new HorizontalMovingActor(226, 3, 217, 3f, 5, true, true,
+                new HorizontalMovingActor(9, 3, 0, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(217, 3, 226, 3f, 5, true, true,
+                new HorizontalMovingActor(0, 3, 9, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(225, 3, 216, 3f, 5, true, true,
+                new HorizontalMovingActor(8, 3, -1, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(227, 3, 218, 3f, 5, true, true,
+                new HorizontalMovingActor(10, 3, 1, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(224, 3, 220, 3f, 5, true, true,
+                new HorizontalMovingActor(7, 3, 3, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(227, 3, 220, 3f, 5, true, true,
+                new HorizontalMovingActor(10, 3, 3, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(220, 3, 224, 3f, 5, true, true,
+                new HorizontalMovingActor(3, 3, 7, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(217, 3, 221, 3f, 5, true, true,
+                new HorizontalMovingActor(0, 3, 4, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(221, 3, 217, 3f, 5, true, true,
+                new HorizontalMovingActor(4, 3, 0, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))));
 
         frontCastleRightWalkActors.addAll(
-                new HorizontalMovingActor(229, 3, 233, 3f, 5, true, true,
+                new HorizontalMovingActor(12, 3, 16, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(233, 3, 229, 3f, 5, true, true,
+                new HorizontalMovingActor(16, 3, 12, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(236, 3, 232, 3f, 5, true, true,
+                new HorizontalMovingActor(19, 3, 15, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(232, 3, 236, 3f, 5, true, true,
+                new HorizontalMovingActor(15, 3, 19, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(235, 3, 231, 3f, 5, true, true,
+                new HorizontalMovingActor(18, 3, 14, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(231, 3, 235, 3f, 5, true, true,
+                new HorizontalMovingActor(14, 3, 18, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(227, 3, 236, 3f, 5, true, true,
+                new HorizontalMovingActor(10, 3, 19, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(236, 3, 227, 3f, 5, true, true,
+                new HorizontalMovingActor(19, 3, 10, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(225, 3, 230, 3f, 5, true, true,
+                new HorizontalMovingActor(8, 3, 13, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(230, 3, 225, 3f, 5, true, true,
+                new HorizontalMovingActor(13, 3, 8, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(231, 3, 225, 3f, 5, true, true,
+                new HorizontalMovingActor(14, 3, 8, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))));
 
-        frontCastleLeftClimbActors.addAll(new VerticalMovingActor(218, 3, 8, 3, 5, true, false,
+        frontCastleLeftClimbActors.addAll(new VerticalMovingActor(1, 3, 8, 3, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png"))),
-                new VerticalMovingActor(218, 8, 3, 3, 5, true, false,
+                new VerticalMovingActor(1, 8, 3, 3, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png"))));
 
-        frontCastleRightClimbActors.addAll(new VerticalMovingActor(235, 3, 8, 3, 5, true, false,
+        frontCastleRightClimbActors.addAll(new VerticalMovingActor(18, 3, 8, 3, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png"))),
-                new VerticalMovingActor(235, 8, 3, 3, 5, true, false,
+                new VerticalMovingActor(18, 8, 3, 3, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png"))));
@@ -352,186 +349,186 @@ class MainLevel implements Screen, InputProcessor {
         // nldw blockades
         nldwBoxActors.addAll(
                 new BoxItemActor(new TextureRegion(
-                        new Texture(Gdx.files.internal("gfx/tiles/base/boxItemAlt.png"))), 659, 6),
+                        new Texture(Gdx.files.internal("gfx/tiles/base/boxItemAlt.png"))), 442, 6),
                 new BoxItemActor(new TextureRegion(
-                        new Texture(Gdx.files.internal("gfx/tiles/base/boxItemAlt.png"))), 661, 6),
+                        new Texture(Gdx.files.internal("gfx/tiles/base/boxItemAlt.png"))), 444, 6),
                 new BoxItemActor(new TextureRegion(
-                        new Texture(Gdx.files.internal("gfx/tiles/base/boxItemAlt.png"))), 663, 6),
+                        new Texture(Gdx.files.internal("gfx/tiles/base/boxItemAlt.png"))), 446, 6),
                 new BoxItemActor(new TextureRegion(
-                        new Texture(Gdx.files.internal("gfx/tiles/base/boxItemAlt.png"))), 665, 6));
+                        new Texture(Gdx.files.internal("gfx/tiles/base/boxItemAlt.png"))), 448, 6));
 
         genericActors.addAll(
-                new HorizontalMovingActor(983, 6, 985, 3f, 3, true, true,
+                new HorizontalMovingActor(766, 6, 768, 3f, 3, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/bee.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/bee_fly.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/bee_dead.png"))),
-                new HorizontalMovingActor(947, 8, 950, 3f, 5, true, true,
+                new HorizontalMovingActor(730, 8, 733, 3f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new VerticalMovingActor(906, 9, 1, 5f, 3, true, true,
+                new VerticalMovingActor(689, 9, 1, 5f, 3, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha_down.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha_down.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha_dead.png"))),
-                new VerticalMovingActor(908, 1, 9, 5f, 3, true, true,
+                new VerticalMovingActor(691, 1, 9, 5f, 3, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha_dead.png"))),
-                new VerticalMovingActor(911, 1, 9, 5f, 3, true, true,
+                new VerticalMovingActor(694, 1, 9, 5f, 3, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha_dead.png"))),
-                new VerticalMovingActor(913, 9, 1, 5f, 3, true, true,
+                new VerticalMovingActor(696, 9, 1, 5f, 3, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha_down.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha_down.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/piranha_dead.png"))),
-                new VerticalMovingActor(774, 3, 8, 3, 5, true, false,
+                new VerticalMovingActor(557, 3, 8, 3, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png"))),
-                new HorizontalMovingActor(749, 4, 755, 6f, 5, true, true,
+                new HorizontalMovingActor(532, 4, 538, 6f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(757, 6, 761, 5f, 5, true, true,
+                new HorizontalMovingActor(240, 6, 544, 5f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_jump.png"))),
-                new HorizontalMovingActor(744, 7, 749, 4f, 5, true, true,
+                new HorizontalMovingActor(527, 7, 532, 4f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_jump.png"))),
-                new HorizontalMovingActor(742, 9, 752, 4f, 5, true, true,
+                new HorizontalMovingActor(525, 9, 535, 4f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_jump.png"))),
-                new HorizontalMovingActor(762, 9, 752, 4f, 5, true, true,
+                new HorizontalMovingActor(545, 9, 535, 4f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_jump.png"))),
-                new HorizontalMovingActor(715, 6.32f, 721, 4f, 5, true, true,
+                new HorizontalMovingActor(498, 6.32f, 504, 4f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_jump.png"))),
-                new VerticalMovingActor(705, 7.2f, 7.5f, 3, 5, true, false,
+                new VerticalMovingActor(488, 7.2f, 7.5f, 3, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_climb1.png"))),
-                new HorizontalMovingActor(665, 3, 659, 5f, 5, true, true,
+                new HorizontalMovingActor(448, 3, 442, 5f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_swim1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_swim2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_jump.png"))),
-                new HorizontalMovingActor(601, 6, 607, 4.5f, 5, true, true,
+                new HorizontalMovingActor(384, 6, 390, 4.5f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_jump.png"))),
-                new HorizontalMovingActor(599, 3.32f, 602, 3, 5, true, true,
+                new HorizontalMovingActor(382, 3.32f, 385, 3, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(596, 8.75f, 596, 0, 5, true, false,
+                new HorizontalMovingActor(379, 8.75f, 379, 0, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_hurt.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_hurt.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_jump.png"))),
-                new HorizontalMovingActor(572, 9, 576, 4.5f, 5, true, true,
+                new HorizontalMovingActor(355, 9, 359, 4.5f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_jump.png"))),
-                new HorizontalMovingActor(535, 8, 541, 4.5f, 5, true, true,
+                new HorizontalMovingActor(318, 8, 324, 4.5f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_jump.png"))),
-                new VerticalMovingActor(535, 3, 7, 3, 5, true, false,
+                new VerticalMovingActor(318, 3, 7, 3, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_climb1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_climb2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_climb1.png"))),
-                new VerticalMovingActor(541, 7, 3, 3, 5, true, false,
+                new VerticalMovingActor(324, 7, 3, 3, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png"))),
-                new HorizontalMovingActor(524, 3, 532, 4.5f, 5, true, true,
+                new HorizontalMovingActor(307, 3, 315, 4.5f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(501, 6.32f, 512, 4f, 5, true, true,
+                new HorizontalMovingActor(284, 6.32f, 295, 4f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(500, 3, 513, 5, 5, true, true,
+                new HorizontalMovingActor(285, 3, 296, 5, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_swim1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_swim2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_jump.png"))),
-                new HorizontalMovingActor(513, 3, 500, 5f, 5, true, true,
+                new HorizontalMovingActor(296, 3, 283, 5f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_swim1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_swim2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_jump.png"))),
-                new HorizontalMovingActor(510, 3, 507, 2.2f, 5, true, true,
+                new HorizontalMovingActor(293, 3, 290, 2.2f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_swim1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_swim2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_jump.png"))),
-                new HorizontalMovingActor(503, 3, 505, 2f, 5, true, true,
+                new HorizontalMovingActor(286, 3, 288, 2f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_swim1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_swim2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_jump.png"))),
-                new HorizontalMovingActor(482, 6.75f, 482, 0, 5, true, false,
+                new HorizontalMovingActor(265, 6.75f, 265, 0, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_hurt.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_hurt.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(460, 5, 469, 4f, 3, true, true,
+                new HorizontalMovingActor(243, 5, 252, 4f, 3, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/bee.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/bee_fly.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/bee_dead.png"))),
-                new HorizontalMovingActor(460, 3, 469, 4f, 3, true, true,
+                new HorizontalMovingActor(243, 3, 252, 4f, 3, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_jump.png"))),
-                new NOTMActor(452.5f, 3, 10, 3, 10, true, false),
-                new JennyDeathActor(445, 10, 450, 3f, 10, true, false),
-                new HorizontalMovingActor(434, 6, 438, 4f, 3, true, true,
+                new NOTMActor(235.5f, 3, 10, 3, 10, true, false),
+                new JennyDeathActor(228, 10, 233, 3f, 10, true, false),
+                new HorizontalMovingActor(217, 6, 221, 4f, 3, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/bee.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/bee_fly.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/enemies/bee_dead.png"))),
-                new HorizontalMovingActor(402, 8, 407, 4f, 3, true, true,
+                new HorizontalMovingActor(185, 8, 190, 4f, 3, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_jump.png"))),
-                new HorizontalMovingActor(388, 7, 396, 4f, 3, true, true,
+                new HorizontalMovingActor(171, 7, 179, 4f, 3, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_jump.png"))),
-                new HorizontalMovingActor(382, 8.75f, 382, 0, 5, true, false,
+                new HorizontalMovingActor(165, 8.75f, 165, 0, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_hurt_correct.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_hurt_correct.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_jump.png"))),
-                new HorizontalMovingActor(356, 6.32f, 362, 4, 5, true, true,
+                new HorizontalMovingActor(139, 6.32f, 145, 4, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_jump.png"))),
-                new VerticalMovingActor(340, 3, 8, 3, 5, true, false,
+                new VerticalMovingActor(123, 3, 8, 3, 5, true, false,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_climb1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_climb2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBeige_climb1.png"))),
-                new HorizontalMovingActor(334, 6, 339, 4, 5, true, true,
+                new HorizontalMovingActor(117, 6, 122, 4, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png"))),
-                new HorizontalMovingActor(342, 5, 347, 6, 5, true, true,
+                new HorizontalMovingActor(125, 5, 130, 6, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienPink_jump.png"))),
-                new HorizontalMovingActor(338, 9, 343, 7, 5, true, true,
+                new HorizontalMovingActor(121, 9, 126, 7, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_jump.png"))),
-                new HorizontalMovingActor(306, 7, 310, 6.5f, 5, true, true,
+                new HorizontalMovingActor(89, 7, 93, 6.5f, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_jump.png"))),
-                new HorizontalMovingActor(303, 9, 299, 6, 5, true, true,
+                new HorizontalMovingActor(86, 9, 82, 6, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienBlue_jump.png"))),
-                new HorizontalMovingActor(293, 6, 296, 8, 5, true, true,
+                new HorizontalMovingActor(76, 6, 79, 8, 5, true, true,
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                         new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png")))
@@ -591,7 +588,7 @@ class MainLevel implements Screen, InputProcessor {
         eagleStage = new EagleStage(new ScreenViewport());
         eagleStage.getViewport().setCamera(eagleCamera);
 
-        TiledMap map = new TmxMapLoader().load("maptest.tmx");
+        TiledMap map = new TmxMapLoader().load("map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1/70f);
 
         Pool<Rectangle> rectPool = new Pool<Rectangle>() {
@@ -650,11 +647,12 @@ class MainLevel implements Screen, InputProcessor {
             }
         }
 
-        backgroundStageColor = backgroundStage.getBatch().getColor();
-
-        backgroundStage.addActor(new CloudActor(
-                new Texture(Gdx.files.internal("gfx/cloud5.png")), -20f, 7.6f, 7f));
+        cloudActor = new CloudActor(
+                new Texture(Gdx.files.internal("gfx/cloud5.png")), 1.9f, -20f, 7.6f, 7f);
+        backgroundStage.addActor(cloudActor);
         backgroundStage.addActor(new MoonActor());
+
+        backgroundStageColor = backgroundStage.getBatch().getColor();
 
         game.song_full.play();
     }
@@ -792,8 +790,10 @@ class MainLevel implements Screen, InputProcessor {
 
             case RUNNING:
 
+                float eagleBurn = 3f;
+
                 elapsedTime = (TimeUtils.nanoTime() - actionBeginTime) / 1000000000.0f;
-                eagleBurn += (EAGLE_BURN * delta);
+                this.eagleBurn += (eagleBurn * delta);
 
                 if (feverTrigger) {
                     for (CastleTargetActor cta : castleTargetActors) {
@@ -874,7 +874,6 @@ class MainLevel implements Screen, InputProcessor {
                     }, 1.7f);
                 }
 
-//                if (!streakAffect)
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                 game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
                 game.shapeRenderer.rect(-10, -5.5f, 20, 11, game.VULTURE_BLUE, game.VULTURE_BLUE,
@@ -971,31 +970,6 @@ class MainLevel implements Screen, InputProcessor {
                         zoomCamera(delta);
                     }
                 }
-//                else {
-//                    if (!streakAffect) {
-//                        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//                        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//                        shapeRenderer.rect(-10, -5.5f, 20, 11, VULTURE_BLUE, VULTURE_BLUE, Color.BLACK, Color.BLACK);
-//                        shapeRenderer.end();
-//                    }
-//                }
-
-//            Gdx.gl.glClearColor(0.06667f, 0.2235f, 0.302f, 1);
-//            TODO Gdx.gl.glClearColor(0 / 255.0f, 8 / 255.0f, 64 / 255.0f, 1);
-
-//            red = (float) (Math.sin(1f * colorCounter) * 127 + 128) / 255f;
-//            green = (float) (Math.sin(1f * colorCounter) * 127 + 128) / 255f;
-//            blue = (float) (Math.sin(0.96f * colorCounter + 2f) * 127 + 128) / 255f;
-//
-////            blue = (float) (Math.sin(colorCounter) * 127 + 128) / 255f;
-//
-//            Gdx.gl.glClearColor(0, 0, blue, 1);
-//
-//            if (colorCounter <= 30 - 0.02f) {
-//                colorCounter+=0.02f;
-//            } else {
-//                colorCounter = 0;
-//            }
 
                 levelCamera.position.x -= (CAMERA_SPEED * delta);
                 // tell the levelCamera to update its matrices.
@@ -1039,9 +1013,9 @@ class MainLevel implements Screen, InputProcessor {
 
                         if ((eagleRect.y >= 7.7f && eagleRect.y <= 8.7f)
                                 || (eagleRect.y >= 5.5 && eagleRect.y <= 6.5 && (
-                                (eagleRect.x >= 659.5 && eagleRect.x <= 660.5) ||
-                                        (eagleRect.x >= 661.5 && eagleRect.x <= 662.5) ||
-                                        (eagleRect.x >= 663.5 && eagleRect.x <= 664.5)))) {
+                                (eagleRect.x >= 442.5 && eagleRect.x <= 443.5) ||
+                                        (eagleRect.x >= 444.5 && eagleRect.x <= 445.5) ||
+                                        (eagleRect.x >= 446.5 && eagleRect.x <= 447.5)))) {
                             if (nldwActor.rectangle.overlaps(eagleRect)) {
                                 if (variousTargetStage.getActors().removeValue(nldwActor, false)) {
                                     hit = true;
@@ -1062,7 +1036,7 @@ class MainLevel implements Screen, InputProcessor {
                                         variousTargetStage.getActors().removeValue(deadAA, false);
                                         frontCastleLeftWalkActors.removeValue(deadAA, false);
                                         if (frontCastleLeftWalkActors.size <= 3) {
-                                            GenericActor aa = new HorizontalMovingActor(226, 3, 219, 6, 5, true, true,
+                                            GenericActor aa = new HorizontalMovingActor(9, 3, 2, 6, 5, true, true,
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png")));
@@ -1087,7 +1061,7 @@ class MainLevel implements Screen, InputProcessor {
                                         variousTargetStage.getActors().removeValue(deadAA, false);
                                         frontCastleRightWalkActors.removeValue(deadAA, false);
                                         if (frontCastleRightWalkActors.size <= 3) {
-                                            GenericActor aa = new HorizontalMovingActor(227, 3, 233, 6, 5, true, true,
+                                            GenericActor aa = new HorizontalMovingActor(10, 3, 16, 6, 5, true, true,
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk1.png")),
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_walk2.png")),
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienGreen_jump.png")));
@@ -1112,8 +1086,8 @@ class MainLevel implements Screen, InputProcessor {
                                         variousTargetStage.getActors().removeValue(deadAA, false);
                                         frontCastleLeftClimbActors.removeValue(deadAA, false);
                                         if (frontCastleLeftClimbActors.size <= 1) {
-                                            GenericActor aa = new VerticalMovingActor(deadAA.startX, 3, 8,
-                                                    deadAA.speed, 5, true, false,
+                                            GenericActor aa = new VerticalMovingActor(deadAA.startX,
+                                                    3, 8, deadAA.speed, 5, true, false,
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")),
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb2.png")),
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")));
@@ -1138,8 +1112,8 @@ class MainLevel implements Screen, InputProcessor {
                                         variousTargetStage.getActors().removeValue(deadAA, false);
                                         frontCastleRightClimbActors.removeValue(deadAA, false);
                                         if (frontCastleRightClimbActors.size <= 1) {
-                                            GenericActor aa = new VerticalMovingActor(deadAA.startX, 3, 8,
-                                                    deadAA.speed, 5, true, false,
+                                            GenericActor aa = new VerticalMovingActor(deadAA.startX,
+                                                    3, 8, deadAA.speed, 5, true, false,
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")),
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb2.png")),
                                                     new Texture(Gdx.files.internal("gfx/tiles/aliens/alienYellow_climb1.png")));
@@ -1246,17 +1220,9 @@ class MainLevel implements Screen, InputProcessor {
                                     int points = Integer.parseInt(strPoints);
                                     game.score += points;
                                     targetCell.setTile(null);
-                                    if ((int)levelRect.x == 953 && (int)levelRect.y == 3) {
+                                    if ((int)levelRect.x == 736 && (int)levelRect.y == 3) {
                                         ExmilitaryPowerUp();
-                                        //TODO: mushroom affect timer method thing
-//                                streakAffect = true;
-//                                Timer.schedule(new Timer.Task() {
-//                                    @Override
-//                                    public void run() {
-//                                        streakAffect = false;
-//                                    }
-//                                }, 10);
-                                    } else if ((int)levelRect.x == 538 && (int)levelRect.y == 8) {
+                                    } else if ((int)levelRect.x == 321 && (int)levelRect.y == 8) {
                                         GovernmentPlatesPowerUp();
                                     }
                                     targetTiles.removeValue(levelRect, false);
@@ -1274,9 +1240,9 @@ class MainLevel implements Screen, InputProcessor {
                                     int points = Integer.parseInt(strPoints);
                                     game.score += points;
                                     targetCell.setTile(null);
-                                    if ((int) levelRect.x == 806 && (int) levelRect.y == 9) {
+                                    if ((int) levelRect.x == 589 && (int) levelRect.y == 9) {
                                         MoneyStorePowerUp();
-                                    } else if ((int) levelRect.x == 329 && (int) levelRect.y == 7) {
+                                    } else if ((int) levelRect.x == 112 && (int) levelRect.y == 7) {
                                         BottomlessPitPowerUp();
                                     }
                                     secondTargetTiles.removeValue(levelRect, false);
@@ -1295,8 +1261,8 @@ class MainLevel implements Screen, InputProcessor {
                 // if we haven't reached the boss or if we are in the boss stage
                 // do not fire eagles during the boss warning (already fired eagles stay in effect)
                 if ((!feverTrigger && !startBossTime) || (feverTrigger && startBossTime)) {
-                    if (Gdx.input.justTouched() && eagleBurn >= 0.5f && !gameOver) {
-                        eagleBurn = 0;
+                    if (Gdx.input.justTouched() && this.eagleBurn >= 0.5f && !gameOver) {
+                        this.eagleBurn = 0;
                         Vector3 crosshairVector = new Vector3();
                         crosshairVector.set(Gdx.input.getX(), Gdx.input.getY(), 0);
                         levelCamera.unproject(crosshairVector);
@@ -1326,14 +1292,15 @@ class MainLevel implements Screen, InputProcessor {
                 game.fontExmilitary100.draw(game.batch, String.valueOf(game.score), 625, 125);
 
                 if (feverTrigger) {
-                    game.font100Gold.draw(game.batch, game.getFeedbackCallback().convertDate(bossDate), 584, 750);
+                    game.font100Gold.draw(game.batch,
+                            game.getFeedbackCallback().convertDate(bossDate), 584, 750);
                 }
                 game.batch.end();
                 scoreStage.draw();
 
-                if (!feverTrigger && levelCamera.position.x <= 245) {
+                if (!feverTrigger && levelCamera.position.x <= 28) {
                     feverTrigger = true;
-                    game.song_full.stop();
+                    game.song_full.pause();
                     game.fever.play();
                     game.fever.setOnCompletionListener(new Music.OnCompletionListener() {
                         @Override
@@ -1345,8 +1312,8 @@ class MainLevel implements Screen, InputProcessor {
                     });
                 }
 
-                if (!startBossTime && levelCamera.position.x <= 227) {
-                    levelCamera.position.x = 227;
+                if (!startBossTime && levelCamera.position.x <= 10) {
+                    levelCamera.position.x = 10;
                     CAMERA_SPEED = 0f;
                     startBossTime = true;
                 }
@@ -1356,9 +1323,10 @@ class MainLevel implements Screen, InputProcessor {
     }
 
     private void psychedelicColors() {
-        float red = (float) (Math.sin(COLOR_FREQUENCY * colorCounter + 0) * 127 + 128) / 255f;
-        float green = (float) (Math.sin(COLOR_FREQUENCY * colorCounter + 2) * 127 + 128) / 255f;
-        float blue = (float) (Math.sin(COLOR_FREQUENCY * colorCounter + 4) * 127 + 128) / 255f;
+        float frequency = .21f; // higher frequency flashes more colors
+        float red = (float) (Math.sin(frequency * colorCounter + 0) * 127 + 128) / 255f;
+        float green = (float) (Math.sin(frequency * colorCounter + 2) * 127 + 128) / 255f;
+        float blue = (float) (Math.sin(frequency * colorCounter + 4) * 127 + 128) / 255f;
 
         Gdx.gl.glClearColor(red, green, blue, 1);
 
@@ -1369,8 +1337,6 @@ class MainLevel implements Screen, InputProcessor {
         }
 
         backgroundStage.getBatch().setColor(green, blue, red, 1);
-//        tileStage.getBatch().setColor(blue, green, red, 1);
-//        renderer.getBatch().setColor(blue, green, red, 1);
     }
 
     private void flipCamera() {
@@ -1401,10 +1367,6 @@ class MainLevel implements Screen, InputProcessor {
     }
 
     private void bounceCamera(float delta) {
-//        renderer.getBatch().setColor(0, 1, 0, 1);
-//        backgroundStage.getBatch().setColor(0, 1, 0, 1);
-//        renderer.getMap().getLayers().get(3).setOpacity(0.25f);
-
         if (cameraUp) {
             levelCamera.position.y += (CAMERA_SPEED * delta * 1.25f);
             if (levelCamera.position.y >= 7.5f) {
@@ -1422,13 +1384,14 @@ class MainLevel implements Screen, InputProcessor {
         actionBeginTime = TimeUtils.nanoTime();
         CAMERA_SPEED = 0;
         powerUpState = PowerUpState.SOUND_BYTE;
-        game.song_full.stop();
+        game.song_full.pause();
     }
 
     private void startPowerUpConsts() {
         actionBeginTime = TimeUtils.nanoTime();
         powerUpState = PowerUpState.TRIGGERED;
         CAMERA_SPEED = 6f;
+        cloudActor.speed = 3.8f;
     }
 
     private void endPowerUpConsts() {
@@ -1437,6 +1400,7 @@ class MainLevel implements Screen, InputProcessor {
         powerUp = null;
         game.song_full.play();
         CAMERA_SPEED = 3f;
+        cloudActor.speed = 1.9f;
 
         if (powerUpInt == 2) {
             backgroundStage.getBatch().setColor(backgroundStageColor);
@@ -1515,7 +1479,6 @@ class MainLevel implements Screen, InputProcessor {
             public void run() {
                 game.getGot.stop();
                 endPowerUpConsts();
-//                backgroundStage.getBatch().setColor(backgroundStageColor);
             }
         }, seconds);
     }
@@ -1546,13 +1509,6 @@ class MainLevel implements Screen, InputProcessor {
             public void run() {
                 game.lockYourDoors.stop();
                 endPowerUpConsts();
-//                backgroundStage.getBatch().setColor(backgroundStageColor);
-//                levelCamera.rotate(180);
-//                eagleCamera.rotate(180);
-//                rideCamera.rotate(180);
-//                scoreCamera.rotate(180);
-//                backgroundCamera.rotate(180);
-//                cameraRotated = false;
             }
         }, seconds);
     }
@@ -1581,8 +1537,6 @@ class MainLevel implements Screen, InputProcessor {
             public void run() {
                 game.casino.stop();
                 endPowerUpConsts();
-//                levelCamera.position.y = 5.5f;
-//                backgroundStage.getBatch().setColor(backgroundStageColor);
             }
         }, seconds);
     }
@@ -1615,9 +1569,6 @@ class MainLevel implements Screen, InputProcessor {
             public void run() {
                 game.sadCum.stop();
                 endPowerUpConsts();
-//                levelCamera.zoom = 1;
-//                eagleCamera.zoom = 1;
-//                backgroundStage.getBatch().setColor(backgroundStageColor);
             }
         }, seconds);
     }
@@ -1646,10 +1597,6 @@ class MainLevel implements Screen, InputProcessor {
             public void run() {
                 game.hotHead.stop();
                 endPowerUpConsts();
-//                levelCamera.position.y = 5.5f;
-//                levelCamera.zoom = 1;
-//                eagleCamera.zoom = 1;
-//                backgroundStage.getBatch().setColor(backgroundStageColor);
             }
         }, seconds);
     }
