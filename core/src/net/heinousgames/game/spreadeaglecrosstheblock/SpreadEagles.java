@@ -27,7 +27,6 @@ public class SpreadEagles extends Game {
         return dateFormatCallback;
     }
 
-    BitmapFont font;
     int score;
     AssetManager assetManager;
     BitmapFont fontExmilitary100, font100Gold, fontUI;
@@ -59,7 +58,6 @@ public class SpreadEagles extends Game {
         fontExmilitary100 = generator.generateFont(parameter);
         parameter.color = Color.GOLD;
         font100Gold = generator.generateFont(parameter);
-        font = new BitmapFont();
         VULTURE_BLUE = new Color(0 / 255.0f, 8 / 255.0f, 64 / 255.0f, 1);
         shapeRenderer = new ShapeRenderer();
 
@@ -73,7 +71,6 @@ public class SpreadEagles extends Game {
     public void dispose() {
         batch.dispose();
         fontExmilitary100.dispose();
-        font.dispose();
         shapeRenderer.dispose();
         generator.dispose();
         buttonTexture.dispose();
