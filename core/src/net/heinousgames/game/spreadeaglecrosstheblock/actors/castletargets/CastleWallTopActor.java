@@ -10,7 +10,6 @@ import net.heinousgames.game.spreadeaglecrosstheblock.SpreadEagles;
 /**
  * Created by Steve on 12/7/2016
  */
-
 public class CastleWallTopActor extends CastleTargetActor {
 
     public CastleWallTopActor(float posX, float posY) {
