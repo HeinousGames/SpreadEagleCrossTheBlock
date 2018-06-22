@@ -26,7 +26,7 @@ public class StarActor extends Actor {
 
         texture = new TextureRegion(new Texture(Gdx.files.internal("gfx/star2.png")));
         Random rand = new Random();
-        max = (rand.nextInt(15) + 10) * rand.nextFloat();
+        max = (rand.nextInt(25) + 10) * rand.nextFloat();
         count = 0;
         frmCount = 0;
     }
