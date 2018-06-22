@@ -1,5 +1,6 @@
 package net.heinousgames.game.spreadeaglecrosstheblock;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
@@ -32,18 +33,6 @@ class RecapScreen implements Screen, InputProcessor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1334, 750);
 
-        Image startOverButton = new Image(game.buttonTexture);
-        startOverButton.setName("startOver");
-        startOverButton.setPosition(780, 350.5f);
-        startOverButton.setHeight(120);
-        startOverButton.setWidth(420);
-
-        Image quitButton = new Image(game.buttonTexture);
-        quitButton.setName("quit");
-        quitButton.setPosition(1020, 100);
-        quitButton.setHeight(120);
-        quitButton.setWidth(180);
-
         game.parameter.color = Color.WHITE;
         game.parameter.size = 100;
         game.fontExmilitary100 = game.generator.generateFont(game.parameter);
@@ -54,8 +43,21 @@ class RecapScreen implements Screen, InputProcessor {
         recapStage = new Stage(new ScreenViewport());
         recapStage.getViewport().setCamera(camera);
 
+        Image startOverButton = new Image(game.buttonTexture);
+        startOverButton.setName("startOver");
+        startOverButton.setPosition(780, 350.5f);
+        startOverButton.setHeight(120);
+        startOverButton.setWidth(420);
         recapStage.addActor(startOverButton);
-        recapStage.addActor(quitButton);
+
+        if (Gdx.app.getType() != Application.ApplicationType.WebGL) {
+            Image quitButton = new Image(game.buttonTexture);
+            quitButton.setName("quit");
+            quitButton.setPosition(1020, 100);
+            quitButton.setHeight(120);
+            quitButton.setWidth(180);
+            recapStage.addActor(quitButton);
+        }
 
         Gdx.input.setInputProcessor(this);
 

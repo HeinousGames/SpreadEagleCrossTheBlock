@@ -1,5 +1,6 @@
 package net.heinousgames.game.spreadeaglecrosstheblock;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
@@ -62,7 +63,6 @@ class MainMenuScreen implements Screen {
 //        mySkin.add("default", t);
 
         Button btnStart = new TextButton("START", style); //** Button text and style **//
-        Button btnQuit = new TextButton("Fuck You!!!", style);
         btnStart.setPosition(550, 350); //** Button location **//
         btnStart.setSize(200, 100);
         btnStart.setSkin(buttonSkin);
@@ -73,18 +73,22 @@ class MainMenuScreen implements Screen {
                 game.setScreen(new MainLevel(game));
             }
         });
-
-        btnQuit.setPosition(550, 50);
-        btnQuit.setSize(200, 100);
-        btnQuit.setSkin(buttonSkin);
-        btnQuit.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                //todo
-            }
-        });
-
         stageMenu.addActor(btnStart);
+
+        if (Gdx.app.getType() != Application.ApplicationType.WebGL) {
+            Button btnQuit = new TextButton("QUIT", style);
+            btnQuit.setPosition(550, 50);
+            btnQuit.setSize(200, 100);
+            btnQuit.setSkin(buttonSkin);
+            btnQuit.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    dispose();
+                    Gdx.app.exit();
+                }
+            });
+            stageMenu.addActor(btnQuit);
+        }
 
         game.shapeRenderer.setProjectionMatrix(camera.combined);
         game.batch.setProjectionMatrix(camera.combined);
