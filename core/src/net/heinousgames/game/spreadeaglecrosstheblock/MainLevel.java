@@ -1424,6 +1424,7 @@ class MainLevel implements Screen, InputProcessor {
             levelCamera.zoom = 1;
             eagleCamera.zoom = 1;
             backgroundStage.getBatch().setColor(backgroundStageColor);
+            game.score += 1000;
         }
     }
 
