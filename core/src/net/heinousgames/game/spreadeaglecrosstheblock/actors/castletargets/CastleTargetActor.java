@@ -1,5 +1,6 @@
 package net.heinousgames.game.spreadeaglecrosstheblock.actors.castletargets;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -69,13 +70,29 @@ public class CastleTargetActor extends Actor {
                     rotation--;
                 } else {
                     if (hits == 4) {
-                        batch.draw(four, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
+                        if (Gdx.app.getType() == Application.ApplicationType.WebGL) {
+                            batch.draw(four, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
+                        } else {
+                            batch.draw(four, rectangle.x + 0.5f, rectangle.y + 0.5f, 0.4f, 0.4f);
+                        }
                     } else if (hits == 3) {
-                        batch.draw(three, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
+                        if (Gdx.app.getType() == Application.ApplicationType.WebGL) {
+                            batch.draw(three, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
+                        } else {
+                            batch.draw(three, rectangle.x + 0.5f, rectangle.y + 0.5f, 0.4f, 0.4f);
+                        }
                     } else if (hits == 2) {
-                        batch.draw(two, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
+                        if (Gdx.app.getType() == Application.ApplicationType.WebGL) {
+                            batch.draw(two, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
+                        } else {
+                            batch.draw(two, rectangle.x + 0.5f, rectangle.y + 0.5f, 0.4f, 0.4f);
+                        }
                     } else if (hits == 1) {
-                        batch.draw(one, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
+                        if (Gdx.app.getType() == Application.ApplicationType.WebGL) {
+                            batch.draw(one, rectangle.x + 0.4f, rectangle.y + 0.4f, 0.6f, 0.6f);
+                        } else {
+                            batch.draw(one, rectangle.x + 0.5f, rectangle.y + 0.5f, 0.4f, 0.4f);
+                        }
                     }
                 }
             } else {
