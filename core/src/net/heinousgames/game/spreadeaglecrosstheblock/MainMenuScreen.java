@@ -8,12 +8,11 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -26,14 +25,11 @@ class MainMenuScreen implements Screen {
     private final SpreadEagles game;
     private boolean finishedLoading;
     private OrthographicCamera camera;
-    private Skin buttonSkin; //** images are used as skins of the button **//
+
     private Stage stageMenu;
-    private TextureAtlas atlas;
 
     MainMenuScreen(final SpreadEagles game) {
         this.game = game;
-
-        atlas = new TextureAtlas(Gdx.files.internal("ui-blue.atlas"));
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 1334, 750);
@@ -47,39 +43,23 @@ class MainMenuScreen implements Screen {
         stageMenu = new Stage(new ScreenViewport());
         stageMenu.getViewport().setCamera(camera);
 
-        buttonSkin = new Skin();
-        buttonSkin.addRegions(atlas);
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle(); //** Button properties **//
-        style.up = buttonSkin.getDrawable("button_04");
-        style.down = buttonSkin.getDrawable("button_02");
-//        style.font = game.font;
-        style.font = game.fontUI;
-
-//        t.font = mySkin.getFont("default");
-//        t.fontColor = new Color(0, 0, 0, 1f);
-//        t.disabledFontColor = new Color(0, 0, 0, 0.4f);
-//        t.checkboxOff = mySkin.getDrawable("checkbox_off");
-//        t.checkboxOn = mySkin.getDrawable("checkbox_on");
-//        mySkin.add("default", t);
-
-        Button btnStart = new TextButton("START", style); //** Button text and style **//
-        btnStart.setPosition(550, 350); //** Button location **//
-        btnStart.setSize(200, 100);
-        btnStart.setSkin(buttonSkin);
+        Button btnStart = new TextButton("Start", game.style);
+        btnStart.setPosition(557, 250);
+        btnStart.setSize(220, 100);
+        btnStart.setSkin(game.buttonSkin);
         btnStart.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-//                dispose();
                 game.setScreen(new MainLevel(game));
             }
         });
         stageMenu.addActor(btnStart);
 
         if (Gdx.app.getType() != Application.ApplicationType.WebGL) {
-            Button btnQuit = new TextButton("QUIT", style);
-            btnQuit.setPosition(550, 50);
-            btnQuit.setSize(200, 100);
-            btnQuit.setSkin(buttonSkin);
+            Button btnQuit = new TextButton("Quit", game.style);
+            btnQuit.setPosition(557, 100);
+            btnQuit.setSize(220, 100);
+            btnQuit.setSkin(game.buttonSkin);
             btnQuit.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
@@ -112,29 +92,119 @@ class MainMenuScreen implements Screen {
         game.assetManager.load("sfx/theme_bitmilitary.ogg", Music.class);
         game.assetManager.load("sfx/yeah.ogg", Sound.class);
         game.assetManager.load("sfx/guillotine_whine.ogg", Sound.class);
+
+        game.assetManager.load("gfx/tiles/base/boxItemAlt.png", Texture.class);
+        game.assetManager.load("gfx/nldw.png", Texture.class);
+        game.assetManager.load("gfx/crosshair.png", Texture.class);
+        game.assetManager.load("gfx/pause_black.png", Texture.class);
+        game.assetManager.load("gfx/cloud5.png", Texture.class);
+        game.assetManager.load("gfx/tiles/enemies/bee.png", Texture.class);
+        game.assetManager.load("gfx/tiles/enemies/bee_fly.png", Texture.class);
+        game.assetManager.load("gfx/tiles/enemies/bee_dead.png", Texture.class);
+        game.assetManager.load("gfx/tiles/enemies/piranha.png", Texture.class);
+        game.assetManager.load("gfx/tiles/enemies/piranha_down.png", Texture.class);
+        game.assetManager.load("gfx/tiles/enemies/piranha_dead.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienGreen_walk1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienGreen_walk2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienGreen_jump.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienGreen_hurt.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienPink_walk1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienPink_walk2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienPink_climb1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienPink_climb2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienPink_swim1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienPink_swim2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienPink_jump.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienPink_hurt.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienYellow_walk1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienYellow_walk2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienYellow_jump.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienYellow_climb1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienYellow_climb2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienYellow_swim1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienYellow_swim2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBlue_walk1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBlue_walk2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBlue_jump.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBlue_climb1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBlue_climb2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBlue_swim1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBlue_swim2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBlue_hurt_correct.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBeige_walk1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBeige_walk2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBeige_jump.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBeige_swim1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/aliens/alienBeige_swim2.png", Texture.class);
     }
 
     @Override
     public void render(float delta) {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
         game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        game.shapeRenderer.rect(0, 0, 1334, 750, game.VULTURE_BLUE, game.VULTURE_BLUE, Color.BLACK, Color.BLACK);
+        game.shapeRenderer.rect(0, 0, 1334, 750, game.vultureBlue, game.vultureBlue, Color.BLACK, Color.BLACK);
         game.shapeRenderer.end();
 
         game.batch.begin();
         game.fontExmilitary100.draw(game.batch, "Spread Eagle Cross the Block!", 100, 650);
 
-//        if (!finishedLoading) {
-//            game.fontExmilitary100.draw(game.batch, "Loading...", 475, 350);
-//        }
+        int highScore = game.prefs.getInteger("highScore");
+        if (finishedLoading && highScore > 0) {
+            game.fontExmilitary100.draw(game.batch, "High Score: " + highScore, 400, 500);
+        }
+
+        if (!finishedLoading) {
+            game.fontExmilitary100.draw(game.batch, "Loading...", 480, 350);
+        }
 
         game.batch.end();
 
-//        Gdx.gl.glViewport(Gdx.graphics.getWidth()/2, 0, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
-
         if (game.assetManager.update()) {
+            game.boxItemTexture = game.assetManager.get("gfx/tiles/base/boxItemAlt.png", Texture.class);
+            game.nldwTexture = game.assetManager.get("gfx/nldw.png", Texture.class);
+            game.crosshairTexture = game.assetManager.get("gfx/crosshair.png", Texture.class);
+            game.pauseTexture = game.assetManager.get("gfx/pause_black.png", Texture.class);
+            game.cloudTexture = game.assetManager.get("gfx/cloud5.png", Texture.class);
+            game.beeTexture = game.assetManager.get("gfx/tiles/enemies/bee.png", Texture.class);
+            game.beeFlyTexture = game.assetManager.get("gfx/tiles/enemies/bee_fly.png", Texture.class);
+            game.beeDeadTexture = game.assetManager.get("gfx/tiles/enemies/bee_dead.png", Texture.class);
+            game.piranhaTexture = game.assetManager.get("gfx/tiles/enemies/piranha.png", Texture.class);
+            game.piranhaDownTexture = game.assetManager.get("gfx/tiles/enemies/piranha_down.png", Texture.class);
+            game.piranhaDeadTexture = game.assetManager.get("gfx/tiles/enemies/piranha_dead.png", Texture.class);
+            game.alienGreenWalk1 = game.assetManager.get("gfx/tiles/aliens/alienGreen_walk1.png", Texture.class);
+            game.alienGreenWalk2 = game.assetManager.get("gfx/tiles/aliens/alienGreen_walk2.png", Texture.class);
+            game.alienGreenJump = game.assetManager.get("gfx/tiles/aliens/alienGreen_jump.png", Texture.class);
+            game.alienGreenHurt = game.assetManager.get("gfx/tiles/aliens/alienGreen_hurt.png", Texture.class);
+            game.alienPinkWalk1 = game.assetManager.get("gfx/tiles/aliens/alienPink_walk1.png", Texture.class);
+            game.alienPinkWalk2 = game.assetManager.get("gfx/tiles/aliens/alienPink_walk2.png", Texture.class);
+            game.alienPinkClimb1 = game.assetManager.get("gfx/tiles/aliens/alienPink_climb1.png", Texture.class);
+            game.alienPinkClimb2 = game.assetManager.get("gfx/tiles/aliens/alienPink_climb2.png", Texture.class);
+            game.alienPinkSwim1 = game.assetManager.get("gfx/tiles/aliens/alienPink_swim1.png", Texture.class);
+            game.alienPinkSwim2 = game.assetManager.get("gfx/tiles/aliens/alienPink_swim2.png", Texture.class);
+            game.alienPinkJump = game.assetManager.get("gfx/tiles/aliens/alienPink_jump.png", Texture.class);
+            game.alienPinkHurt = game.assetManager.get("gfx/tiles/aliens/alienPink_hurt.png", Texture.class);
+            game.alienYellowWalk1 = game.assetManager.get("gfx/tiles/aliens/alienYellow_walk1.png", Texture.class);
+            game.alienYellowWalk2 = game.assetManager.get("gfx/tiles/aliens/alienYellow_walk2.png", Texture.class);
+            game.alienYellowJump = game.assetManager.get("gfx/tiles/aliens/alienYellow_jump.png", Texture.class);
+            game.alienYellowClimb1 = game.assetManager.get("gfx/tiles/aliens/alienYellow_climb1.png", Texture.class);
+            game.alienYellowClimb2 = game.assetManager.get("gfx/tiles/aliens/alienYellow_climb2.png", Texture.class);
+            game.alienYellowSwim1 = game.assetManager.get("gfx/tiles/aliens/alienYellow_swim1.png", Texture.class);
+            game.alienYellowSwim2 = game.assetManager.get("gfx/tiles/aliens/alienYellow_swim2.png", Texture.class);
+            game.alienBlueWalk1 = game.assetManager.get("gfx/tiles/aliens/alienBlue_walk1.png", Texture.class);
+            game.alienBlueWalk2 =  game.assetManager.get("gfx/tiles/aliens/alienBlue_walk2.png", Texture.class);
+            game.alienBlueJump = game.assetManager.get("gfx/tiles/aliens/alienBlue_jump.png", Texture.class);
+            game.alienBlueClimb1 = game.assetManager.get("gfx/tiles/aliens/alienBlue_climb1.png", Texture.class);
+            game.alienBlueClimb2 = game.assetManager.get("gfx/tiles/aliens/alienBlue_climb2.png", Texture.class);
+            game.alienBlueSwim1 = game.assetManager.get("gfx/tiles/aliens/alienBlue_swim1.png", Texture.class);
+            game.alienBlueSwim2 = game.assetManager.get("gfx/tiles/aliens/alienBlue_swim2.png", Texture.class);
+            game.alienBlueHurt =  game.assetManager.get("gfx/tiles/aliens/alienBlue_hurt_correct.png", Texture.class);
+            game.alienBeigeWalk1 = game.assetManager.get("gfx/tiles/aliens/alienBeige_walk1.png", Texture.class);
+            game.alienBeigeWalk2 = game.assetManager.get("gfx/tiles/aliens/alienBeige_walk2.png", Texture.class);
+            game.alienBeigeJump = game.assetManager.get("gfx/tiles/aliens/alienBeige_jump.png", Texture.class);
+            game.alienBeigeSwim1 = game.assetManager.get("gfx/tiles/aliens/alienBeige_swim1.png", Texture.class);
+            game.alienBeigeSwim2 = game.assetManager.get("gfx/tiles/aliens/alienBeige_swim2.png", Texture.class);
+            
             game.sadCum = game.assetManager.get("sfx/sad_cum.ogg", Music.class);
             game.hotHead = game.assetManager.get("sfx/hot_head.ogg", Music.class);
             game.imFeelingIt = game.assetManager.get("sfx/im_feeling_it.ogg", Music.class);
@@ -157,6 +227,18 @@ class MainMenuScreen implements Screen {
             game.fever.setVolume(0.25f);
             game.bitmilitary.setLooping(true);
             game.bitmilitary.setVolume(0.25f);
+            game.sadCum.setVolume(0.5f);
+            game.hotHead.setVolume(0.5f);
+            game.imFeelingIt.setVolume(0.5f);
+            game.bloodCreepin.setVolume(0.5f);
+            game.sysBlowerRing.setVolume(0.5f);
+            game.getGot.setVolume(0.5f);
+            game.usedToGive.setVolume(0.5f);
+            game.lockYourDoors.setVolume(0.5f);
+            game.fuckWhosWatching.setVolume(0.5f);
+            game.casino.setVolume(0.5f);
+            game.powersThatB.setVolume(0.5f);
+            game.trash.setVolume(0.5f);
             finishedLoading = true;
         }
 
@@ -190,8 +272,6 @@ class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         stageMenu.dispose();
-        buttonSkin.dispose();
-        atlas.dispose();
     }
 
 }
