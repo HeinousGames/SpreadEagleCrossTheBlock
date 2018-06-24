@@ -55,7 +55,7 @@ public class SpreadEagles extends Game {
             castleTorchHit, castleTorchDestroyed, castleWallLeftReg, castleWallLeftHit,
             castleWallLeftDestroyed1, castleWallLeftDestroyed2,castleWallRightReg, castleWallRightHit,
             castleWallRightDestroyed1, castleWallRightDestroyed2, castleWallTopReg, castleWallTopHit,
-            castleWallTopDestroyed, castleWallReg, castleWallHit, castleWallDestroyed;
+            castleWallTopDestroyed, castleWallReg, castleWallHit, castleWallDestroyed, hgLogo, libgdxLogo;
 
     public interface HTMLDateFormat {
         String convertDate(Date date);
@@ -67,6 +67,8 @@ public class SpreadEagles extends Game {
 
     public void create() {
         assetManager = new AssetManager();
+        assetManager.load("gfx/libgdxLogo.png", Texture.class);
+        assetManager.load("gfx/hgLogo.png", Texture.class);
         atlas = new TextureAtlas(Gdx.files.internal("ui-blue.atlas"));
         batch = new SpriteBatch();
         buttonSkin = new Skin();
@@ -87,7 +89,7 @@ public class SpreadEagles extends Game {
         style.font = fontUI;
         vultureBlue = new Color(0 / 255.0f, 8 / 255.0f, 64 / 255.0f, 1);
 
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new LibgdxScreen(this));
     }
 
     public void render() {
