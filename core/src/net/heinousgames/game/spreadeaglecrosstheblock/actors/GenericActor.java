@@ -22,15 +22,6 @@ public class GenericActor extends Actor {
     TextureRegion textureRegion;
     TextureRegion[] textureRegions;
 
-    GenericActor(TextureRegion[] textureRegions, float startX, float startY) {
-        this(startX, startY);
-        this.textureRegions = textureRegions;
-        animation = new Animation<TextureRegion>(0.075f, textureRegions);
-        rectangle.width = textureRegions[0].getRegionWidth() / 70f;
-        rectangle.height = textureRegions[0].getRegionHeight() / 70f;
-        isAnimated = true;
-    }
-
     GenericActor(TextureRegion deadTextureRegion, float startX, float startY) {
         this(startX, startY);
         this.textureRegion = deadTextureRegion;
