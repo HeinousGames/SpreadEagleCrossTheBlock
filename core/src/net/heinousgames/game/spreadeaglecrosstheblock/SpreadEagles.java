@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -39,15 +40,21 @@ public class SpreadEagles extends Game {
     Sound yeah, guillotineWhine;
     SpriteBatch batch;
     TextButton.TextButtonStyle style;
-    Texture crosshairTexture, pauseTexture, nldwTexture, boxItemTexture, cloudTexture,
-            beeTexture, beeFlyTexture, beeDeadTexture, piranhaTexture, piranhaDownTexture,
+    Texture one, two, three, four, star, crosshairTexture, pauseTexture, nldwTexture, boxItemTexture,
+            cloudTexture, beeTexture, beeFlyTexture, beeDeadTexture, piranhaTexture, piranhaDownTexture,
             piranhaDeadTexture, alienGreenWalk1, alienGreenWalk2, alienGreenJump, alienGreenHurt,
             alienPinkWalk1, alienPinkWalk2, alienPinkClimb1, alienPinkClimb2, alienPinkSwim1,
             alienPinkSwim2, alienPinkJump, alienPinkHurt, alienYellowWalk1, alienYellowWalk2,
             alienYellowJump, alienYellowClimb1, alienYellowClimb2, alienYellowSwim1, alienYellowSwim2,
             alienBlueWalk1, alienBlueWalk2, alienBlueJump, alienBlueClimb1, alienBlueClimb2,
             alienBlueSwim1, alienBlueSwim2, alienBlueHurt, alienBeigeWalk1, alienBeigeWalk2,
-            alienBeigeSwim1, alienBeigeSwim2, alienBeigeJump;
+            alienBeigeSwim1, alienBeigeSwim2, alienBeigeJump, castleFlagTopReg, castleFlagTopHit,
+            castleFlagTopDestroyed, castleFlagMiddleReg, castleFlagMiddleHit, castleFlagMiddleDestroyed,
+            castleFlagBottomReg, castleFlagBottomHit, castleFlagBottomDestroyed, castleTorchReg,
+            castleTorchHit, castleTorchDestroyed, castleWallLeftReg, castleWallLeftHit,
+            castleWallLeftDestroyed1, castleWallLeftDestroyed2,castleWallRightReg, castleWallRightHit,
+            castleWallRightDestroyed1, castleWallRightDestroyed2, castleWallTopReg, castleWallTopHit,
+            castleWallTopDestroyed, castleWallReg, castleWallHit, castleWallDestroyed;
 
     public interface HTMLDateFormat {
         String convertDate(Date date);
@@ -97,66 +104,7 @@ public class SpreadEagles extends Game {
         generator.dispose();
         shapeRenderer.dispose();
 
-        // audio bytes
-        imFeelingIt.dispose();
-        bloodCreepin.dispose();
-        sysBlowerRing.dispose();
-        getGot.dispose();
-        usedToGive.dispose();
-        lockYourDoors.dispose();
-        fuckWhosWatching.dispose();
-        casino.dispose();
-        powersThatB.dispose();
-        sadCum.dispose();
-        trash.dispose();
-        hotHead.dispose();
-        bitmilitary.dispose();
-        yeah.dispose();
-        guillotineWhine.dispose();
-        fever.dispose();
-        song_full.dispose();
-
-        // textures
-        crosshairTexture.dispose();
-        pauseTexture.dispose();
-        boxItemTexture.dispose();
-        nldwTexture.dispose();
-        cloudTexture.dispose();
-        beeTexture.dispose();
-        beeFlyTexture.dispose();
-        beeDeadTexture.dispose();
-        piranhaTexture.dispose();
-        piranhaDownTexture.dispose();
-        piranhaDeadTexture.dispose();
-        alienGreenWalk1.dispose();
-        alienGreenWalk2.dispose();
-        alienGreenJump.dispose();
-        alienGreenHurt.dispose();
-        alienPinkWalk1.dispose();
-        alienPinkWalk2.dispose();
-        alienPinkClimb1.dispose();
-        alienPinkClimb2.dispose();
-        alienPinkSwim1.dispose();
-        alienPinkSwim2.dispose();
-        alienPinkJump.dispose();
-        alienPinkHurt.dispose();
-        alienYellowWalk1.dispose();
-        alienYellowWalk2.dispose();
-        alienYellowJump.dispose();
-        alienYellowSwim1.dispose();
-        alienYellowSwim2.dispose();
-        alienBlueWalk1.dispose();
-        alienBlueWalk2.dispose();
-        alienBlueJump.dispose();
-        alienBlueClimb1.dispose();
-        alienBlueClimb2.dispose();
-        alienBlueSwim1.dispose();
-        alienBlueSwim2.dispose();
-        alienBlueHurt.dispose();
-        alienBeigeWalk1.dispose();
-        alienBeigeWalk2.dispose();
-        alienBeigeSwim1.dispose();
-        alienBeigeSwim2.dispose();
-        alienBeigeJump.dispose();
+        // disposes all assets loaded to the manager
+        assetManager.dispose();
     }
 }

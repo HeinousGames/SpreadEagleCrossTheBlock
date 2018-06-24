@@ -1,6 +1,5 @@
 package net.heinousgames.game.spreadeaglecrosstheblock.actors.castletargets;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,17 +9,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class CastleWallActor extends CastleTargetActor {
 
-    public CastleWallActor(float posX, float posY) {
-        super(posX, posY);
-
-        regularRegion = new TextureRegion(new Texture(Gdx.files.internal("gfx/tiles/medieval/medievalTile_065.png")));
-        hitRegion = new TextureRegion(new Texture(Gdx.files.internal("gfx/tiles/medieval/medievalTile_065_hit.png")));
-        destroyedRegion = new TextureRegion(new Texture(Gdx.files.internal("gfx/tiles/medieval/medievalTile_063.png")));
-
+    public CastleWallActor(float posX, float posY, Texture crossHair, Texture one, Texture two,
+                           Texture three, Texture four,TextureRegion regularRegion,
+                           TextureRegion hitRegion, TextureRegion destroyedRegion) {
+        super(posX, posY, crossHair, one, two, three, four,regularRegion, destroyedRegion);
         hitAnimation = new Animation<TextureRegion>(0.075f, regularRegion, hitRegion);
-        rectangle.width = regularRegion.getRegionWidth() / 70f;
-        rectangle.height = regularRegion.getRegionHeight() / 70f;
-
         hits = 5;
     }
 }

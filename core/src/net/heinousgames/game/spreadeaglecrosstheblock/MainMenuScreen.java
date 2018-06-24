@@ -93,6 +93,11 @@ class MainMenuScreen implements Screen {
         game.assetManager.load("sfx/yeah.ogg", Sound.class);
         game.assetManager.load("sfx/guillotine_whine.ogg", Sound.class);
 
+        game.assetManager.load("gfx/1.png", Texture.class);
+        game.assetManager.load("gfx/2.png", Texture.class);
+        game.assetManager.load("gfx/3.png", Texture.class);
+        game.assetManager.load("gfx/4.png", Texture.class);
+        game.assetManager.load("gfx/star.png", Texture.class);
         game.assetManager.load("gfx/tiles/base/boxItemAlt.png", Texture.class);
         game.assetManager.load("gfx/nldw.png", Texture.class);
         game.assetManager.load("gfx/crosshair.png", Texture.class);
@@ -136,6 +141,32 @@ class MainMenuScreen implements Screen {
         game.assetManager.load("gfx/tiles/aliens/alienBeige_jump.png", Texture.class);
         game.assetManager.load("gfx/tiles/aliens/alienBeige_swim1.png", Texture.class);
         game.assetManager.load("gfx/tiles/aliens/alienBeige_swim2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_024.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_024_hit.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_094.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_046.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_046_hit.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_118.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_070.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_070_hit.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_142.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_187.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_188.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_165.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_066.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_066_hit.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_021_left1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_022_left2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_068.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_068_hit.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_021_right1.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_022_right2.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_019.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_019_hit.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_041.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_065.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_065_hit.png", Texture.class);
+        game.assetManager.load("gfx/tiles/medieval/medievalTile_063.png", Texture.class);
     }
 
     @Override
@@ -155,12 +186,17 @@ class MainMenuScreen implements Screen {
         }
 
         if (!finishedLoading) {
-            game.fontExmilitary100.draw(game.batch, "Loading...", 480, 350);
+            game.fontExmilitary100.draw(game.batch, "Loading...", 500, 350);
         }
 
         game.batch.end();
 
         if (game.assetManager.update()) {
+            game.one = game.assetManager.get("gfx/1.png", Texture.class);
+            game.two = game.assetManager.get("gfx/2.png", Texture.class);
+            game.three = game.assetManager.get("gfx/3.png", Texture.class);
+            game.four = game.assetManager.get("gfx/4.png", Texture.class);
+            game.star = game.assetManager.get("gfx/star.png", Texture.class);
             game.boxItemTexture = game.assetManager.get("gfx/tiles/base/boxItemAlt.png", Texture.class);
             game.nldwTexture = game.assetManager.get("gfx/nldw.png", Texture.class);
             game.crosshairTexture = game.assetManager.get("gfx/crosshair.png", Texture.class);
@@ -204,7 +240,33 @@ class MainMenuScreen implements Screen {
             game.alienBeigeJump = game.assetManager.get("gfx/tiles/aliens/alienBeige_jump.png", Texture.class);
             game.alienBeigeSwim1 = game.assetManager.get("gfx/tiles/aliens/alienBeige_swim1.png", Texture.class);
             game.alienBeigeSwim2 = game.assetManager.get("gfx/tiles/aliens/alienBeige_swim2.png", Texture.class);
-            
+            game.castleFlagTopReg = game.assetManager.get("gfx/tiles/medieval/medievalTile_024.png", Texture.class);
+            game.castleFlagTopHit = game.assetManager.get("gfx/tiles/medieval/medievalTile_024_hit.png", Texture.class);
+            game.castleFlagTopDestroyed = game.assetManager.get("gfx/tiles/medieval/medievalTile_094.png", Texture.class);
+            game.castleFlagMiddleReg = game.assetManager.get("gfx/tiles/medieval/medievalTile_046.png", Texture.class);
+            game.castleFlagMiddleHit = game.assetManager.get("gfx/tiles/medieval/medievalTile_046_hit.png", Texture.class);
+            game.castleFlagMiddleDestroyed = game.assetManager.get("gfx/tiles/medieval/medievalTile_118.png", Texture.class);
+            game.castleFlagBottomReg = game.assetManager.get("gfx/tiles/medieval/medievalTile_070.png", Texture.class);
+            game.castleFlagBottomHit = game.assetManager.get("gfx/tiles/medieval/medievalTile_070_hit.png", Texture.class);
+            game.castleFlagBottomDestroyed = game.assetManager.get("gfx/tiles/medieval/medievalTile_142.png", Texture.class);
+            game.castleTorchReg = game.assetManager.get("gfx/tiles/medieval/medievalTile_187.png", Texture.class);
+            game.castleTorchHit = game.assetManager.get("gfx/tiles/medieval/medievalTile_188.png", Texture.class);
+            game.castleTorchDestroyed = game.assetManager.get("gfx/tiles/medieval/medievalTile_165.png", Texture.class);
+            game.castleWallLeftReg = game.assetManager.get("gfx/tiles/medieval/medievalTile_066.png", Texture.class);
+            game.castleWallLeftHit = game.assetManager.get("gfx/tiles/medieval/medievalTile_066_hit.png", Texture.class);
+            game.castleWallLeftDestroyed1 = game.assetManager.get("gfx/tiles/medieval/medievalTile_021_left1.png", Texture.class);
+            game.castleWallLeftDestroyed2 = game.assetManager.get("gfx/tiles/medieval/medievalTile_022_left2.png", Texture.class);
+            game.castleWallRightReg = game.assetManager.get("gfx/tiles/medieval/medievalTile_068.png", Texture.class);
+            game.castleWallRightHit = game.assetManager.get("gfx/tiles/medieval/medievalTile_068_hit.png", Texture.class);
+            game.castleWallRightDestroyed1 = game.assetManager.get("gfx/tiles/medieval/medievalTile_021_right1.png", Texture.class);
+            game.castleWallRightDestroyed2 = game.assetManager.get("gfx/tiles/medieval/medievalTile_022_right2.png", Texture.class);
+            game.castleWallTopReg = game.assetManager.get("gfx/tiles/medieval/medievalTile_019.png", Texture.class);
+            game.castleWallTopHit = game.assetManager.get("gfx/tiles/medieval/medievalTile_019_hit.png", Texture.class);
+            game.castleWallTopDestroyed = game.assetManager.get("gfx/tiles/medieval/medievalTile_041.png", Texture.class);
+            game.castleWallReg = game.assetManager.get("gfx/tiles/medieval/medievalTile_065.png", Texture.class);
+            game.castleWallHit = game.assetManager.get("gfx/tiles/medieval/medievalTile_065_hit.png", Texture.class);
+            game.castleWallDestroyed = game.assetManager.get("gfx/tiles/medieval/medievalTile_063.png", Texture.class);
+
             game.sadCum = game.assetManager.get("sfx/sad_cum.ogg", Music.class);
             game.hotHead = game.assetManager.get("sfx/hot_head.ogg", Music.class);
             game.imFeelingIt = game.assetManager.get("sfx/im_feeling_it.ogg", Music.class);

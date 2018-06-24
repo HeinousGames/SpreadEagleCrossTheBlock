@@ -16,31 +16,48 @@ import com.badlogic.gdx.utils.Timer;
 public class CastleTargetActor extends Actor {
 
     private int rotation;
-    private boolean isHit, showCrosshair;
+    private boolean isHit, showCrossHair;
     private Texture one, two, three, four;
-    private TextureRegion crossHairRegion;
+    private TextureRegion crossHairRegion, regularRegion;
     public boolean isDestroyed;
     public Rectangle rectangle;
     float stateTime;
     int hits;
     Animation<TextureRegion> hitAnimation;
-    TextureRegion regularRegion, hitRegion, destroyedRegion;
+    TextureRegion destroyedRegion;
 
-    CastleTargetActor(float posX, float posY) {
+    CastleTargetActor(float posX, float posY, Texture crossHair, Texture one, Texture two,
+                      Texture three, Texture four, TextureRegion regularRegion,
+                      TextureRegion destroyedRegion) {
+        this(posX, posY, crossHair, regularRegion, destroyedRegion);
+        this.one = one;
+        this.two = two;
+        this.three = three;
+        this.four = four;
+    }
+
+    CastleTargetActor(float posX, float posY, Texture crossHair, TextureRegion regularRegion,
+                      TextureRegion destroyedRegion) {
+        this(posX, posY, regularRegion, destroyedRegion);
+        showCrossHair = true;
+        crossHairRegion = new TextureRegion(crossHair);
+    }
+
+    CastleTargetActor(float posX, float posY, TextureRegion regularRegion,
+                      TextureRegion destroyedRegion) {
         rectangle = new Rectangle();
         rectangle.x = posX;
         rectangle.y = posY;
-        showCrosshair = true;
-        crossHairRegion = new TextureRegion(new Texture(Gdx.files.internal("gfx/crosshair.png")));
-        one = new Texture(Gdx.files.internal("gfx/1.png"));
-        two = new Texture(Gdx.files.internal("gfx/2.png"));
-        three = new Texture(Gdx.files.internal("gfx/3.png"));
-        four = new Texture(Gdx.files.internal("gfx/4.png"));
+        rectangle.width = regularRegion.getRegionWidth() / 70f;
+        rectangle.height = regularRegion.getRegionHeight() / 70f;
+        this.regularRegion = regularRegion;
+        this.destroyedRegion = destroyedRegion;
+        showCrossHair = false;
     }
 
     public void isHit() {
         if (!isHit && !isDestroyed) {
-            showCrosshair = false;
+            showCrossHair = false;
             isHit = true;
             hits--;
             if (hits <= 0) {
@@ -60,12 +77,11 @@ public class CastleTargetActor extends Actor {
         if (isHit) {
             stateTime += Gdx.graphics.getDeltaTime();
             TextureRegion currentAnimationFrame = hitAnimation.getKeyFrame(stateTime, true);
-
             batch.draw(currentAnimationFrame, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
         } else {
             if (!isDestroyed) {
                 batch.draw(regularRegion, rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-                if (showCrosshair) {
+                if (showCrossHair) {
                     batch.draw(crossHairRegion, rectangle.x, rectangle.y, 0.5f, 0.5f, 1, 1, 1, 1, rotation);
                     rotation--;
                 } else {
