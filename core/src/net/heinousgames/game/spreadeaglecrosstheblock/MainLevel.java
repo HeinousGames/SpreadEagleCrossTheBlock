@@ -804,6 +804,7 @@ class MainLevel implements Screen, InputProcessor {
                     }
 
                     game.bitmilitary.stop();
+                    game.song_full.stop();
 
                     if (gameWon) {
                         game.score += 1000;
