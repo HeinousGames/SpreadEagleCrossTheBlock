@@ -203,7 +203,7 @@ class MainLevel implements Screen, InputProcessor {
         // create the levelCamera to show 20x11 world units
         levelCamera = new OrthographicCamera(20, 11);
         // position the levelCamera to the world units
-        levelCamera.position.x = 40; //802;
+        levelCamera.position.x = 802;
         levelCamera.position.y = 5.5f;
 
         tileStage = new Stage(new ScreenViewport());
