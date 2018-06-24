@@ -24,8 +24,6 @@ public class GenericActor extends Actor {
 
     GenericActor(TextureRegion[] textureRegions, float startX, float startY) {
         this(startX, startY);
-//        System.out.println("TEST GenericActor Constructor 1");
-
         this.textureRegions = textureRegions;
         animation = new Animation<TextureRegion>(0.075f, textureRegions);
         rectangle.width = textureRegions[0].getRegionWidth() / 70f;
@@ -35,7 +33,6 @@ public class GenericActor extends Actor {
 
     GenericActor(TextureRegion deadTextureRegion, float startX, float startY) {
         this(startX, startY);
-//        System.out.println("TEST GenericActor Constructor 2");
         this.textureRegion = deadTextureRegion;
         rectangle.width = deadTextureRegion.getRegionWidth() / 70f;
         rectangle.height = deadTextureRegion.getRegionHeight() / 70f;
@@ -51,7 +48,6 @@ public class GenericActor extends Actor {
     }
 
     private GenericActor(float startX, float startY) {
-//        System.out.println("TEST GenericActor Constructor 3");
         this.startX = startX;
         this.startY = startY;
 
@@ -61,7 +57,6 @@ public class GenericActor extends Actor {
     }
 
     void flipTexture(boolean horizontal, boolean vertical) {
-//        System.out.println("TEST GenericActor FlipTexture");
         if (isAnimated) {
             for (TextureRegion tr : textureRegions) {
                 tr.flip(horizontal, vertical);
@@ -73,7 +68,6 @@ public class GenericActor extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-//        System.out.println("TEST GenericActor Draw");
         if (isAnimated) {
             stateTime += Gdx.graphics.getDeltaTime();
             TextureRegion currentAnimationFrame = animation.getKeyFrame(stateTime, true);

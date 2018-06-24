@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class VerticalMovingActor extends GenericActor {
 
-    public float endY;
+    float endY;
     private boolean movingDown;
     private boolean goingDownAtStart;
 
