@@ -96,6 +96,7 @@ class MainLevel implements Screen, InputProcessor {
             castleTargetRects, castleLeftWalkRects, castleRightWalkRects, castleLeftClimbRects,
             castleRightClimbRects, behindCastleRects;
     private Array<CastleTargetActor> castleTargetActors;
+    private Array<StarActor> starActors;
     private Color backgroundStageColor;
     private Date bossDate;
     private EagleStage eagleStage;
@@ -145,6 +146,7 @@ class MainLevel implements Screen, InputProcessor {
         castleTargetRects = new Array<Rectangle>();
         behindCastleRects = new Array<Rectangle>();
         genericActors = new Array<GenericActor>();
+        starActors = new Array<StarActor>();
         frontCastleLeftWalkActors = new Array<GenericActor>();
         frontCastleRightWalkActors = new Array<GenericActor>();
         frontCastleLeftClimbActors = new Array<GenericActor>();
@@ -169,14 +171,24 @@ class MainLevel implements Screen, InputProcessor {
         backgroundStage = new Stage(new ScreenViewport());
         backgroundStage.getViewport().setCamera(backgroundCamera);
 
-        backgroundStage.addActor(new StarActor(3, 9.5f, 0.25f, 0.25f, 0));
-        backgroundStage.addActor(new StarActor(7.1f, 9.45f, 0.25f, 0.25f, 0));
-        backgroundStage.addActor(new StarActor(9, 10f, 0.25f, 0.25f, 0));
-        backgroundStage.addActor(new StarActor(19, 10f, 0.25f, 0.25f, 0));
-        backgroundStage.addActor(new StarActor(4.25f, 9.25f, 0.25f, 0.25f, 0));
-        backgroundStage.addActor(new StarActor(16.4f, 10.25f, 0.25f, 0.25f, 0));
-        backgroundStage.addActor(new StarActor(14.7f, 9.5f, 0.25f, 0.25f, 0));
-        backgroundStage.addActor(new StarActor(11.3f, 9.25f, 0.25f, 0.25f, 0));
+        StarActor star1 = new StarActor(3, 9.5f, game.star);
+        StarActor star2 = new StarActor(4.25f, 9.25f, game.star);
+        StarActor star3 = new StarActor(7.1f, 9.45f, game.star);
+        StarActor star4 = new StarActor(9, 10f, game.star);
+        StarActor star5 = new StarActor(11.3f, 9.25f, game.star);
+        StarActor star6 = new StarActor(14.7f, 9.5f, game.star);
+        StarActor star7 = new StarActor(16.4f, 10.25f, game.star);
+        StarActor star8 = new StarActor(19, 10, game.star);
+        backgroundStage.addActor(star1);
+        backgroundStage.addActor(star2);
+        backgroundStage.addActor(star3);
+        backgroundStage.addActor(star4);
+        backgroundStage.addActor(star5);
+        backgroundStage.addActor(star6);
+        backgroundStage.addActor(star7);
+        backgroundStage.addActor(star8);
+
+        starActors.addAll(star1, star2, star3, star4, star5, star6, star7, star8);
 
         scoreCamera = new OrthographicCamera(1334, 750);
         scoreCamera.position.x = 667;
@@ -191,7 +203,7 @@ class MainLevel implements Screen, InputProcessor {
         // create the levelCamera to show 20x11 world units
         levelCamera = new OrthographicCamera(20, 11);
         // position the levelCamera to the world units
-        levelCamera.position.x = 802;
+        levelCamera.position.x = 40; //802;
         levelCamera.position.y = 5.5f;
 
         tileStage = new Stage(new ScreenViewport());
@@ -214,23 +226,107 @@ class MainLevel implements Screen, InputProcessor {
                 new HorizontalMovingActor(15, 7.7f, 13, 4f, 5, true, true,
                         game.alienGreenWalk1, game.alienGreenWalk2, game.alienGreenJump));
 
-        castleTargetActors.addAll(new CastleFlagTopActor(2, 9), new CastleFlagTopActor(17, 9),
-                new CastleFlagMiddleActor(2, 8), new CastleFlagMiddleActor(17, 8),
-                new CastleFlagBottomActor(2, 7), new CastleFlagBottomActor(17, 7),
-                new CastleTorchActor(7, 5), new CastleTorchActor(12, 5),
-                new CastleWallLeftActor(1, 8, 1), new CastleWallLeftActor(1, 7, 2),
-                new CastleWallLeftActor(1, 6, 3), new CastleWallLeftActor(1, 5, 1),
-                new CastleWallLeftActor(1, 4, 2), new CastleWallLeftActor(1, 3, 3),
-                new CastleWallRightActor(18, 8, 1), new CastleWallRightActor(18, 7, 2),
-                new CastleWallRightActor(18, 6, 3),
-                new CastleWallTopActor(4, 7), new CastleWallTopActor(5, 7),
-                new CastleWallTopActor(6, 7), new CastleWallTopActor(13, 7),
-                new CastleWallTopActor(14, 7), new CastleWallTopActor(15, 7),
-                new CastleWallActor(2, 3), new CastleWallActor(4, 4),
-                new CastleWallActor(5, 3), new CastleWallActor(6, 4),
-                new CastleWallActor(9, 7), new CastleWallActor(10, 7),
-                new CastleWallActor(13, 4), new CastleWallActor(14, 3),
-                new CastleWallActor(15, 4));
+        castleTargetActors.addAll(new CastleFlagTopActor(2, 9, game.crosshairTexture,
+                new TextureRegion(game.castleFlagTopReg), new TextureRegion(game.castleFlagTopHit),
+                new TextureRegion(game.castleFlagTopDestroyed)),
+                new CastleFlagTopActor(17, 9, game.crosshairTexture,
+                        new TextureRegion(game.castleFlagTopReg),
+                        new TextureRegion(game.castleFlagTopHit),
+                        new TextureRegion(game.castleFlagTopDestroyed)),
+                new CastleFlagMiddleActor(2, 8, game.crosshairTexture,
+                        new TextureRegion(game.castleFlagMiddleReg),
+                        new TextureRegion(game.castleFlagMiddleHit),
+                        new TextureRegion(game.castleFlagMiddleDestroyed)),
+                new CastleFlagMiddleActor(17, 8, game.crosshairTexture,
+                        new TextureRegion(game.castleFlagMiddleReg),
+                        new TextureRegion(game.castleFlagMiddleHit),
+                        new TextureRegion(game.castleFlagMiddleDestroyed)),
+                new CastleFlagBottomActor(2, 7, game.crosshairTexture,
+                        new TextureRegion(game.castleFlagBottomReg),
+                        new TextureRegion(game.castleFlagBottomHit),
+                        new TextureRegion(game.castleFlagBottomDestroyed)),
+                new CastleFlagBottomActor(17, 7, game.crosshairTexture,
+                        new TextureRegion(game.castleFlagBottomReg),
+                        new TextureRegion(game.castleFlagBottomHit),
+                        new TextureRegion(game.castleFlagBottomDestroyed)),
+                new CastleTorchActor(7, 5, new TextureRegion(game.castleTorchReg),
+                        new TextureRegion(game.castleTorchHit),
+                        new TextureRegion(game.castleTorchDestroyed)),
+                new CastleTorchActor(12, 5, new TextureRegion(game.castleTorchReg),
+                        new TextureRegion(game.castleTorchHit),
+                        new TextureRegion(game.castleTorchDestroyed)),
+                new CastleWallLeftActor(1, 8, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallLeftReg), new TextureRegion(game.castleWallLeftHit),
+                        new TextureRegion(game.castleWallLeftDestroyed1), false),
+                new CastleWallLeftActor(1, 7, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallLeftReg), new TextureRegion(game.castleWallLeftHit),
+                        new TextureRegion(game.castleWallLeftDestroyed1), true),
+                new CastleWallLeftActor(1, 6, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallLeftReg), new TextureRegion(game.castleWallLeftHit),
+                        new TextureRegion(game.castleWallLeftDestroyed2), false),
+                new CastleWallLeftActor(1, 5, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallLeftReg), new TextureRegion(game.castleWallLeftHit),
+                        new TextureRegion(game.castleWallLeftDestroyed1), false),
+                new CastleWallLeftActor(1, 4, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallLeftReg), new TextureRegion(game.castleWallLeftHit),
+                        new TextureRegion(game.castleWallLeftDestroyed1), true),
+                new CastleWallLeftActor(1, 3, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallLeftReg), new TextureRegion(game.castleWallLeftHit),
+                        new TextureRegion(game.castleWallLeftDestroyed2), false),
+                new CastleWallRightActor(18, 8, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallRightReg), new TextureRegion(game.castleWallRightHit),
+                        new TextureRegion(game.castleWallRightDestroyed1), false),
+                new CastleWallRightActor(18, 7, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallRightReg), new TextureRegion(game.castleWallRightHit),
+                        new TextureRegion(game.castleWallRightDestroyed1), true),
+                new CastleWallRightActor(18, 6, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallRightReg), new TextureRegion(game.castleWallRightHit),
+                        new TextureRegion(game.castleWallRightDestroyed2), false),
+                new CastleWallTopActor(4, 7, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallTopReg), new TextureRegion(game.castleWallTopHit),
+                        new TextureRegion(game.castleWallTopDestroyed)),
+                new CastleWallTopActor(5, 7, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallTopReg), new TextureRegion(game.castleWallTopHit),
+                        new TextureRegion(game.castleWallTopDestroyed)),
+                new CastleWallTopActor(6, 7, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallTopReg), new TextureRegion(game.castleWallTopHit),
+                        new TextureRegion(game.castleWallTopDestroyed)),
+                new CastleWallTopActor(13, 7, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallTopReg), new TextureRegion(game.castleWallTopHit),
+                        new TextureRegion(game.castleWallTopDestroyed)),
+                new CastleWallTopActor(14, 7, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallTopReg), new TextureRegion(game.castleWallTopHit),
+                        new TextureRegion(game.castleWallTopDestroyed)),
+                new CastleWallTopActor(15, 7, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallTopReg), new TextureRegion(game.castleWallTopHit),
+                        new TextureRegion(game.castleWallTopDestroyed)),
+                new CastleWallActor(2, 3, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallReg), new TextureRegion(game.castleWallHit),
+                        new TextureRegion(game.castleWallDestroyed)),
+                new CastleWallActor(4, 4, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallReg), new TextureRegion(game.castleWallHit),
+                        new TextureRegion(game.castleWallDestroyed)),
+                new CastleWallActor(5, 3, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallReg), new TextureRegion(game.castleWallHit),
+                        new TextureRegion(game.castleWallDestroyed)),
+                new CastleWallActor(6, 4, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallReg), new TextureRegion(game.castleWallHit),
+                        new TextureRegion(game.castleWallDestroyed)),
+                new CastleWallActor(9, 7, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallReg), new TextureRegion(game.castleWallHit),
+                        new TextureRegion(game.castleWallDestroyed)),
+                new CastleWallActor(10, 7, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallReg), new TextureRegion(game.castleWallHit),
+                        new TextureRegion(game.castleWallDestroyed)),
+                new CastleWallActor(13, 4, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallReg), new TextureRegion(game.castleWallHit),
+                        new TextureRegion(game.castleWallDestroyed)),
+                new CastleWallActor(14, 3, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallReg), new TextureRegion(game.castleWallHit),
+                        new TextureRegion(game.castleWallDestroyed)),
+                new CastleWallActor(15, 4, game.crosshairTexture, game.one, game.two, game.three, game.four,
+                        new TextureRegion(game.castleWallReg), new TextureRegion(game.castleWallHit),
+                        new TextureRegion(game.castleWallDestroyed)));
 
         // boss aliens that cover the front of the castle
         frontCastleLeftWalkActors.addAll(
@@ -1129,7 +1225,7 @@ class MainLevel implements Screen, InputProcessor {
                 // score stage stuff
                 game.batch.setProjectionMatrix(scoreCamera.combined);
                 game.batch.begin();
-                game.fontExmilitary100.draw(game.batch, String.valueOf(game.score), 625, 125);
+                game.fontExmilitary100.draw(game.batch, String.valueOf(game.score), 600, 125);
 
                 if (feverTrigger) {
                     game.font100Gold.draw(game.batch,
@@ -1232,6 +1328,9 @@ class MainLevel implements Screen, InputProcessor {
         powerUpState = PowerUpState.TRIGGERED;
         CAMERA_SPEED = 6f;
         cloudActor.speed = 3.8f;
+        for (StarActor s : starActors) {
+            s.trippyRotation = true;
+        }
     }
 
     private void endPowerUpConsts() {
@@ -1241,6 +1340,9 @@ class MainLevel implements Screen, InputProcessor {
         game.song_full.play();
         CAMERA_SPEED = 3f;
         cloudActor.speed = 1.9f;
+        for (StarActor s : starActors) {
+            s.trippyRotation = false;
+        }
 
         if (powerUpInt == 2) {
             backgroundStage.getBatch().setColor(backgroundStageColor);

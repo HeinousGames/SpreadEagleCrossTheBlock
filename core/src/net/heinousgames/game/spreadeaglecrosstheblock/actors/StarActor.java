@@ -13,20 +13,20 @@ import java.util.Random;
  */
 public class StarActor extends Actor {
 
-    private float xPos, yPos, width, height, rotation, count, max;
-    private int frmCount;
+    private float xPos, yPos, width, height, count, max;
+    private int frmCount, rotation;
     private TextureRegion texture;
+    public boolean trippyRotation;
 
-    public StarActor(float x, float y, float width, float height, float rotation) {
+    public StarActor(float x, float y, Texture star) {
         xPos = x;
         yPos = y;
-        this.width = width;
-        this.height = height;
-        this.rotation = rotation;
+        this.width = 0.25f;
+        this.height = 0.25f;
 
-        texture = new TextureRegion(new Texture(Gdx.files.internal("gfx/star2.png")));
+        texture = new TextureRegion(star);
         Random rand = new Random();
-        max = (rand.nextInt(25) + 10) * rand.nextFloat();
+        max = (rand.nextInt(25) + 20) * rand.nextFloat();
         count = 0;
         frmCount = 0;
     }
@@ -46,10 +46,14 @@ public class StarActor extends Actor {
                 count = max;
             }
         } else {
-            if (rotation == 0) {
+            if (!trippyRotation) {
                 batch.draw(texture, xPos, yPos, width, height);
             } else {
-                batch.draw(texture, xPos, yPos, 0, 0, width, height, 1, 1, rotation);
+                //rotate from the center of the star image
+//                batch.draw(texture, xPos, yPos, width / 2, height / 2, width, height, 1, 1, rotation);
+                // but let's make it trippier
+                batch.draw(texture, xPos, yPos, 0.5f, 0.5f, width, height, 1, 1, rotation);
+                rotation-=3;
             }
         }
     }
