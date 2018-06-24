@@ -10,8 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 public class FallingActor extends Actor {
 
-    private final float FALLING_SPEED = 4.3f;
-
     private TextureRegion textureRegion;
 
     public FallingActor(float startX, float startY, TextureRegion textureRegion, boolean flip) {
@@ -27,7 +25,7 @@ public class FallingActor extends Actor {
         batch.draw(textureRegion, getX(), getY(), textureRegion.getRegionWidth() / 70f,
                 textureRegion.getRegionHeight() / 70f);
         if (getY() > 2.25f) {
-            setY(getY() - (FALLING_SPEED * Gdx.graphics.getDeltaTime()));
+            setY(getY() - (4.3f * Gdx.graphics.getDeltaTime()));
         }
     }
 }

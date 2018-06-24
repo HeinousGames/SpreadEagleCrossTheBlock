@@ -15,35 +15,6 @@ public class VerticalMovingActor extends GenericActor {
     private boolean movingDown;
     private boolean goingDownAtStart;
 
-    public VerticalMovingActor(TextureRegion[] textureRegions, float startX, float startY,
-                               float endY, boolean isLooping) {
-        super(textureRegions, startX, startY);
-        this.endY = endY;
-        this.isLooping = isLooping;
-        if (startY > endY) {
-            movingDown = true;
-            goingDownAtStart = true;
-        } else {
-            movingDown = false;
-            goingDownAtStart = false;
-        }
-    }
-
-    public VerticalMovingActor(TextureRegion textureRegion, float startX, float startY,
-                               float endY, boolean isLooping) {
-        super(textureRegion, startX, startY);
-        this.endY = endY;
-        this.isLooping = isLooping;
-
-        if (startY > endY) {
-            movingDown = true;
-            goingDownAtStart = true;
-        } else {
-            movingDown = false;
-            goingDownAtStart = false;
-        }
-    }
-
     VerticalMovingActor(float startX, float startY, float speed, int points, boolean isLooping, boolean shouldFlip) {
         super(startX, startY, speed, points, isLooping, shouldFlip);
         if (movingDown) {

@@ -13,34 +13,6 @@ public class HorizontalMovingActor extends GenericActor {
 
     private boolean goingLeftAtStart, movingLeft;
 
-    public HorizontalMovingActor(TextureRegion[] textureRegions, float startX, float startY,
-                                 float endX, boolean isLooping) {
-        super(textureRegions, startX, startY);
-        this.endX = endX;
-        this.isLooping = isLooping;
-        if (startX < endX) {
-            movingLeft = false;
-            goingLeftAtStart = false;
-        } else {
-            movingLeft = true;
-            goingLeftAtStart = true;
-        }
-    }
-
-    public HorizontalMovingActor(TextureRegion textureRegion, float startX, float startY,
-                                 float endX, boolean isLooping) {
-        super(textureRegion, startX, startY);
-        this.endX = endX;
-        this.isLooping = isLooping;
-        if (startX < endX) {
-            movingLeft = false;
-            goingLeftAtStart = false;
-        } else {
-            movingLeft = true;
-            goingLeftAtStart = true;
-        }
-    }
-
     HorizontalMovingActor(float startX, float startY, float speed, int points, boolean isLooping, boolean shouldFlip) {
         super(startX, startY, speed, points, isLooping, shouldFlip);
     }

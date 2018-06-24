@@ -10,8 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 public class EagleActor extends Actor {
 
-    private float EAGLE_SPEED;
-
     public float destinationX, destinationY, startX, startY;
     private boolean isPowerful;
     private Texture texture;
@@ -39,11 +37,10 @@ public class EagleActor extends Actor {
         }
 
         if (isPowerful) {
-            EAGLE_SPEED = 1.2f;
             float distanceX = Math.max(startX, destinationX) - Math.min(startX, destinationX);
             float distanceY = Math.max(startY, destinationY) - Math.min(startY, destinationY);
-            float speedX = distanceX/EAGLE_SPEED;
-            float speedY = distanceY/EAGLE_SPEED;
+            float speedX = distanceX/1.2f;
+            float speedY = distanceY/1.2f;
 
             if (needsToMoveX()) {
                 if (wasGoingRight()) {
@@ -57,18 +54,17 @@ public class EagleActor extends Actor {
                 setY(getY() + (speedY * Gdx.graphics.getDeltaTime()));
             }
         } else {
-            EAGLE_SPEED = 9;
             float xDistance = Math.max(startX, destinationX) - Math.min(startX, destinationX);
             float yDistance = Math.max(startY, destinationY) - Math.min(startY, destinationY);
             float hypotenuse = (float) Math.sqrt(xDistance * xDistance + yDistance * yDistance);
 
             if (startX > destinationX) {
-                setX(getX() - (EAGLE_SPEED * (xDistance / hypotenuse) * Gdx.graphics.getDeltaTime()));
+                setX(getX() - (9 * (xDistance / hypotenuse) * Gdx.graphics.getDeltaTime()));
             } else if (startX < destinationX) {
-                setX(getX() + (EAGLE_SPEED * (xDistance / hypotenuse) * Gdx.graphics.getDeltaTime()));
+                setX(getX() + (9 * (xDistance / hypotenuse) * Gdx.graphics.getDeltaTime()));
             }
 
-            setY(getY() + (EAGLE_SPEED * (yDistance / hypotenuse) * Gdx.graphics.getDeltaTime()));
+            setY(getY() + (9 * (yDistance / hypotenuse) * Gdx.graphics.getDeltaTime()));
         }
     }
 
