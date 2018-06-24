@@ -13,8 +13,8 @@ public class CloudActor extends Actor {
     private Texture texture;
     public float speed;
 
-    public CloudActor(Texture texture, float speed, float xPos, float yPos, float width) {
-        this.speed = speed;
+    public CloudActor(Texture texture, float xPos, float yPos, float width) {
+        this.speed = 1.9f;
         this.texture = texture;
         setPosition(xPos, yPos);
         setSize(width, 3.5f);
