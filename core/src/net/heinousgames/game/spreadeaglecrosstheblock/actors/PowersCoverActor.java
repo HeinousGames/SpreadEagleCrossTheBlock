@@ -1,6 +1,5 @@
 package net.heinousgames.game.spreadeaglecrosstheblock.actors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -10,7 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 public class PowersCoverActor extends Actor {
 
-    private Texture texture = new Texture(Gdx.files.internal("gfx/powers_cover.png"));
+    private Texture texture;
+
+    public PowersCoverActor(Texture texture) {
+        this.texture = texture;
+    }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {

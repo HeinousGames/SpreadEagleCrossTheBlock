@@ -101,6 +101,7 @@ class MainLevel implements Screen, InputProcessor {
     private Date bossDate;
     private EagleStage eagleStage;
     private CloudActor cloudActor;
+    private MoonActor moonActor;
     private NLDWActor nldwActor;
     private OrthographicCamera levelCamera, eagleCamera, scoreCamera, rideCamera, backgroundCamera;
     private OrthogonalTiledMapRenderer renderer;
@@ -453,8 +454,8 @@ class MainLevel implements Screen, InputProcessor {
                         game.beeTexture, game.beeFlyTexture, game.beeDeadTexture),
                 new HorizontalMovingActor(243, 3, 252, 4f, 3, true, true,
                         game.alienYellowWalk1, game.alienYellowWalk2, game.alienYellowJump),
-                new NOTMActor(235.5f, 3, 10, 3, 10, true, false),
-                new JennyDeathActor(228, 10, 233, 3f, 10, true, false),
+                new NOTMActor(235.5f, 3, 10, 3, 10, true, false, game.notmTexture),
+                new JennyDeathActor(228, 10, 233, 3f, 10, true, false, game.jdTexture),
                 new HorizontalMovingActor(217, 6, 221, 4f, 3, true, true,
                         game.beeTexture, game.beeFlyTexture, game.beeDeadTexture),
                 new HorizontalMovingActor(185, 8, 190, 4f, 3, true, true,
@@ -527,7 +528,7 @@ class MainLevel implements Screen, InputProcessor {
         rideCamera.position.y = 5.5f;
         rideStage = new Stage(new ScreenViewport());
         rideStage.getViewport().setCamera(rideCamera);
-        rideStage.addActor(new RideActor());
+        rideStage.addActor(new RideActor(game.rideTexture));
 
         eagleCamera = new OrthographicCamera(20, 11);
         eagleCamera.position.x = 10;
@@ -594,9 +595,10 @@ class MainLevel implements Screen, InputProcessor {
             }
         }
 
-        cloudActor = new CloudActor(game.cloudTexture, 1.9f, -20f, 7.6f, 7f);
+        cloudActor = new CloudActor(game.cloudTexture, -20f, 7.6f, 7f);
+        moonActor = new MoonActor(game.moonTexture);
         backgroundStage.addActor(cloudActor);
-        backgroundStage.addActor(new MoonActor());
+        backgroundStage.addActor(moonActor);
 
         backgroundStageColor = backgroundStage.getBatch().getColor();
 
@@ -1328,6 +1330,7 @@ class MainLevel implements Screen, InputProcessor {
         powerUpState = PowerUpState.TRIGGERED;
         CAMERA_SPEED = 6f;
         cloudActor.speed = 3.8f;
+        moonActor.speed = 1f;
         for (StarActor s : starActors) {
             s.trippyRotation = true;
         }
@@ -1340,6 +1343,7 @@ class MainLevel implements Screen, InputProcessor {
         game.song_full.play();
         CAMERA_SPEED = 3f;
         cloudActor.speed = 1.9f;
+        moonActor.speed = 0.5f;
         for (StarActor s : starActors) {
             s.trippyRotation = false;
         }
@@ -1430,7 +1434,7 @@ class MainLevel implements Screen, InputProcessor {
         startSoundByteWarning();
         powerUp = PowerUpState.PowerUp.NLDW;
         game.usedToGive.play();
-        scoreStage.addActor(new UsedToActor());
+        scoreStage.addActor(new UsedToActor(game.usedToTexture));
         NLDWTaskStart(nldwByteRem, nldwTrigRem);
     }
 
@@ -1489,7 +1493,7 @@ class MainLevel implements Screen, InputProcessor {
             startSoundByteWarning();
             powerUp = PowerUpState.PowerUp.POWERS_THAT_B;
             game.powersThatB.play();
-            rideStage.addActor(new PowersCoverActor());
+            rideStage.addActor(new PowersCoverActor(game.powersTexture));
             PowersTaskStart(powersByteRem, powersTrigRem);
         }
     }

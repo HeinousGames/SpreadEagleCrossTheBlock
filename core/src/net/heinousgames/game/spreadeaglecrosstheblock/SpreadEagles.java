@@ -40,8 +40,9 @@ public class SpreadEagles extends Game {
     Sound yeah, guillotineWhine;
     SpriteBatch batch;
     TextButton.TextButtonStyle style;
-    Texture one, two, three, four, star, crosshairTexture, pauseTexture, nldwTexture, boxItemTexture,
-            cloudTexture, beeTexture, beeFlyTexture, beeDeadTexture, piranhaTexture, piranhaDownTexture,
+    Texture one, two, three, four, star, crosshairTexture, pauseTexture, nldwTexture, usedToTexture,
+            notmTexture, powersTexture, rideTexture, jdTexture, boxItemTexture, cloudTexture,
+            moonTexture, beeTexture, beeFlyTexture, beeDeadTexture, piranhaTexture, piranhaDownTexture,
             piranhaDeadTexture, alienGreenWalk1, alienGreenWalk2, alienGreenJump, alienGreenHurt,
             alienPinkWalk1, alienPinkWalk2, alienPinkClimb1, alienPinkClimb2, alienPinkSwim1,
             alienPinkSwim2, alienPinkJump, alienPinkHurt, alienYellowWalk1, alienYellowWalk2,

@@ -93,11 +93,17 @@ class MainMenuScreen implements Screen {
         game.assetManager.load("sfx/yeah.ogg", Sound.class);
         game.assetManager.load("sfx/guillotine_whine.ogg", Sound.class);
 
+        game.assetManager.load("gfx/used_to_give.png", Texture.class);
+        game.assetManager.load("gfx/notm.png", Texture.class);
+        game.assetManager.load("gfx/powers_cover.png", Texture.class);
+        game.assetManager.load("gfx/stefan_pixel.png", Texture.class);
+        game.assetManager.load("gfx/jenny_death.png", Texture.class);
         game.assetManager.load("gfx/1.png", Texture.class);
         game.assetManager.load("gfx/2.png", Texture.class);
         game.assetManager.load("gfx/3.png", Texture.class);
         game.assetManager.load("gfx/4.png", Texture.class);
         game.assetManager.load("gfx/star.png", Texture.class);
+        game.assetManager.load("gfx/moon.png", Texture.class);
         game.assetManager.load("gfx/tiles/base/boxItemAlt.png", Texture.class);
         game.assetManager.load("gfx/nldw.png", Texture.class);
         game.assetManager.load("gfx/crosshair.png", Texture.class);
@@ -192,11 +198,17 @@ class MainMenuScreen implements Screen {
         game.batch.end();
 
         if (game.assetManager.update()) {
+            game.usedToTexture = game.assetManager.get("gfx/used_to_give.png", Texture.class);
+            game.notmTexture = game.assetManager.get("gfx/notm.png", Texture.class);
+            game.powersTexture = game.assetManager.get("gfx/powers_cover.png", Texture.class);
+            game.rideTexture = game.assetManager.get("gfx/stefan_pixel.png", Texture.class);
+            game.jdTexture = game.assetManager.get("gfx/jenny_death.png", Texture.class);
             game.one = game.assetManager.get("gfx/1.png", Texture.class);
             game.two = game.assetManager.get("gfx/2.png", Texture.class);
             game.three = game.assetManager.get("gfx/3.png", Texture.class);
             game.four = game.assetManager.get("gfx/4.png", Texture.class);
             game.star = game.assetManager.get("gfx/star.png", Texture.class);
+            game.moonTexture = game.assetManager.get("gfx/moon.png", Texture.class);
             game.boxItemTexture = game.assetManager.get("gfx/tiles/base/boxItemAlt.png", Texture.class);
             game.nldwTexture = game.assetManager.get("gfx/nldw.png", Texture.class);
             game.crosshairTexture = game.assetManager.get("gfx/crosshair.png", Texture.class);
