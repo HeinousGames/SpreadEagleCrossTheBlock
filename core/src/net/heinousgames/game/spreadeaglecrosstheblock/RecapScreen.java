@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 class RecapScreen implements Screen {
 
     private final SpreadEagles game;
-    private int highScore;
+    private int highScore, highestAlbums;
     private OrthographicCamera camera;
     private Stage recapStage;
 
@@ -41,7 +41,7 @@ class RecapScreen implements Screen {
         recapStage.getViewport().setCamera(camera);
 
         Button btnPlayAgain = new TextButton("Restart", game.style);
-        btnPlayAgain.setPosition(517, 350);
+        btnPlayAgain.setPosition(900, 400);
         btnPlayAgain.setSize(300, 100);
         btnPlayAgain.setSkin(game.buttonSkin);
         btnPlayAgain.addListener(new ChangeListener() {
@@ -55,7 +55,7 @@ class RecapScreen implements Screen {
 
         if (Gdx.app.getType() != Application.ApplicationType.WebGL) {
             Button btnQuit = new TextButton("Quit", game.style);
-            btnQuit.setPosition(517, 150);
+            btnQuit.setPosition(900, 200);
             btnQuit.setSize(300, 100);
             btnQuit.setSkin(game.buttonSkin);
             btnQuit.addListener(new ChangeListener() {
@@ -76,6 +76,13 @@ class RecapScreen implements Screen {
             game.prefs.flush();
             highScore = game.prefs.getInteger("highScore");
         }
+
+        highestAlbums = game.prefs.getInteger("albumsFound");
+        if (game.albumsFound > highestAlbums) {
+            game.prefs.putInteger("albumsFound", game.albumsFound);
+            game.prefs.flush();
+            highestAlbums = game.prefs.getInteger("albumsFound");
+        }
     }
 
     @Override
@@ -93,8 +100,10 @@ class RecapScreen implements Screen {
         recapStage.draw();
 
         game.batch.begin();
-        game.fontExmilitary100.draw(game.batch, "Score: " + game.score, 400, 700);
-        game.fontExmilitary100.draw(game.batch, "High Score: " + highScore, 400, 600);
+        game.fontExmilitary80.draw(game.batch, "Score: " + game.score, 100, 600);
+        game.fontExmilitary80.draw(game.batch, "High Score: " + highScore, 100, 500);
+        game.fontExmilitary80.draw(game.batch, "Albums Found: " + game.albumsFound + "/6", 100, 400);
+        game.fontExmilitary80.draw(game.batch, "Most Albums\n\nFound: " + highestAlbums + "/6", 100, 300);
         game.batch.end();
 
         camera.update();

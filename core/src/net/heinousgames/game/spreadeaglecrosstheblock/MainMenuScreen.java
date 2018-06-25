@@ -36,7 +36,6 @@ class MainMenuScreen implements Screen {
         camera.position.x = 667;
         camera.position.y = 375;
 
-        game.parameter.color = Color.WHITE;
         game.parameter.size = 100;
         game.fontExmilitary100 = game.generator.generateFont(game.parameter);
 
@@ -85,11 +84,13 @@ class MainMenuScreen implements Screen {
         game.shapeRenderer.end();
 
         game.batch.begin();
-        game.fontExmilitary100.draw(game.batch, "Spread Eagle Cross the Block!", 100, 650);
+        game.fontExmilitary100.draw(game.batch, "Spread Eagle Cross the Block!", 100, 700);
 
         int highScore = game.prefs.getInteger("highScore");
-        if (finishedLoading && highScore > 0) {
-            game.fontExmilitary100.draw(game.batch, "High Score: " + highScore, 400, 500);
+        int highestAlbums = game.prefs.getInteger("albumsFound");
+        if (finishedLoading) {
+            game.fontExmilitary80.draw(game.batch, "High Score: " + highScore, 300, 550);
+            game.fontExmilitary80.draw(game.batch, "Most Albums Found: " + highestAlbums + "/6", 300, 450);
         }
 
         if (!finishedLoading) {

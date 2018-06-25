@@ -408,7 +408,7 @@ class MainLevel implements Screen, InputProcessor {
                         game.alienPinkClimb1, game.alienPinkClimb2, game.alienPinkClimb1),
                 new HorizontalMovingActor(532, 4, 538, 6f, 5, true, true,
                         game.alienGreenWalk1, game.alienGreenWalk2, game.alienGreenJump),
-                new HorizontalMovingActor(240, 6, 544, 5f, 5, true, true,
+                new HorizontalMovingActor(540, 6, 544, 5f, 5, true, true,
                         game.alienYellowWalk1, game.alienYellowWalk2, game.alienYellowJump),
                 new HorizontalMovingActor(527, 7, 532, 4f, 5, true, true,
                         game.alienBlueWalk1, game.alienBlueWalk2, game.alienBlueJump),
@@ -1339,6 +1339,7 @@ class MainLevel implements Screen, InputProcessor {
 
     private void endPowerUpConsts() {
         powerUpInt++;
+        game.albumsFound = powerUpInt;
         powerUpState = PowerUpState.OFF;
         powerUp = null;
         game.song_full.play();

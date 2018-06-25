@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -26,12 +25,12 @@ public class SpreadEagles extends Game {
     private TextureAtlas atlas;
 
     AssetManager assetManager;
-    BitmapFont fontExmilitary100, font100Gold;
+    BitmapFont fontExmilitary100, font100Gold, fontExmilitary80;
     Color vultureBlue;
     FreeTypeFontGenerator generator;
     FreeTypeFontGenerator.FreeTypeFontParameter parameter;
     HTMLDateFormat dateFormatCallback;
-    int score;
+    int score, albumsFound;
     Music imFeelingIt, bloodCreepin, getGot, sysBlowerRing, usedToGive, lockYourDoors, casino,
             fuckWhosWatching, powersThatB, trash, hotHead, sadCum, song_full, fever, bitmilitary;
     Preferences prefs;
@@ -81,6 +80,9 @@ public class SpreadEagles extends Game {
         fontUI = generator.generateFont(parameter);
         parameter.color = Color.GOLD;
         font100Gold = generator.generateFont(parameter);
+        parameter.color = Color.WHITE;
+        parameter.size = 80;
+        fontExmilitary80 = generator.generateFont(parameter);
         prefs = Gdx.app.getPreferences("userPrefs");
         shapeRenderer = new ShapeRenderer();
         style = new TextButton.TextButtonStyle();
