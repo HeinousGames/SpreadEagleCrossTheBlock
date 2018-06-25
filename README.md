@@ -13,17 +13,16 @@ Detroit, but I just quit my job and moved to LA.
 This is an open source Death Grips themed video game. It's a 2D rail shooter where you play MC Ride. You drive through the city (in the car from the Guillotine music video) while throwing eagles at townsfolk, literally spreading eagles cross the block. Your band's albums are lost in the town, and if you find them some weird stuff starts to happen lol. The game will never be released for mobile devices, but I will keep builds available here as it is ever changing and may never be finished.
 
 ### Improvements
-* I recently learned more about asset loading and must rearchitect how I load and dispose of the audio files.
-* Remove unused tiles from the map.
+* ~~I recently learned more about asset loading and must rearchitect how I load and dispose of the audio files.~~
+* ~~Remove unused tiles from the map.~~
 
 ### Features I'd Like to Add
-* ~~Keyboard key for pausing on desktop version.~~
-* Story where the boss stage is the Epic HQ and they stole your albums as payback for breaching contract.
-* Game over and recap screens showing your final score and how many albums you found.
-* Updates to start screen.
 * ~~App icon.~~
+* ~~Keyboard key for pausing on desktop version.~~
+* ~~Game over and recap screens showing your final score and how many albums you found.~~
+* ~Bonus level that has an 8 bit design and sound.~ Didn't implement this, but I used an 8-bit theme song from Bitmilitary for the boss stage.
+* Ability to run on iOS.
 * Special effects when you find albums (eg. MC Ride turning red when you find the Bottomless Pit album and it plays Hot Head).
 * More music variations.
 * Bonus level where you throw your own face and break mirrors.
-* ~Bonus level that has an 8 bit design and sound.~ Didn't implement this, but I used an 8-bit theme song from Bitmilitary for the boss stage.
-* Ability to run on iOS.
+* Story where the boss stage is the Epic HQ and they stole your albums as payback for breaching contract.
