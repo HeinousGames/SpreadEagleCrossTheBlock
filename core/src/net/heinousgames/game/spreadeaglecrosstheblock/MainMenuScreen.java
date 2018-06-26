@@ -43,7 +43,6 @@ class MainMenuScreen implements Screen {
         stageMenu.getViewport().setCamera(camera);
 
         Button btnStart = new TextButton("Start", game.style);
-        btnStart.setPosition(557, 250);
         btnStart.setSize(220, 100);
         btnStart.setSkin(game.buttonSkin);
         btnStart.addListener(new ChangeListener() {
@@ -52,9 +51,10 @@ class MainMenuScreen implements Screen {
                 game.setScreen(new MainLevel(game));
             }
         });
-        stageMenu.addActor(btnStart);
 
         if (Gdx.app.getType() != Application.ApplicationType.WebGL) {
+            btnStart.setPosition(557, 250);
+
             Button btnQuit = new TextButton("Quit", game.style);
             btnQuit.setPosition(557, 100);
             btnQuit.setSize(220, 100);
@@ -67,7 +67,10 @@ class MainMenuScreen implements Screen {
                 }
             });
             stageMenu.addActor(btnQuit);
+        } else {
+            btnStart.setPosition(557, 150);
         }
+        stageMenu.addActor(btnStart);
 
         game.shapeRenderer.setProjectionMatrix(camera.combined);
         game.batch.setProjectionMatrix(camera.combined);
@@ -77,7 +80,6 @@ class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         game.shapeRenderer.rect(0, 0, 1334, 750, game.vultureBlue, game.vultureBlue, Color.BLACK, Color.BLACK);

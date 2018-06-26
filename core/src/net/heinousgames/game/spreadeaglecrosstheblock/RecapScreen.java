@@ -41,7 +41,6 @@ class RecapScreen implements Screen {
         recapStage.getViewport().setCamera(camera);
 
         Button btnPlayAgain = new TextButton("Restart", game.style);
-        btnPlayAgain.setPosition(900, 400);
         btnPlayAgain.setSize(300, 100);
         btnPlayAgain.setSkin(game.buttonSkin);
         btnPlayAgain.addListener(new ChangeListener() {
@@ -51,9 +50,10 @@ class RecapScreen implements Screen {
                 game.setScreen(new MainLevel(game));
             }
         });
-        recapStage.addActor(btnPlayAgain);
 
         if (Gdx.app.getType() != Application.ApplicationType.WebGL) {
+            btnPlayAgain.setPosition(900, 400);
+
             Button btnQuit = new TextButton("Quit", game.style);
             btnQuit.setPosition(900, 200);
             btnQuit.setSize(300, 100);
@@ -66,7 +66,10 @@ class RecapScreen implements Screen {
                 }
             });
             recapStage.addActor(btnQuit);
+        } else {
+            btnPlayAgain.setPosition(900, 300);
         }
+        recapStage.addActor(btnPlayAgain);
 
         Gdx.input.setInputProcessor(recapStage);
 
