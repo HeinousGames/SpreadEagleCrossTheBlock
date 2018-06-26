@@ -77,7 +77,7 @@ class MainLevel implements Screen, InputProcessor {
 
     private SpreadEagles game;
 
-    private float CAMERA_SPEED = 3f;
+    private float CAMERA_SPEED = 0f;
 
     private float colorCounter, eagleBurn, elapsedTime, timeToSub, exmilitaryByteRem,
             exmilitaryTrigRem, moneyStoreByteRem, moneyStoreTrigRem, nldwByteRem, nldwTrigRem,
@@ -107,6 +107,7 @@ class MainLevel implements Screen, InputProcessor {
     private OrthogonalTiledMapRenderer renderer;
     private Stage backgroundStage, tileStage, rideStage, nldwBoxStage, variousTargetStage,
             deadTargetStage, scoreStage, behindCastleStage;
+    private Timer.Task bottomlessPitTask;
     private TiledMapTileLayer secondTargetLayer, targetLayer, fallTargetLayer;
 
     MainLevel(final SpreadEagles gam) {
@@ -204,7 +205,7 @@ class MainLevel implements Screen, InputProcessor {
         // create the levelCamera to show 20x11 world units
         levelCamera = new OrthographicCamera(20, 11);
         // position the levelCamera to the world units
-        levelCamera.position.x = 802;
+        levelCamera.position.x = 103; //802;
         levelCamera.position.y = 5.5f;
 
         tileStage = new Stage(new ScreenViewport());
@@ -1238,6 +1239,13 @@ class MainLevel implements Screen, InputProcessor {
                 scoreStage.draw();
 
                 if (!feverTrigger && levelCamera.position.x <= 28) {
+                    if (powerUp == PowerUpState.PowerUp.BOTTOMLESS_PIT) {
+                        if (powerUpState == PowerUpState.TRIGGERED) {
+                            bottomlessPitTask.cancel();
+                            game.hotHead.stop();
+                            endPowerUpConsts();
+                        }
+                    }
                     feverTrigger = true;
                     game.song_full.pause();
                     game.fever.play();
@@ -1530,6 +1538,14 @@ class MainLevel implements Screen, InputProcessor {
     }
 
     private void BottomlessPitTaskStart(float firstTaskSecs, final float secondTaskSecs) {
+        bottomlessPitTask = new Timer.Task() {
+            @Override
+            public void run() {
+                game.hotHead.stop();
+                endPowerUpConsts();
+            }
+        };
+
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
@@ -1541,13 +1557,7 @@ class MainLevel implements Screen, InputProcessor {
     }
 
     private void BottomlessPitTaskEnd(float seconds) {
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                game.hotHead.stop();
-                endPowerUpConsts();
-            }
-        }, seconds);
+        Timer.schedule(bottomlessPitTask, seconds);
     }
 
     @Override
